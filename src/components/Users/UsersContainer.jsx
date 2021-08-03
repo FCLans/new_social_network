@@ -7,17 +7,21 @@ import {
   setUsersAC,
   unfollowAC
 } from '../../redux/usersReducer';
-import * as axios from "axios";
 import Users from "./Users";
 import Loader from "../common/Loader/Loader";
 import {toggleIsLoadPageAC} from "../../redux/loaderReducer";
+import {ApiSocialNetwork} from "../../api/api";
 
 class UsersContainer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.api = new ApiSocialNetwork()
+  }
+
   componentDidMount() {
     this.props.toggleIsLoadPage(true)
 
-    fetch(`https://rickandmortyapi.com/api/character/?page=${this.props.currentPage}`)
-      .then(response => response.json()).then(data => {
+    this.api.getUsers(this.props.currentPage).then(data => {
       this.props.setUsers(data.results)
       this.props.setTotalUsersCount(data.info.count)
       this.props.toggleIsLoadPage(false)
@@ -44,6 +48,8 @@ class UsersContainer extends React.Component {
                users={this.props.users}
                follow={this.props.follow}
                unfollow={this.props.unfollow}
+               pageSize={this.props.pageSize}
+               totalUsersCount={this.props.totalUsersCount}
         />
 
       </div>

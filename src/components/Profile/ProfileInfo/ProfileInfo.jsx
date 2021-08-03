@@ -16,7 +16,9 @@ const ProfileInfo = (props) => {
       <div className={styles.descriptions}>
         <div><h3>{props.profile.name}</h3></div>
         <div><img src={props.profile.image} alt="avatar"/></div>
-        <div>{props.profile.status}</div>
+        <div>{props.profile.species}</div>
+        <div>{props.profile.gender}</div>
+        <div>{props.profile.location.name}</div>
       </div>
     </div>
   )

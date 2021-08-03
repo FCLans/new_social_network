@@ -22,7 +22,8 @@ const User = (props) => {
       <div className={styles.rightBlock}>
         <div className={styles.userInfo}>
           <div className={styles.userName}>{props.user.name}</div>
-          <div className={styles.userStatus}>{props.user.status}</div>
+          <div className={styles.userSpecies}>{props.user.species}</div>
+          <div className={styles.userGender}>{props.user.gender}</div>
         </div>
         <div className={styles.locationBlock}>
           <div>{props.user.location.name}</div>

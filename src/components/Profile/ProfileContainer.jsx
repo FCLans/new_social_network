@@ -2,15 +2,19 @@ import React from "react";
 import {connect} from "react-redux";
 import {addPostActionCreator, editeNewPostTextActionCreator, setProfileInfoAC} from "../../redux/profileReducer";
 import Profile from "./Profile";
+import {ApiSocialNetwork} from "../../api/api";
 
 class ProfileContainer extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.api = new ApiSocialNetwork()
+  }
 
   componentDidMount() {
-    fetch('https://rickandmortyapi.com/api/character/2')
-      .then(resp => resp.json())
-      .then(r => {
-        console.log(r)
-        this.props.setProfileData(r)
+    this.api.getUserInfo(2)
+      .then(data => {
+        this.props.setProfileData(data)
       })
   }
 
