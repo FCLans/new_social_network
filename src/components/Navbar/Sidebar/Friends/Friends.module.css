@@ -1,0 +1,28 @@
+.friendBlock {
+    margin-top: 20px;
+    padding: 5px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.friends {
+    margin-top: 10px;
+    display: flex;
+
+    justify-content: center;
+}
+
+.friend {
+    margin: 0 5px
+}
+
+.avatar img {
+    width: 35px;
+    height: 35px;
+
+    border-radius: 20px;
+}

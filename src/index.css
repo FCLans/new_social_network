@@ -1,0 +1,5 @@
+body {
+  display: flex;
+  background-color: #edeef0;
+  justify-content: center;
+}

@@ -1,0 +1,26 @@
+.item {
+    padding: 10px;
+    position: relative;
+    width: 100px;
+    height: 20px;
+}
+
+.item a {
+    color: #606061;
+
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.item a:hover {
+    border-bottom: solid 2px;
+    margin-left: 2px;
+
+    transition: 0.13s;
+}
+
+.item .active {
+    color: orange;
+    border-bottom: solid 2px;
+}
