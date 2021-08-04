@@ -4,7 +4,9 @@ const initialState = {
   isLoadPage: false
 }
 
-const loaderReducer = (state = initialState, action) => {
+export type initialStateType = typeof initialState
+
+const loaderReducer = (state = initialState, action: any): initialStateType => {
   switch (action.type) {
     case TOGGLE_IS_LOAD_PAGE:
       return {...state, isLoadPage: action.data}
@@ -13,7 +15,7 @@ const loaderReducer = (state = initialState, action) => {
   }
 }
 
-export const toggleIsLoadPageAC = (isLoadPage) => {
+export const toggleIsLoadPageAC = (isLoadPage: boolean) => {
   return {type: TOGGLE_IS_LOAD_PAGE, data: isLoadPage}
 }
 

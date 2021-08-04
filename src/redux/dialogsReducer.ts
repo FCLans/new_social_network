@@ -19,7 +19,9 @@ const initialState = {
   newMessageText: ''
 }
 
-const dialogsReducer = (state = initialState, action) => {
+export type initialStateType = typeof initialState
+
+const dialogsReducer = (state = initialState, action: any): initialStateType => {
   switch (action.type) {
     case SEND_MESSAGE:
       let indexLastElement = state.messagesData.length - 1
@@ -46,7 +48,15 @@ const dialogsReducer = (state = initialState, action) => {
   }
 }
 
-export const sendMessageActionCreator = () => ({type: SEND_MESSAGE})
-export const editNewMessageTextActionCreator = (text) => ({type: EDIT_NEW_MESSAGE_TEXT, data: text})
+type sendMessageActionCreatorType = {
+  type: typeof SEND_MESSAGE
+}
+type editNewMessageTextActionCreatorType = {
+  type: typeof EDIT_NEW_MESSAGE_TEXT
+  data: string
+}
+
+export const sendMessageActionCreator = (): sendMessageActionCreatorType => ({type: SEND_MESSAGE})
+export const editNewMessageTextActionCreator = (text: string): editNewMessageTextActionCreatorType => ({type: EDIT_NEW_MESSAGE_TEXT, data: text})
 
 export default dialogsReducer;

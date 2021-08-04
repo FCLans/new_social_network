@@ -2,14 +2,9 @@ const ADD_POST = 'PROFILE/ADD_POST'
 const EDITE_NEW_POST_TEXT = 'PROFILE/EDITE_NEW_POST_TEXT'
 const SET_PROFILE_INFO = 'PROFILE/SET_PROFILE_INFO'
 
-export type initialState = {
-  profileInfo: [] | null
-  postsData: any
-  newPostText: string
-}
 
-const initialState: initialState = {
-  profileInfo: null,
+const initialState = {
+  profileInfo: null as object | null,
   postsData: [
     {id: 1, message: 'Привет, мой первый пост!', likesCount: 120},
     {id: 2, message: 'Разгоняемся и летим)))', likesCount: 20},
@@ -17,8 +12,9 @@ const initialState: initialState = {
   newPostText: '',
 }
 
+export type initialStateType = typeof initialState
 
-const profileReducer = (state = initialState, action: any) => {
+const profileReducer = (state = initialState, action: any): initialStateType => {
   switch (action.type) {
     case ADD_POST:
       const newPost = {
