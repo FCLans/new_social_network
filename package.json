@@ -2,7 +2,7 @@
   "name": "new_social_network",
   "version": "1.0.0",
   "description": "my new project",
-  "main": "src/index.js",
+  "main": "src/index.tsx",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --mode development &  webpack serve --mode development --hot --open",
@@ -41,6 +41,11 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@types/jest": "^26.0.24",
+    "@types/node": "^16.4.11",
+    "@types/react": "^17.0.15",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-router-dom": "^5.1.8",
     "axios": "^0.21.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

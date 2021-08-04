@@ -13,6 +13,8 @@ const reducers = combineReducers({
   loader: loaderReducer
 })
 
+export const reducersType = typeof reducers
+
 const store = createStore(reducers)
 
 export default store

@@ -9,7 +9,7 @@ import DialogsContainer from './components/Dialogs/DialogsContainer';
 import UsersContainer from './components/Users/UsersContainer';
 import './App.css'
 import ProfileContainer from "./components/Profile/ProfileContainer";
-import React from "react";
+import * as React from "react";
 
 
 const App = () => {
