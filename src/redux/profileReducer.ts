@@ -12,9 +12,9 @@ const initialState = {
   newPostText: '',
 }
 
-export type initialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 
-const profileReducer = (state = initialState, action: any): initialStateType => {
+const profileReducer = (state = initialState, action: any): InitialStateType => {
   switch (action.type) {
     case ADD_POST:
       const newPost = {
@@ -45,20 +45,20 @@ const profileReducer = (state = initialState, action: any): initialStateType => 
   }
 }
 
-type addPostActionCreatorType = {
+type AddPostActionCreatorType = {
   type: typeof ADD_POST
 }
-type editNewPostTextActionCreatorType = {
+type EditNewPostTextActionCreatorType = {
   type: typeof EDITE_NEW_POST_TEXT
   data: string
 }
-type setProfileInfoAC = {
+type SetProfileInfoAC = {
   type: typeof SET_PROFILE_INFO
   data: object
 }
 
-export const addPostActionCreator = (): addPostActionCreatorType => ({type: ADD_POST})
-export const editeNewPostTextActionCreator = (text: string): editNewPostTextActionCreatorType => ({type: EDITE_NEW_POST_TEXT, data: text})
-export const setProfileInfoAC = (profile: object): setProfileInfoAC => ({type: SET_PROFILE_INFO, data: profile})
+export const addPostActionCreator = (): AddPostActionCreatorType => ({type: ADD_POST})
+export const editeNewPostTextActionCreator = (text: string): EditNewPostTextActionCreatorType => ({type: EDITE_NEW_POST_TEXT, data: text})
+export const setProfileInfoAC = (profile: object): SetProfileInfoAC => ({type: SET_PROFILE_INFO, data: profile})
 
 export default profileReducer

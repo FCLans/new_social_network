@@ -4,20 +4,20 @@ const SET_USERS = 'USERS/SET_USERS'
 const SET_CURRENT_PAGE = 'USERS/SET_CURRENT_PAGE'
 const SET_TOTAL_COUNT_USERS = 'USERS/SET_TOTAL_COUNT_USERS'
 
-export type initialStateType = {
+export type InitialStateType = {
   users: any
   pageSize: number
   totalUsersCount: number
   currentPage: number
 }
-const initialState: initialStateType = {
+const initialState: InitialStateType = {
   users: [],
   pageSize: 20,
   totalUsersCount: 0,
   currentPage: 1,
 }
 
-const usersReducer = (state = initialState, action: any): initialStateType => {
+const usersReducer = (state = initialState, action: any): InitialStateType => {
   switch (action.type) {
     case FOLLOW:
       return {
@@ -64,19 +64,19 @@ export const followAC = (userId: number): FollowACType => {
   return {type: FOLLOW, data: userId}
 }
 
-export const unfollowAC = (userId: number): unfollowACType => {
+export const unfollowAC = (userId: number): UnfollowACType => {
   return {type: UNFOLLOW, data: userId}
 }
 
-export const setUsersAC = (users: Object): setUsersACType => {
+export const setUsersAC = (users: Object): SetUsersACType => {
   return {type: SET_USERS, data: users}
 }
 
-export const setCurrentPageAC = (numberPage: number): setCurrentPageACType => {
+export const setCurrentPageAC = (numberPage: number): SetCurrentPageACType => {
   return {type: SET_CURRENT_PAGE, data: numberPage}
 }
 
-export const setTotalUsersCountAC = (count: number):setTotalUsersCountACType => {
+export const setTotalUsersCountAC = (count: number): SetTotalUsersCountACType => {
   return {type: SET_TOTAL_COUNT_USERS, data: count}
 }
 
@@ -84,19 +84,19 @@ type FollowACType = {
   type: typeof FOLLOW,
   data: number
 }
-type unfollowACType = {
+type UnfollowACType = {
   type: typeof UNFOLLOW
   data: number
 }
-type setUsersACType = {
+type SetUsersACType = {
   type: typeof SET_USERS
-  data: Object
+  data: object
 }
-type setCurrentPageACType = {
+type SetCurrentPageACType = {
   type: typeof SET_CURRENT_PAGE
   data: number
 }
-type setTotalUsersCountACType = {
+type SetTotalUsersCountACType = {
   type: typeof SET_TOTAL_COUNT_USERS
   data: number
 }

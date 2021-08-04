@@ -1,6 +1,16 @@
 const SEND_MESSAGE = 'SEND_MESSAGE'
 const EDIT_NEW_MESSAGE_TEXT = 'EDIT_NEW_MESSAGE_TEXT'
 
+type MessagesDataType = {
+  id: number
+  text: string
+}
+
+type DialogsDataType = {
+  id: number
+  name: string
+}
+
 const initialState = {
   messagesData: [
     {id: 1, text: 'привет'},
@@ -8,20 +18,20 @@ const initialState = {
     {id: 3, text: 'Возможно, что да'},
     {id: 4, text: 'А как?'},
     {id: 5, text: 'Ну вот)))'},
-  ],
+  ] as Array<MessagesDataType>,
   dialogsData: [
     {id: 1, name: 'Иван'},
     {id: 2, name: 'Петро'},
     {id: 3, name: 'Андрей'},
     {id: 4, name: 'Юлия'},
     {id: 5, name: 'Капуста'},
-  ],
+  ] as Array<DialogsDataType>,
   newMessageText: ''
 }
 
-export type initialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 
-const dialogsReducer = (state = initialState, action: any): initialStateType => {
+const dialogsReducer = (state = initialState, action: any): InitialStateType => {
   switch (action.type) {
     case SEND_MESSAGE:
       let indexLastElement = state.messagesData.length - 1
@@ -48,15 +58,15 @@ const dialogsReducer = (state = initialState, action: any): initialStateType => 
   }
 }
 
-type sendMessageActionCreatorType = {
+type SendMessageActionCreatorType = {
   type: typeof SEND_MESSAGE
 }
-type editNewMessageTextActionCreatorType = {
+type EditNewMessageTextActionCreatorType = {
   type: typeof EDIT_NEW_MESSAGE_TEXT
   data: string
 }
 
-export const sendMessageActionCreator = (): sendMessageActionCreatorType => ({type: SEND_MESSAGE})
-export const editNewMessageTextActionCreator = (text: string): editNewMessageTextActionCreatorType => ({type: EDIT_NEW_MESSAGE_TEXT, data: text})
+export const sendMessageActionCreator = (): SendMessageActionCreatorType => ({type: SEND_MESSAGE})
+export const editNewMessageTextActionCreator = (text: string): EditNewMessageTextActionCreatorType => ({type: EDIT_NEW_MESSAGE_TEXT, data: text})
 
 export default dialogsReducer;
