@@ -11,6 +11,7 @@ import Users from "./Users";
 import Loader from "../common/Loader/Loader";
 import {toggleIsLoadPageAC} from "../../redux/loaderReducer";
 import {ApiSocialNetwork} from "../../api/api";
+import testTypeScript from "../../ts_components/test";
 
 class UsersContainer extends React.Component {
   constructor(props) {
@@ -50,6 +51,7 @@ class UsersContainer extends React.Component {
                unfollow={this.props.unfollow}
                pageSize={this.props.pageSize}
                totalUsersCount={this.props.totalUsersCount}
+               testTS={this.props.testTS}
         />
 
       </div>
@@ -64,7 +66,8 @@ const mapStateToProps = (state) => {
     pageSize: state.usersPage.pageSize,
     totalUsersCount: state.usersPage.totalUsersCount,
     currentPage: state.usersPage.currentPage,
-    isLoadPage: state.loader.isLoadPage
+    isLoadPage: state.loader.isLoadPage,
+    testTS: testTypeScript,
   }
 }
 

@@ -36,7 +36,7 @@ module.exports = {
         },
       },
       {
-        test: /\.tsx?$/,
+        test: /\.(ts|tsx?)$/,
         use: 'ts-loader',
         exclude: /node_modules/,
       },
@@ -45,26 +45,6 @@ module.exports = {
         use: [
           "style-loader",
           "css-loader",
-        ],
-      },
-      {
-        test: /\.module.css$/,
-        use: [
-          {
-            loader: "postcss-loader",
-            options: {
-              postcssOptions: {
-                plugins: [
-                  [
-                    "postcss-preset-env",
-                    {
-                      //OPTIONS
-                    }
-                  ]
-                ]
-              }
-            }
-          }
         ]
       }
     ]

@@ -40,7 +40,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(addPostActionCreator())
     },
     setProfileData: (data) => {
-      console.log(data)
       dispatch(setProfileInfoAC(data))
     }
   }

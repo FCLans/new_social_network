@@ -21,4 +21,7 @@ export class ApiSocialNetwork {
   getUserInfo = async (userId) => {
     return await this._baseApiUsers(`${userId}`)
   }
+
+  // Тут дальше могли бы быть методы под POST запросы, но сторонняя API, не может мне предложить этого.
+  // Но я бы сделал все по аналогии с GET запросами.
 }

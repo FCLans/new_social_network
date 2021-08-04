@@ -23,6 +23,9 @@ const Users = (props) => {
           })
         }
       </div>
+      <div>
+        <button onClick={props.testTS}>TESTING TYPESCRIPT</button>
+      </div>
       {props.users.map(u => <User unfollow={props.unfollow}
                                        follow={props.follow}
                                        key={u.id}
