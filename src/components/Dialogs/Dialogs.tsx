@@ -1,14 +1,23 @@
 import Dialog from './Dialog/Dialog'
-import styles from './Dialogs.module.css'
+const styles = require('./Dialogs.module.css')
 import Message from './Message/Message'
-import React from 'react'
+import * as React from 'react'
+import {DialogsDataType, MessagesDataType} from '../../types/types'
 
-const Dialogs = props => {
+type PropsType = {
+  dialogsData: Array<DialogsDataType>
+  messagesData: Array<MessagesDataType>
+  newMessageText: string
+  sendNewMessage: () => void
+  editNewTextMessage: (e: any) => void
+}
+
+const Dialogs = (props: PropsType) => {
   debugger
   let dialogsElements = props.dialogsData.map(d => <Dialog key={d.id} name={d.name} id={d.id}/>)
   let messagesElements = props.messagesData.map(m => <Message key={m.id} text={m.text}/>)
 
-  const onChangeText = (e) => {
+  const onChangeText = (e: any) => {
     props.editNewTextMessage(e.target.value)
   }
 

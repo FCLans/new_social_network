@@ -1,15 +1,9 @@
+import {DialogsDataType, MessagesDataType} from "../types/types";
+
 const SEND_MESSAGE = 'SEND_MESSAGE'
 const EDIT_NEW_MESSAGE_TEXT = 'EDIT_NEW_MESSAGE_TEXT'
 
-type MessagesDataType = {
-  id: number
-  text: string
-}
 
-type DialogsDataType = {
-  id: number
-  name: string
-}
 
 const initialState = {
   messagesData: [
