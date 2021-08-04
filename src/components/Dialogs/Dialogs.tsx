@@ -1,5 +1,5 @@
 import Dialog from './Dialog/Dialog'
-const styles = require('./Dialogs.module.css')
+import styles from './Dialogs.module.css'
 import Message from './Message/Message'
 import * as React from 'react'
 import {DialogsDataType, MessagesDataType} from '../../types/types'
@@ -12,17 +12,19 @@ type PropsType = {
   editNewTextMessage: (e: any) => void
 }
 
-const Dialogs = (props: PropsType) => {
+const Dialogs: React.FC<PropsType> = ({dialogsData, messagesData,
+                                        newMessageText, sendNewMessage,
+                                        editNewTextMessage}) => {
   debugger
-  let dialogsElements = props.dialogsData.map(d => <Dialog key={d.id} name={d.name} id={d.id}/>)
-  let messagesElements = props.messagesData.map(m => <Message key={m.id} text={m.text}/>)
+  let dialogsElements = dialogsData.map(d => <Dialog key={d.id} name={d.name} id={d.id}/>)
+  let messagesElements = messagesData.map(m => <Message key={m.id} text={m.text}/>)
 
   const onChangeText = (e: any) => {
-    props.editNewTextMessage(e.target.value)
+    editNewTextMessage(e.target.value)
   }
 
   const sendMessage = () => {
-    props.sendNewMessage()
+    sendNewMessage()
   }
 
   return (
@@ -32,7 +34,7 @@ const Dialogs = (props: PropsType) => {
         <div>{messagesElements}</div>
         <br/>
         <div>
-          <div><textarea onChange={onChangeText} value={props.newMessageText}/></div>
+          <div><textarea onChange={onChangeText} value={newMessageText}/></div>
           <div>
             <button onClick={sendMessage}>Send message</button>
           </div>

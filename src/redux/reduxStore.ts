@@ -5,7 +5,7 @@ import sidebarReducer from "./sidebarReducer";
 import usersReducer from './usersReducer';
 import loaderReducer from "./loaderReducer";
 
-const reducers = combineReducers({
+const RootReducers = combineReducers({
   profilePage: profileReducer,
   dialogsPage: dialogsReducer,
   sidebar: sidebarReducer,
@@ -13,8 +13,9 @@ const reducers = combineReducers({
   loader: loaderReducer
 })
 
-export const ReducersType = typeof reducers
+type RootReducerType = typeof RootReducers
+export type AppStateType = ReturnType<RootReducerType>
 
-const store = createStore(reducers)
+const store = createStore(RootReducers)
 
 export default store
