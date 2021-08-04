@@ -1,19 +1,27 @@
-import React from "react";
+import * as React from "react";
 import {connect} from "react-redux";
 import {addPostActionCreator, editeNewPostTextActionCreator, setProfileInfoAC} from "../../redux/profileReducer";
 import Profile from "./Profile";
 import {ApiSocialNetwork} from "../../api/api";
+import {AppStateType} from "../../redux/reduxStore";
+import {PostDataType, ProfileInfoType} from "../../types/types";
 
-class ProfileContainer extends React.Component {
-  constructor(props) {
-    super(props);
+type PropsType = {
+  newPostText: string
+  postsData: Array<PostDataType>
+  profile: ProfileInfoType
 
-    this.api = new ApiSocialNetwork()
-  }
+  editNewPostText: (text: string) => void
+  setProfileData: (data: ProfileInfoType) => void
+  addPost: () => void
+}
 
+class ProfileContainer extends React.Component<PropsType> {
   componentDidMount() {
-    this.api.getUserInfo(2)
-      .then(data => {
+    const api: any = new ApiSocialNetwork()
+
+    api.getUserInfo(2)
+      .then((data: ProfileInfoType) => {
         this.props.setProfileData(data)
       })
   }
@@ -23,7 +31,7 @@ class ProfileContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType) => {
   return {
     postsData: state.profilePage.postsData,
     newPostText: state.profilePage.newPostText,
@@ -31,15 +39,15 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
-    editNewPostText: (text) => {
+    editNewPostText: (text: string) => {
       dispatch(editeNewPostTextActionCreator(text))
     },
     addPost: () => {
       dispatch(addPostActionCreator())
     },
-    setProfileData: (data) => {
+    setProfileData: (data: ProfileInfoType) => {
       dispatch(setProfileInfoAC(data))
     }
   }

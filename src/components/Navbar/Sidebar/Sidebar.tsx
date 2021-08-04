@@ -1,13 +1,16 @@
-import React from 'react';
+import * as React from 'react';
 import styles from './Sidebar.module.css'
 import Friends from './Friends/Friends';
 
-const Sidebar = (props) => {
+type PropsType = {
+
+}
+
+const Sidebar: React.FC<PropsType> = (props) => {
   return (
     <div className={styles.sidebarBlock}>
       <Friends/>
     </div>
-
   )
 }
 

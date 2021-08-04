@@ -1,7 +1,12 @@
 import styles from './Post.module.css'
-import React from "react";
+import * as React from "react";
 
-const Post = (props) => {
+type PropsType = {
+    message: string
+    likesCount: number
+}
+
+const Post: React.FC<PropsType> = (props) => {
   return (
     <div className={styles.item}>
       <img className={styles.avatar} src="https://i.pinimg.com/originals/f5/27/41/f52741fb62bf1d821948a49204406bdc.jpg"

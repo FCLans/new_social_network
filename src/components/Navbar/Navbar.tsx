@@ -1,7 +1,7 @@
 import styles from './Navbar.module.css'
 import LinkItem from './LinkItem/LinkItem';
 import Sidebar from './Sidebar/Sidebar';
-import React from "react";
+import * as React from "react";
 
 const Navbar = () => {
   return (

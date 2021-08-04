@@ -1,11 +1,13 @@
 import styles from './ProfileInfo.module.css'
 import Loader from "../../common/Loader/Loader";
-import React from "react";
+import * as React from "react";
+import {ProfileInfoType} from '../../../types/types';
 
-const ProfileInfo = (props) => {
-  if (!props.profile) {
+const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
+  if (!props.name) {
     return <Loader />
   }
+  debugger
 
   return (
     <div>
@@ -14,11 +16,11 @@ const ProfileInfo = (props) => {
              alt="img"/>
       </div>
       <div className={styles.descriptions}>
-        <div><h3>{props.profile.name}</h3></div>
-        <div><img src={props.profile.image} alt="avatar"/></div>
-        <div>{props.profile.species}</div>
-        <div>{props.profile.gender}</div>
-        <div>{props.profile.location.name}</div>
+        <div><h3>{props.name}</h3></div>
+        <div><img src={props.image} alt="avatar"/></div>
+        <div>{props.species}</div>
+        <div>{props.gender}</div>
+        <div>{props.location.name}</div>
       </div>
     </div>
   )

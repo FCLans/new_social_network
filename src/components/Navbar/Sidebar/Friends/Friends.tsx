@@ -1,7 +1,11 @@
-import React from 'react';
+import * as React from 'react';
 import styles from './Friends.module.css';
 
-const Friends = (props) => {
+type PropsType = {
+
+}
+
+const Friends: React.FC<PropsType> = (props) => {
   return (
     <div className={styles.friendBlock}>
       <div className={styles.title}>Friends</div>
