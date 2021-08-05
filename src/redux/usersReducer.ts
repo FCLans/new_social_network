@@ -15,12 +15,12 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-const usersReducer = (state = initialState, action: any): InitialStateType => {
+const usersReducer = (state = initialState, action: ActionsType): InitialStateType => {
   switch (action.type) {
     case FOLLOW:
       return {
         ...state,
-        users: state.users.map((u: any) => {
+        users: state.users.map((u: UserType) => {
           if (u.id === action.data) {
             return {...u, followed: true}
           }
@@ -32,7 +32,7 @@ const usersReducer = (state = initialState, action: any): InitialStateType => {
     case UNFOLLOW:
       return {
         ...state,
-        users: state.users.map((user: any) => {
+        users: state.users.map((user: UserType) => {
           if (user.id === action.data) {
             return {...user, followed: false}
           }
@@ -66,7 +66,7 @@ export const unfollowAC = (userId: number): UnfollowACType => {
   return {type: UNFOLLOW, data: userId}
 }
 
-export const setUsersAC = (users: Object): SetUsersACType => {
+export const setUsersAC = (users: Array<UserType>): SetUsersACType => {
   return {type: SET_USERS, data: users}
 }
 
@@ -78,6 +78,9 @@ export const setTotalUsersCountAC = (count: number): SetTotalUsersCountACType =>
   return {type: SET_TOTAL_COUNT_USERS, data: count}
 }
 
+type ActionsType = FollowACType | UnfollowACType | SetUsersACType | SetCurrentPageACType |
+    SetTotalUsersCountACType
+
 type FollowACType = {
   type: typeof FOLLOW,
   data: number
@@ -88,7 +91,7 @@ type UnfollowACType = {
 }
 type SetUsersACType = {
   type: typeof SET_USERS
-  data: object
+  data: Array<UserType>
 }
 type SetCurrentPageACType = {
   type: typeof SET_CURRENT_PAGE
