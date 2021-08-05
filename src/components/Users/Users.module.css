@@ -1,3 +1,7 @@
+.usersBlock {
+
+}
+
 .userBlock {
     display: flex;
     margin: 10px;
@@ -39,14 +43,6 @@
     color: rgb(72, 52, 245);
 }
 
-.userStatus {
-
-}
-
-.userName {
-
-}
-
 .locationBlock {
     margin-left: 20px;
     text-align: right;
@@ -65,4 +61,20 @@
 
 .selectedPage {
     font-weight: 600;
+}
+
+.userStatus {
+
+}
+
+.userName {
+
+}
+
+.userSpecies {
+
+}
+
+.userGender {
+
 }

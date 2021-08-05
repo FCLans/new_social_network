@@ -20,10 +20,20 @@ export type ProfileInfoType = {
     species: string
     gender: string
     image: string
-    location: ProfileLocationType
+    location: LocationType
 }
 
-type ProfileLocationType = {
+export type LocationType = {
     name: string
     url: string
+}
+
+export type UserType = {
+    name: string
+    species: string
+    gender: string
+    location: LocationType
+    id: number
+    image: string
+    followed?: boolean
 }

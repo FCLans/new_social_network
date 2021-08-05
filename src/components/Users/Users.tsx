@@ -1,8 +1,20 @@
-import React from 'react'
+import * as React from 'react'
 import User from './User/User';
 import styles from './Users.module.css'
+import {UserType} from "../../types/types";
 
-const Users = (props) => {
+type PropsType = {
+  currentPage: number
+  users: Array<UserType>
+  pageSize: number
+  totalUsersCount: number
+
+  onClickPage: (numberPage: number) => void
+  follow: (userId: number) => void
+  unfollow: (userId: number) => void
+}
+
+const Users = (props: PropsType) => {
   let pages = []
   // const countPages = Math.ceil(props.totalUsersCount / props.pageSize)
 
@@ -23,16 +35,12 @@ const Users = (props) => {
           })
         }
       </div>
-      <div>
-        <button onClick={props.testTS}>TESTING TYPESCRIPT</button>
-      </div>
       {props.users.map(u => <User unfollow={props.unfollow}
-                                       follow={props.follow}
-                                       key={u.id}
-                                       user={u}/>)}
+                                  follow={props.follow}
+                                  key={u.id}
+                                  user={u}/>)}
     </div>
   );
 }
-
 
 export default Users

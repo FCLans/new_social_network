@@ -1,7 +1,11 @@
 import styles from './Settings.module.css'
-import React from "react";
+import * as React from "react";
 
-const Settings = (props) => {
+type PropsType = {
+
+}
+
+const Settings: React.FC<PropsType> = (props) => {
   return (
     <h1>Settings</h1>
   )

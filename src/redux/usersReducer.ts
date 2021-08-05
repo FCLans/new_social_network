@@ -1,21 +1,19 @@
+import {LocationType, UserType} from "../types/types";
+
 const FOLLOW = 'USERS/FOLLOW'
 const UNFOLLOW = 'USERS/UNFOLLOW'
 const SET_USERS = 'USERS/SET_USERS'
 const SET_CURRENT_PAGE = 'USERS/SET_CURRENT_PAGE'
 const SET_TOTAL_COUNT_USERS = 'USERS/SET_TOTAL_COUNT_USERS'
 
-export type InitialStateType = {
-  users: any
-  pageSize: number
-  totalUsersCount: number
-  currentPage: number
-}
-const initialState: InitialStateType = {
-  users: [],
+const initialState = {
+  users: [] as Array<UserType>,
   pageSize: 20,
   totalUsersCount: 0,
   currentPage: 1,
 }
+
+type InitialStateType = typeof initialState
 
 const usersReducer = (state = initialState, action: any): InitialStateType => {
   switch (action.type) {
