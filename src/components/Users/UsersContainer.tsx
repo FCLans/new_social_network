@@ -10,10 +10,9 @@ import {
 import Users from "./Users";
 import Loader from "../common/Loader/Loader";
 import {toggleIsLoadPageAC} from "../../redux/loaderReducer";
-import {ApiSocialNetwork} from "../../api/api";
+import {api} from "../../api/api";
 import {UserType} from "../../types/types";
 import {AppStateType} from "../../redux/reduxStore";
-import {UsersDataType} from "../../types/apiTypes";
 
 type PropsType = {
   users: Array<UserType>
@@ -31,33 +30,25 @@ type PropsType = {
 }
 
 class UsersContainer extends React.Component<PropsType> {
-  api: any
 
-  constructor(props: PropsType) {
-    super(props);
-    this.api = new ApiSocialNetwork()
-  }
-
-  componentDidMount() {
+  async componentDidMount() {
     this.props.toggleIsLoadPage(true)
 
-    this.api.getUsers(this.props.currentPage)
-      .then((data: UsersDataType) => {
-        this.props.setUsers(data.results)
-        this.props.setTotalUsersCount(data.info.count)
-        this.props.toggleIsLoadPage(false)
-      })
+    const data = await api.getUsers(this.props.currentPage)
+
+    this.props.setUsers(data.results)
+    this.props.setTotalUsersCount(data.info.count)
+    this.props.toggleIsLoadPage(false)
+
   }
 
-  onClickPage = (numberPage: number) => {
+  onClickPage = async (numberPage: number) => {
     this.props.setCurrentPage(numberPage)
     this.props.toggleIsLoadPage(true)
 
-    this.api.getUsers(numberPage)
-      .then((data: UsersDataType) => {
-        this.props.setUsers(data.results)
-        this.props.toggleIsLoadPage(false)
-      })
+    const data = await api.getUsers(numberPage)
+    this.props.setUsers(data.results)
+    this.props.toggleIsLoadPage(false)
   }
 
   render() {

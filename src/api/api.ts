@@ -1,6 +1,7 @@
+import { UsersDataType } from "../types/apiTypes"
 import {UserType} from "../types/types";
 
-export class ApiSocialNetwork {
+class ApiSocialNetwork {
   baseUrl: string
   headers: {}
 
@@ -13,21 +14,22 @@ export class ApiSocialNetwork {
     }
   }
 
-  _baseApiUsers = async (apiPath: string) => {
-      return await fetch(`${this.baseUrl}/character/${apiPath}`, {headers: this.headers})
-        .then(response => response.ok ? response.json() : Promise.reject(response))
-        .catch(() => alert('Произошла ошибка, перезагрузи страницу.'))
+  _baseApiUsers = async <T>(apiPath: string): Promise<T> => {
+    const response = await fetch(`${this.baseUrl}/character/${apiPath}`, {headers: this.headers})
+    const body = await response.json()
+    return body
   }
 
-  getUsers = async (currentPage: number) => {
-    return await this._baseApiUsers(`?page=${currentPage}`)
+  getUsers = (currentPage: number) => {
+    return this._baseApiUsers<UsersDataType>(`?page=${currentPage}`)
   }
 
   getUserInfo = async (userId: number) => {
-    return await this._baseApiUsers(`${userId}`)
+    return await this._baseApiUsers<UserType>(`${userId}`)
   }
 
   // Тут дальше могли бы быть методы под POST запросы, но сторонняя API, не может мне предложить этого.
   // Но я бы сделал все по аналогии с GET запросами.
 }
 
+export const api = new ApiSocialNetwork()

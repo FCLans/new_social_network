@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {addPostActionCreator, editeNewPostTextActionCreator, setProfileInfoAC} from "../../redux/profileReducer";
 import Profile from "./Profile";
-import {ApiSocialNetwork} from "../../api/api";
+import {api} from "../../api/api";
 import {AppStateType} from "../../redux/reduxStore";
 import {PostDataType, ProfileInfoType} from "../../types/types";
 
@@ -17,13 +17,11 @@ type PropsType = {
 }
 
 class ProfileContainer extends React.Component<PropsType> {
-  componentDidMount() {
-    const api: any = new ApiSocialNetwork()
+  async componentDidMount() {
+    const data = await api.getUserInfo(2)
 
-    api.getUserInfo(2)
-      .then((data: ProfileInfoType) => {
-        this.props.setProfileData(data)
-      })
+    this.props.setProfileData(data)
+
   }
 
   render() {
