@@ -1,7 +1,8 @@
-import {editNewMessageTextActionCreator, sendMessageActionCreator} from '../../redux/dialogsReducer';
-import Dialogs from './Dialogs';
-import {connect} from "react-redux";
-import {AppStateType} from '../../redux/reduxStore'
+import { editNewMessageTextActionCreator, sendMessageActionCreator } from '../../redux/dialogsReducer'
+import Dialogs from './Dialogs'
+import { connect } from 'react-redux'
+import { AppStateType } from '../../redux/reduxStore'
+import { Dispatch } from 'react'
 
 const mapStateToProps = (state: AppStateType) => {
   return {
@@ -11,14 +12,14 @@ const mapStateToProps = (state: AppStateType) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     editNewTextMessage: (text: string) => {
       dispatch(editNewMessageTextActionCreator(text))
     },
     sendNewMessage: () => {
       dispatch(sendMessageActionCreator())
-    }
+    },
   }
 }
 

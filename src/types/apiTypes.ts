@@ -1,11 +1,11 @@
-import {UserType} from "./types";
+import { UserType } from './types'
 
 type InfoType = {
-    count: number
-    pages: number
+  count: number
+  pages: number
 }
 
 export type UsersDataType = {
-    info: InfoType
-    results: Array<UserType>
+  info: InfoType
+  results: Array<UserType>
 }

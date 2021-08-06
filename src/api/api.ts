@@ -1,23 +1,24 @@
-import { UsersDataType } from "../types/apiTypes"
-import {UserType} from "../types/types";
+import { UsersDataType } from '../types/apiTypes'
+import { UserType } from '../types/types'
 
 class ApiSocialNetwork {
   baseUrl: string
-  headers: {}
+  headers: HeadersInit
 
   constructor() {
     this.baseUrl = 'https://rickandmortyapi.com/api'
     this.headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
     }
   }
 
   _baseApiUsers = async <T>(apiPath: string): Promise<T> => {
-    const response = await fetch(`${this.baseUrl}/character/${apiPath}`, {headers: this.headers})
-    const body = await response.json()
-    return body
+    const response = await fetch(`${this.baseUrl}/character/${apiPath}`, {
+      headers: this.headers,
+    })
+    return await response.json()
   }
 
   getUsers = (currentPage: number) => {

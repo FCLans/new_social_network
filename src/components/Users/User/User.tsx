@@ -1,8 +1,8 @@
 import * as React from 'react'
 import styles from '../Users.module.css'
 const userPhoto = require('../../../assets/img/user.jpg')
-import {NavLink} from "react-router-dom";
-import {UserType} from "../../../types/types";
+import { NavLink } from 'react-router-dom'
+import { UserType } from '../../../types/types'
 
 type PropsType = {
   user: UserType
@@ -11,20 +11,33 @@ type PropsType = {
   unfollow: (userId: number) => void
 }
 
-const User: React.FC<PropsType> = ({user, follow, unfollow}) => {
+const User: React.FC<PropsType> = ({ user, follow, unfollow }) => {
   return (
     <div className={styles.userBlock}>
       <div className={styles.leftBlock}>
         <div className={styles.avatar}>
           <NavLink to={`/profile/${user.id}`}>
-            <img src={user.image ? user.image : userPhoto} alt="avatar"/>
+            <img src={user.image ? user.image : userPhoto} alt="avatar" />
           </NavLink>
         </div>
         <div className={styles.following}>
-          {
-            user.followed ? <button onClick={() => {unfollow(user.id)}}>Отписаться</button> :
-              <button onClick={() => {follow(user.id)}}>Подписаться</button>
-          }
+          {user.followed ? (
+            <button
+              onClick={() => {
+                unfollow(user.id)
+              }}
+            >
+              Отписаться
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                follow(user.id)
+              }}
+            >
+              Подписаться
+            </button>
+          )}
         </div>
       </div>
       <div className={styles.rightBlock}>

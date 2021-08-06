@@ -1,10 +1,10 @@
-import {NavLink} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import styles from './LinkItem.module.css'
-import * as React from "react";
+import * as React from 'react'
 
 type PropsType = {
-    name: string
-    path: string
+  name: string
+  path: string
 }
 
 const LinkItem: React.FC<PropsType> = (props) => {

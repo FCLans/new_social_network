@@ -1,11 +1,7 @@
 import styles from './Footer.module.css'
-import * as React from "react";
+import * as React from 'react'
 
-type PropsType = {
-
-}
-
-const Footer: React.FC<PropsType> = (props) => {
+const Footer: React.FC<null> = () => {
   return (
     <div className={styles.footer}>
       <div>FCLans</div>

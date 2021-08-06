@@ -1,10 +1,10 @@
-import * as React from "react";
-import {connect} from "react-redux";
-import {addPostActionCreator, editeNewPostTextActionCreator, setProfileInfoAC} from "../../redux/profileReducer";
-import Profile from "./Profile";
-import {api} from "../../api/api";
-import {AppStateType} from "../../redux/reduxStore";
-import {PostDataType, ProfileInfoType} from "../../types/types";
+import * as React from 'react'
+import { connect } from 'react-redux'
+import { addPostActionCreator, editNewPostTextActionCreator, setProfileInfoAC } from '../../redux/profileReducer'
+import Profile from './Profile'
+import { api } from '../../api/api'
+import { AppStateType } from '../../redux/reduxStore'
+import { PostDataType, ProfileInfoType } from '../../types/types'
 
 type PropsType = {
   newPostText: string
@@ -21,11 +21,10 @@ class ProfileContainer extends React.Component<PropsType> {
     const data = await api.getUserInfo(2)
 
     this.props.setProfileData(data)
-
   }
 
   render() {
-    return <Profile {...this.props}/>
+    return <Profile {...this.props} />
   }
 }
 
@@ -40,14 +39,14 @@ const mapStateToProps = (state: AppStateType) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     editNewPostText: (text: string) => {
-      dispatch(editeNewPostTextActionCreator(text))
+      dispatch(editNewPostTextActionCreator(text))
     },
     addPost: () => {
       dispatch(addPostActionCreator())
     },
     setProfileData: (data: ProfileInfoType) => {
       dispatch(setProfileInfoAC(data))
-    }
+    },
   }
 }
 

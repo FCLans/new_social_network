@@ -1,4 +1,4 @@
-import {LocationType, UserType} from "../types/types";
+import { UserType } from '../types/types'
 
 const FOLLOW = 'USERS/FOLLOW'
 const UNFOLLOW = 'USERS/UNFOLLOW'
@@ -22,11 +22,11 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
         ...state,
         users: state.users.map((u: UserType) => {
           if (u.id === action.data) {
-            return {...u, followed: true}
+            return { ...u, followed: true }
           }
 
           return u
-        })
+        }),
       }
 
     case UNFOLLOW:
@@ -34,24 +34,24 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
         ...state,
         users: state.users.map((user: UserType) => {
           if (user.id === action.data) {
-            return {...user, followed: false}
+            return { ...user, followed: false }
           }
 
           return user
-        })
+        }),
       }
 
     case SET_USERS:
       return {
         ...state,
-        users: [...action.data]
+        users: [...action.data],
       }
 
     case SET_CURRENT_PAGE:
-      return {...state, currentPage: action.data}
+      return { ...state, currentPage: action.data }
 
     case SET_TOTAL_COUNT_USERS:
-      return {...state, totalUsersCount: action.data}
+      return { ...state, totalUsersCount: action.data }
 
     default:
       return state
@@ -59,30 +59,29 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
 }
 
 export const followAC = (userId: number): FollowACType => {
-  return {type: FOLLOW, data: userId}
+  return { type: FOLLOW, data: userId }
 }
 
 export const unfollowAC = (userId: number): UnfollowACType => {
-  return {type: UNFOLLOW, data: userId}
+  return { type: UNFOLLOW, data: userId }
 }
 
 export const setUsersAC = (users: Array<UserType>): SetUsersACType => {
-  return {type: SET_USERS, data: users}
+  return { type: SET_USERS, data: users }
 }
 
 export const setCurrentPageAC = (numberPage: number): SetCurrentPageACType => {
-  return {type: SET_CURRENT_PAGE, data: numberPage}
+  return { type: SET_CURRENT_PAGE, data: numberPage }
 }
 
 export const setTotalUsersCountAC = (count: number): SetTotalUsersCountACType => {
-  return {type: SET_TOTAL_COUNT_USERS, data: count}
+  return { type: SET_TOTAL_COUNT_USERS, data: count }
 }
 
-type ActionsType = FollowACType | UnfollowACType | SetUsersACType | SetCurrentPageACType |
-    SetTotalUsersCountACType
+type ActionsType = FollowACType | UnfollowACType | SetUsersACType | SetCurrentPageACType | SetTotalUsersCountACType
 
 type FollowACType = {
-  type: typeof FOLLOW,
+  type: typeof FOLLOW
   data: number
 }
 type UnfollowACType = {

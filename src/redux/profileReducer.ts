@@ -1,16 +1,14 @@
-import {PostDataType, ProfileInfoType} from "../types/types";
+import { PostDataType, ProfileInfoType } from '../types/types'
 
 const ADD_POST = 'PROFILE/ADD_POST'
 const EDIT_NEW_POST_TEXT = 'PROFILE/EDIT_NEW_POST_TEXT'
 const SET_PROFILE_INFO = 'PROFILE/SET_PROFILE_INFO'
 
-
-
 const initialState = {
   profileInfo: null as ProfileInfoType,
   postsData: [
-    {id: 1, message: 'Привет, мой первый пост!', likesCount: 120},
-    {id: 2, message: 'Разгоняемся и летим)))', likesCount: 20},
+    { id: 1, message: 'Привет, мой первый пост!', likesCount: 120 },
+    { id: 2, message: 'Разгоняемся и летим)))', likesCount: 20 },
   ] as Array<PostDataType>,
   newPostText: '',
 }
@@ -19,7 +17,7 @@ export type InitialStateType = typeof initialState
 
 const profileReducer = (state = initialState, action: ActionsType): InitialStateType => {
   switch (action.type) {
-    case ADD_POST:
+    case ADD_POST: {
       const newPost = {
         id: state.postsData[state.postsData.length - 1].id + 1,
         message: state.newPostText,
@@ -29,18 +27,20 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
       return {
         ...state,
         postsData: [...state.postsData, newPost],
-        newPostText: ''
+        newPostText: '',
       }
+    }
 
     case EDIT_NEW_POST_TEXT:
       return {
-        ...state, newPostText: action.data
+        ...state,
+        newPostText: action.data,
       }
 
     case SET_PROFILE_INFO:
       return {
         ...state,
-        profileInfo: action.data
+        profileInfo: action.data,
       }
 
     default:
@@ -62,8 +62,8 @@ type SetProfileInfoAC = {
   data: ProfileInfoType
 }
 
-export const addPostActionCreator = (): AddPostActionCreatorType => ({type: ADD_POST})
-export const editeNewPostTextActionCreator = (text: string): EditNewPostTextActionCreatorType => ({type: EDIT_NEW_POST_TEXT, data: text})
-export const setProfileInfoAC = (profile: ProfileInfoType): SetProfileInfoAC => ({type: SET_PROFILE_INFO, data: profile})
+export const addPostActionCreator = (): AddPostActionCreatorType => ({ type: ADD_POST })
+export const editNewPostTextActionCreator = (text: string): EditNewPostTextActionCreatorType => ({ type: EDIT_NEW_POST_TEXT, data: text })
+export const setProfileInfoAC = (profile: ProfileInfoType): SetProfileInfoAC => ({ type: SET_PROFILE_INFO, data: profile })
 
 export default profileReducer
