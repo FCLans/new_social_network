@@ -1,22 +1,22 @@
-const path = require("path")
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-  entry: ["@babel/polyfill", "./src/index.tsx"],
+  entry: ['@babel/polyfill', './src/index.tsx'],
   output: {
-    path: path.join(__dirname, "./public"),
-    filename: "bundle.js"
+    path: path.join(__dirname, './public'),
+    filename: 'bundle.js',
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx']
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   devServer: {
     contentBase: path.join(__dirname, 'public'),
     compress: true,
     port: 9000,
     historyApiFallback: {
-      index: 'index.html'
-    }
+      index: 'index.html',
+    },
   },
   module: {
     rules: [
@@ -32,7 +32,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
+          loader: 'babel-loader',
         },
       },
       {
@@ -43,25 +43,25 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          "style-loader",
+          'style-loader',
           {
             loader: 'css-loader',
             options: {
               modules: {
                 localIdentName: '[name]_[local]_[hash:4]',
-                auto: true
+                auto: true,
               },
-              sourceMap: true
-            }
+              sourceMap: true,
+            },
           },
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   },
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./src/index.html"
+      template: './src/index.html',
     }),
-  ]
+  ],
 }
