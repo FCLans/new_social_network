@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { addPostActionCreator, editNewPostTextActionCreator, setProfileInfoAC } from '../../redux/profileReducer'
 import Profile from './Profile'
 import { api } from '../../api/api'
-import { AppStateType } from '../../redux/reduxStore'
+import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 import { PostDataType, ProfileInfoType } from '../../types/types'
 
 type PropsType = {
@@ -36,7 +36,7 @@ const mapStateToProps = (state: AppStateType) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     editNewPostText: (text: string) => {
       dispatch(editNewPostTextActionCreator(text))

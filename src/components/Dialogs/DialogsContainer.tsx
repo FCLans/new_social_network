@@ -1,8 +1,7 @@
 import { editNewMessageTextActionCreator, sendMessageActionCreator } from '../../redux/dialogsReducer'
 import Dialogs from './Dialogs'
 import { connect } from 'react-redux'
-import { AppStateType } from '../../redux/reduxStore'
-import { Dispatch } from 'react'
+import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 
 const mapStateToProps = (state: AppStateType) => {
   return {
@@ -12,7 +11,7 @@ const mapStateToProps = (state: AppStateType) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
+const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     editNewTextMessage: (text: string) => {
       dispatch(editNewMessageTextActionCreator(text))

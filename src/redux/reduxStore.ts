@@ -13,9 +13,10 @@ const RootReducers = combineReducers({
   loader: loaderReducer,
 })
 
+const store = createStore(RootReducers)
+
 type RootReducerType = typeof RootReducers
 export type AppStateType = ReturnType<RootReducerType>
-
-const store = createStore(RootReducers)
+export type AppDispatch = typeof store.dispatch
 
 export default store

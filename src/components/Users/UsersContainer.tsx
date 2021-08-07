@@ -6,7 +6,7 @@ import Loader from '../common/Loader/Loader'
 import { toggleIsLoadPageAC } from '../../redux/loaderReducer'
 import { api } from '../../api/api'
 import { UserType } from '../../types/types'
-import { AppStateType } from '../../redux/reduxStore'
+import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 
 type PropsType = {
   users: Array<UserType>
@@ -71,7 +71,7 @@ const mapStateToProps = (state: AppStateType) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     follow: (userId: number) => {
       dispatch(followAC(userId))
