@@ -5,8 +5,13 @@ import Profile from './Profile'
 import { api } from '../../api/api'
 import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 import { PostDataType, ProfileInfoType } from '../../types/types'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 
-type PropsType = {
+type ParamsRouter = {
+  userId?: string
+}
+
+type PropsType = RouteComponentProps<ParamsRouter> & {
   newPostText: string
   postsData: Array<PostDataType>
   profile: ProfileInfoType
@@ -18,7 +23,11 @@ type PropsType = {
 
 class ProfileContainer extends React.Component<PropsType> {
   async componentDidMount() {
-    const data = await api.getUserInfo(2)
+    let userId = this.props.match.params.userId
+    if (!userId) {
+      userId = '1'
+    }
+    const data = await api.getUserInfo(+userId)
 
     this.props.setProfileData(data)
   }
@@ -50,4 +59,6 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer)
+const ProfileContainerWithRouter = withRouter(ProfileContainer)
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainerWithRouter)

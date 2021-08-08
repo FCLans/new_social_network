@@ -6,6 +6,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, './public'),
     filename: 'bundle.js',
+    publicPath: '/',
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -19,6 +20,7 @@ module.exports = {
     historyApiFallback: {
       index: 'index.html',
     },
+    writeToDisk: true,
   },
   module: {
     rules: [
