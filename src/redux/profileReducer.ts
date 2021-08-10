@@ -1,6 +1,7 @@
 import { PostDataType, ProfileInfoType } from '../types/types'
 import { api } from '../api/api'
 import { toggleIsLoadPageAC } from './loaderReducer'
+import { AppDispatch } from './reduxStore'
 
 const ADD_POST = 'PROFILE/ADD_POST'
 const EDIT_NEW_POST_TEXT = 'PROFILE/EDIT_NEW_POST_TEXT'
@@ -72,7 +73,7 @@ export const setProfileInfoAC = (profile: ProfileInfoType): SetProfileInfoAC => 
 
 //Thunk Types
 export const getProfileInfoTC = (userId: number): any => {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(toggleIsLoadPageAC(true))
     const data: ProfileInfoType = await api.getUserInfo(userId)
 

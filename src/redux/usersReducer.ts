@@ -2,6 +2,7 @@ import { UserType } from '../types/types'
 import { api } from '../api/api'
 import { toggleIsLoadPageAC } from './loaderReducer'
 import { UsersDataType } from '../types/apiTypes'
+import { AppDispatch } from './reduxStore'
 
 const FOLLOW = 'USERS/FOLLOW'
 const UNFOLLOW = 'USERS/UNFOLLOW'
@@ -61,6 +62,7 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
   }
 }
 
+//Action Creators
 export const followAC = (userId: number): FollowACType => {
   return { type: FOLLOW, data: userId }
 }
@@ -81,7 +83,6 @@ export const setTotalUsersCountAC = (count: number): SetTotalUsersCountACType =>
   return { type: SET_TOTAL_COUNT_USERS, data: count }
 }
 
-//Action Creators
 type ActionsType = FollowACType | UnfollowACType | SetUsersACType | SetTotalUsersCountACType
 
 type FollowACType = {
@@ -108,7 +109,7 @@ type SetTotalUsersCountACType = {
 //Thunk Creators
 
 export const getUsersTC = (currentPage: number): any => {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(toggleIsLoadPageAC(true))
 
     const data: UsersDataType = await api.getUsers(currentPage)
@@ -120,14 +121,14 @@ export const getUsersTC = (currentPage: number): any => {
 }
 
 export const followTC = (userId: number): any => {
-  return (dispatch: any): any => {
+  return (dispatch: AppDispatch) => {
     //тут должны быть запросы на сервак и диспатч данных
     dispatch(followAC(userId))
   }
 }
 
 export const unfollowTC = (userId: number): any => {
-  return (dispatch: any): any => {
+  return (dispatch: AppDispatch) => {
     //тут должны быть запросы на сервак и диспатч данных
     dispatch(unfollowAC(userId))
   }
