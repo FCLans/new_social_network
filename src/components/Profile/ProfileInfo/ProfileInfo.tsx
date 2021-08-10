@@ -1,5 +1,5 @@
 import styles from './ProfileInfo.module.css'
-import Loader from '../../common/Loader/Loader'
+import { Loader } from '../../common/Loader/Loader'
 import * as React from 'react'
 import { ProfileInfoType } from '../../../types/types'
 

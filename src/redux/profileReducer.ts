@@ -22,7 +22,7 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
     case ADD_POST: {
       const newPost = {
         id: state.postsData[state.postsData.length - 1].id + 1,
-        message: state.newPostText,
+        message: action.text,
         likesCount: 0,
       }
 
@@ -55,6 +55,7 @@ type ActionsType = AddPostActionCreatorType | EditNewPostTextActionCreatorType |
 
 type AddPostActionCreatorType = {
   type: typeof ADD_POST
+  text: string
 }
 type EditNewPostTextActionCreatorType = {
   type: typeof EDIT_NEW_POST_TEXT
@@ -65,7 +66,7 @@ type SetProfileInfoAC = {
   data: ProfileInfoType
 }
 
-export const addPostActionCreator = (): AddPostActionCreatorType => ({ type: ADD_POST })
+export const addPostActionCreator = (text: string): AddPostActionCreatorType => ({ type: ADD_POST, text: text })
 export const editNewPostTextActionCreator = (text: string): EditNewPostTextActionCreatorType => ({ type: EDIT_NEW_POST_TEXT, data: text })
 export const setProfileInfoAC = (profile: ProfileInfoType): SetProfileInfoAC => ({ type: SET_PROFILE_INFO, data: profile })
 

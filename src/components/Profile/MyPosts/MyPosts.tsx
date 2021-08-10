@@ -9,7 +9,7 @@ type PropsType = {
   newPostText: string
 
   editNewPostText: (text: string) => void
-  addPost: () => void
+  addPost: (newPostText: string) => void
 }
 
 const MyPosts: React.FC<PropsType> = ({ newPostText, postsData, addPost, editNewPostText }) => {
@@ -22,7 +22,8 @@ const MyPosts: React.FC<PropsType> = ({ newPostText, postsData, addPost, editNew
   }
 
   const addNewPost = () => {
-    addPost()
+    addPost(newPostText)
+    editNewPostText('')
   }
 
   return (

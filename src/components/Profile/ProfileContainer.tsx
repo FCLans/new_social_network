@@ -5,7 +5,7 @@ import Profile from './Profile'
 import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 import { PostDataType, ProfileInfoType } from '../../types/types'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 type ParamsRouter = {
   userId?: string
@@ -22,6 +22,7 @@ type PropsType = RouteComponentProps<ParamsRouter> & {
 }
 
 const ProfileC = (props: PropsType) => {
+  const [newPostText, editNewPostText] = useState('')
   useEffect(() => {
     let userId: number = +props.match.params.userId
     if (!userId) {
@@ -30,24 +31,20 @@ const ProfileC = (props: PropsType) => {
     props.getProfileData(userId)
   }, [])
 
-  return <Profile {...props} />
+  return <Profile {...props} newPostText={newPostText} editNewPostText={editNewPostText} />
 }
 
 const mapStateToProps = (state: AppStateType) => {
   return {
     postsData: state.profilePage.postsData,
-    newPostText: state.profilePage.newPostText,
     profile: state.profilePage.profileInfo,
   }
 }
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
-    editNewPostText: (text: string) => {
-      dispatch(editNewPostTextActionCreator(text))
-    },
-    addPost: () => {
-      dispatch(addPostActionCreator())
+    addPost: (text: string) => {
+      dispatch(addPostActionCreator(text))
     },
     getProfileData: (userId: number) => dispatch(getProfileInfoTC(userId)),
   }
