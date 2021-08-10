@@ -12,7 +12,7 @@ type PropsType = {
   addPost: () => void
 }
 
-const Profile: React.FC<PropsType> = (props) => {
+export const Profile: React.FC<PropsType> = (props) => {
   return (
     <div>
       <ProfileInfo {...props.profile} />
@@ -20,5 +20,3 @@ const Profile: React.FC<PropsType> = (props) => {
     </div>
   )
 }
-
-export default Profile

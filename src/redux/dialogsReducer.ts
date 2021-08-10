@@ -1,7 +1,6 @@
 import { DialogsDataType, MessagesDataType } from '../types/types'
 
 const SEND_MESSAGE = 'SEND_MESSAGE'
-const EDIT_NEW_MESSAGE_TEXT = 'EDIT_NEW_MESSAGE_TEXT'
 
 const initialState = {
   messagesData: [
@@ -31,7 +30,7 @@ const dialogsReducer = (state = initialState, action: ActionsType): InitialState
 
       const newMessage = {
         id: newIdElement,
-        text: state.newMessageText,
+        text: action.messageText,
       }
 
       return {
@@ -41,31 +40,18 @@ const dialogsReducer = (state = initialState, action: ActionsType): InitialState
       }
     }
 
-    case EDIT_NEW_MESSAGE_TEXT:
-      return {
-        ...state,
-        newMessageText: action.data,
-      }
-
     default:
       return state
   }
 }
 
-type ActionsType = SendMessageActionCreatorType | EditNewMessageTextActionCreatorType
+type ActionsType = SendMessageActionCreatorType
 
 type SendMessageActionCreatorType = {
   type: typeof SEND_MESSAGE
-}
-type EditNewMessageTextActionCreatorType = {
-  type: typeof EDIT_NEW_MESSAGE_TEXT
-  data: string
+  messageText: string
 }
 
-export const sendMessageActionCreator = (): SendMessageActionCreatorType => ({ type: SEND_MESSAGE })
-export const editNewMessageTextActionCreator = (text: string): EditNewMessageTextActionCreatorType => ({
-  type: EDIT_NEW_MESSAGE_TEXT,
-  data: text,
-})
+export const sendMessageActionCreator = (text: string): SendMessageActionCreatorType => ({ type: SEND_MESSAGE, messageText: text })
 
 export default dialogsReducer

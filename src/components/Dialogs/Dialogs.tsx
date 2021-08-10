@@ -3,17 +3,16 @@ import styles from './Dialogs.module.css'
 import { Message } from './Message/Message'
 import * as React from 'react'
 import { DialogsDataType, MessagesDataType } from '../../types/types'
-import { ChangeEvent } from 'react'
+import { ChangeEvent, useState } from 'react'
 
 type PropsType = {
   dialogsData: Array<DialogsDataType>
   messagesData: Array<MessagesDataType>
-  newMessageText: string
-  sendNewMessage: () => void
-  editNewTextMessage: (e: string) => void
+  sendNewMessage: (text: string) => void
 }
 
-export const Dialogs: React.FC<PropsType> = ({ dialogsData, messagesData, newMessageText, sendNewMessage, editNewTextMessage }) => {
+export const Dialogs: React.FC<PropsType> = ({ dialogsData, messagesData, sendNewMessage }) => {
+  const [newMessageText, editNewTextMessage] = useState('')
   const dialogsElements = dialogsData.map((d) => <Dialog key={d.id} name={d.name} id={d.id} />)
   const messagesElements = messagesData.map((m) => <Message key={m.id} text={m.text} />)
 
@@ -22,7 +21,8 @@ export const Dialogs: React.FC<PropsType> = ({ dialogsData, messagesData, newMes
   }
 
   const sendMessage = () => {
-    sendNewMessage()
+    sendNewMessage(newMessageText)
+    editNewTextMessage('')
   }
 
   return (

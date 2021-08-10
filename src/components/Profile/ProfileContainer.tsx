@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { addPostActionCreator, getProfileInfoTC } from '../../redux/profileReducer'
-import Profile from './Profile'
+import { Profile } from './Profile'
 import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 import { PostDataType, ProfileInfoType } from '../../types/types'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
