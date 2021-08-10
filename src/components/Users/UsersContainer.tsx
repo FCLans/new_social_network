@@ -1,12 +1,11 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { followAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC, unfollowAC } from '../../redux/usersReducer'
+import { followAC, getUsersTC, unfollowAC } from '../../redux/usersReducer'
 import Users from './Users'
 import Loader from '../common/Loader/Loader'
-import { toggleIsLoadPageAC } from '../../redux/loaderReducer'
-import { api } from '../../api/api'
 import { UserType } from '../../types/types'
 import { AppDispatch, AppStateType } from '../../redux/reduxStore'
+import { useEffect } from 'react'
 
 type PropsType = {
   users: Array<UserType>
@@ -17,48 +16,32 @@ type PropsType = {
 
   follow: (userId: number) => void
   unfollow: (userId: number) => void
-  setUsers: (data: Array<UserType>) => void
-  setCurrentPage: (currentPage: number) => void
-  setTotalUsersCount: (usersCount: number) => void
-  toggleIsLoadPage: (isLoad: boolean) => void
+  setUsers: (currentPage: number) => void
 }
 
-class UsersContainer extends React.Component<PropsType> {
-  async componentDidMount() {
-    this.props.toggleIsLoadPage(true)
+export const UsersContainer = (props: PropsType) => {
+  useEffect(() => {
+    props.setUsers(props.currentPage)
+  }, [])
 
-    const data = await api.getUsers(this.props.currentPage)
-
-    this.props.setUsers(data.results)
-    this.props.setTotalUsersCount(data.info.count)
-    this.props.toggleIsLoadPage(false)
+  const onClickPage = (numberPage: number) => {
+    props.setUsers(numberPage)
   }
 
-  onClickPage = async (numberPage: number) => {
-    this.props.setCurrentPage(numberPage)
-    this.props.toggleIsLoadPage(true)
-
-    const data = await api.getUsers(numberPage)
-    this.props.setUsers(data.results)
-    this.props.toggleIsLoadPage(false)
-  }
-
-  render() {
-    return (
-      <div>
-        {this.props.isLoadPage ? <Loader /> : null}
-        <Users
-          currentPage={this.props.currentPage}
-          onClickPage={this.onClickPage}
-          users={this.props.users}
-          follow={this.props.follow}
-          unfollow={this.props.unfollow}
-          pageSize={this.props.pageSize}
-          totalUsersCount={this.props.totalUsersCount}
-        />
-      </div>
-    )
-  }
+  return (
+    <div>
+      {props.isLoadPage ? <Loader /> : null}
+      <Users
+        currentPage={props.currentPage}
+        onClickPage={onClickPage}
+        users={props.users}
+        follow={props.follow}
+        unfollow={props.unfollow}
+        pageSize={props.pageSize}
+        totalUsersCount={props.totalUsersCount}
+      />
+    </div>
+  )
 }
 
 const mapStateToProps = (state: AppStateType) => {
@@ -79,17 +62,8 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
     unfollow: (userId: number) => {
       dispatch(unfollowAC(userId))
     },
-    setUsers: (users: Array<UserType>) => {
-      dispatch(setUsersAC(users))
-    },
-    setCurrentPage: (numberPage: number) => {
-      dispatch(setCurrentPageAC(numberPage))
-    },
-    setTotalUsersCount: (usersCount: number) => {
-      dispatch(setTotalUsersCountAC(usersCount))
-    },
-    toggleIsLoadPage: (isLoadPage: boolean) => {
-      dispatch(toggleIsLoadPageAC(isLoadPage))
+    setUsers: (currentPage: number) => {
+      dispatch(getUsersTC(currentPage))
     },
   }
 }

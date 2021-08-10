@@ -1,4 +1,5 @@
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import ThunkMiddleware from 'redux-thunk'
 import profileReducer from './profileReducer'
 import dialogsReducer from './dialogsReducer'
 import sidebarReducer from './sidebarReducer'
@@ -13,7 +14,7 @@ const RootReducers = combineReducers({
   loader: loaderReducer,
 })
 
-const store = createStore(RootReducers)
+const store = createStore(RootReducers, applyMiddleware(ThunkMiddleware))
 
 type RootReducerType = typeof RootReducers
 export type AppStateType = ReturnType<RootReducerType>

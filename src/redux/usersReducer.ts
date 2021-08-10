@@ -1,4 +1,6 @@
 import { UserType } from '../types/types'
+import {api} from "../api/api";
+import {toggleIsLoadPageAC} from "./loaderReducer";
 
 const FOLLOW = 'USERS/FOLLOW'
 const UNFOLLOW = 'USERS/UNFOLLOW'
@@ -78,6 +80,7 @@ export const setTotalUsersCountAC = (count: number): SetTotalUsersCountACType =>
   return { type: SET_TOTAL_COUNT_USERS, data: count }
 }
 
+//Action Creators
 type ActionsType = FollowACType | UnfollowACType | SetUsersACType | SetCurrentPageACType | SetTotalUsersCountACType
 
 type FollowACType = {
@@ -99,6 +102,21 @@ type SetCurrentPageACType = {
 type SetTotalUsersCountACType = {
   type: typeof SET_TOTAL_COUNT_USERS
   data: number
+}
+
+//Thunk Creators
+
+export const getUsersTC = (currentPage: number): any => {
+  return async (dispatch: any) => {
+    dispatch(toggleIsLoadPageAC(true))
+    dispatch(setCurrentPageAC(currentPage))
+
+    const data = await api.getUsers(currentPage)
+
+    dispatch(setUsersAC(data.results))
+    dispatch(setTotalUsersCountAC(data.info.count))
+    dispatch(toggleIsLoadPageAC(false))
+  }
 }
 
 export default usersReducer
