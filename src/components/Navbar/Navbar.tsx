@@ -1,9 +1,9 @@
 import styles from './Navbar.module.css'
-import LinkItem from './LinkItem/LinkItem'
-import Sidebar from './Sidebar/Sidebar'
+import { LinkItem } from './LinkItem/LinkItem'
+import { Sidebar } from './Sidebar/Sidebar'
 import * as React from 'react'
 
-const Navbar = () => {
+export const Navbar = () => {
   return (
     <nav className={styles.navigation}>
       <LinkItem name="Profile" path="/profile" />
@@ -16,5 +16,3 @@ const Navbar = () => {
     </nav>
   )
 }
-
-export default Navbar

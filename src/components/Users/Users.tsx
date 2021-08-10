@@ -1,5 +1,5 @@
 import * as React from 'react'
-import User from './User/User'
+import { User } from './User/User'
 import styles from './Users.module.css'
 import { UserType } from '../../types/types'
 
@@ -14,7 +14,7 @@ type PropsType = {
   unfollow: (userId: number) => void
 }
 
-const Users = (props: PropsType) => {
+export const Users = (props: PropsType) => {
   const pages = []
   // const countPages = Math.ceil(props.totalUsersCount / props.pageSize)
 
@@ -45,5 +45,3 @@ const Users = (props: PropsType) => {
     </div>
   )
 }
-
-export default Users

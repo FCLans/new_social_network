@@ -7,7 +7,7 @@ type PropsType = {
   path: string
 }
 
-const LinkItem: React.FC<PropsType> = (props) => {
+export const LinkItem: React.FC<PropsType> = (props) => {
   return (
     <div className={styles.item}>
       <NavLink activeClassName={styles.active} to={props.path}>
@@ -16,5 +16,3 @@ const LinkItem: React.FC<PropsType> = (props) => {
     </div>
   )
 }
-
-export default LinkItem

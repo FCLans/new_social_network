@@ -1,4 +1,6 @@
 import { PostDataType, ProfileInfoType } from '../types/types'
+import { api } from '../api/api'
+import { toggleIsLoadPageAC } from './loaderReducer'
 
 const ADD_POST = 'PROFILE/ADD_POST'
 const EDIT_NEW_POST_TEXT = 'PROFILE/EDIT_NEW_POST_TEXT'
@@ -48,6 +50,7 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
   }
 }
 
+//Action Types
 type ActionsType = AddPostActionCreatorType | EditNewPostTextActionCreatorType | SetProfileInfoAC
 
 type AddPostActionCreatorType = {
@@ -65,5 +68,16 @@ type SetProfileInfoAC = {
 export const addPostActionCreator = (): AddPostActionCreatorType => ({ type: ADD_POST })
 export const editNewPostTextActionCreator = (text: string): EditNewPostTextActionCreatorType => ({ type: EDIT_NEW_POST_TEXT, data: text })
 export const setProfileInfoAC = (profile: ProfileInfoType): SetProfileInfoAC => ({ type: SET_PROFILE_INFO, data: profile })
+
+//Thunk Types
+export const getProfileInfoTC = (userId: number): any => {
+  return async (dispatch: any) => {
+    dispatch(toggleIsLoadPageAC(true))
+    const data: ProfileInfoType = await api.getUserInfo(userId)
+
+    dispatch(setProfileInfoAC(data))
+    dispatch(toggleIsLoadPageAC(false))
+  }
+}
 
 export default profileReducer

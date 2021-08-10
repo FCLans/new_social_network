@@ -7,7 +7,7 @@ type PropsType = {
   id: number
 }
 
-const Dialog: React.FC<PropsType> = (props) => {
+export const Dialog: React.FC<PropsType> = (props) => {
   const name = props.name
   const path = '/messages/' + props.id
 
@@ -19,5 +19,3 @@ const Dialog: React.FC<PropsType> = (props) => {
     </div>
   )
 }
-
-export default Dialog

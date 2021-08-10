@@ -1,7 +1,5 @@
 import * as React from 'react'
 
-const News = () => {
+export const News = () => {
   return <h1>News</h1>
 }
-
-export default News

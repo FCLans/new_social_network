@@ -1,6 +1,7 @@
 import { UserType } from '../types/types'
-import {api} from "../api/api";
-import {toggleIsLoadPageAC} from "./loaderReducer";
+import { api } from '../api/api'
+import { toggleIsLoadPageAC } from './loaderReducer'
+import { UsersDataType } from '../types/apiTypes'
 
 const FOLLOW = 'USERS/FOLLOW'
 const UNFOLLOW = 'USERS/UNFOLLOW'
@@ -111,11 +112,25 @@ export const getUsersTC = (currentPage: number): any => {
     dispatch(toggleIsLoadPageAC(true))
     dispatch(setCurrentPageAC(currentPage))
 
-    const data = await api.getUsers(currentPage)
+    const data: UsersDataType = await api.getUsers(currentPage)
 
     dispatch(setUsersAC(data.results))
     dispatch(setTotalUsersCountAC(data.info.count))
     dispatch(toggleIsLoadPageAC(false))
+  }
+}
+
+export const followTC = (userId: number): any => {
+  return (dispatch: any): any => {
+    //тут должны быть запросы на сервак и диспатч данных
+    dispatch(followAC(userId))
+  }
+}
+
+export const unfollowTC = (userId: number): any => {
+  return (dispatch: any): any => {
+    //тут должны быть запросы на сервак и диспатч данных
+    dispatch(unfollowAC(userId))
   }
 }
 

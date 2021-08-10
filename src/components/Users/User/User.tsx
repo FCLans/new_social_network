@@ -11,7 +11,7 @@ type PropsType = {
   unfollow: (userId: number) => void
 }
 
-const User: React.FC<PropsType> = ({ user, follow, unfollow }) => {
+export const User: React.FC<PropsType> = ({ user, follow, unfollow }) => {
   return (
     <div className={styles.userBlock}>
       <div className={styles.leftBlock}>
@@ -54,5 +54,3 @@ const User: React.FC<PropsType> = ({ user, follow, unfollow }) => {
     </div>
   )
 }
-
-export default User

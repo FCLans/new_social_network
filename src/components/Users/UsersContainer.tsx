@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { followAC, getUsersTC, unfollowAC } from '../../redux/usersReducer'
-import Users from './Users'
-import Loader from '../common/Loader/Loader'
+import { followTC, getUsersTC, unfollowTC } from '../../redux/usersReducer'
+import { Users } from './Users'
+import { Loader } from '../common/Loader/Loader'
 import { UserType } from '../../types/types'
 import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 import { useEffect } from 'react'
@@ -19,7 +19,7 @@ type PropsType = {
   setUsers: (currentPage: number) => void
 }
 
-export const UsersContainer = (props: PropsType) => {
+const UsersC = (props: PropsType) => {
   useEffect(() => {
     props.setUsers(props.currentPage)
   }, [])
@@ -57,10 +57,10 @@ const mapStateToProps = (state: AppStateType) => {
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     follow: (userId: number) => {
-      dispatch(followAC(userId))
+      dispatch(followTC(userId))
     },
     unfollow: (userId: number) => {
-      dispatch(unfollowAC(userId))
+      dispatch(unfollowTC(userId))
     },
     setUsers: (currentPage: number) => {
       dispatch(getUsersTC(currentPage))
@@ -68,4 +68,4 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer)
+export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersC)

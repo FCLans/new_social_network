@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styles from './Friends.module.css'
 
-const Friends = () => {
+export const Friends = () => {
   return (
     <div className={styles.friendBlock}>
       <div className={styles.title}>Friends</div>
@@ -27,5 +27,3 @@ const Friends = () => {
     </div>
   )
 }
-
-export default Friends
