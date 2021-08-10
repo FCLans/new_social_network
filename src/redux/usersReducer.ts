@@ -6,14 +6,14 @@ import { UsersDataType } from '../types/apiTypes'
 const FOLLOW = 'USERS/FOLLOW'
 const UNFOLLOW = 'USERS/UNFOLLOW'
 const SET_USERS = 'USERS/SET_USERS'
-const SET_CURRENT_PAGE = 'USERS/SET_CURRENT_PAGE'
+// const SET_CURRENT_PAGE = 'USERS/SET_CURRENT_PAGE'
 const SET_TOTAL_COUNT_USERS = 'USERS/SET_TOTAL_COUNT_USERS'
 
 const initialState = {
   users: [] as Array<UserType>,
   pageSize: 20,
   totalUsersCount: 0,
-  currentPage: 1,
+  // currentPage: 1,
 }
 
 type InitialStateType = typeof initialState
@@ -50,8 +50,8 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
         users: [...action.data],
       }
 
-    case SET_CURRENT_PAGE:
-      return { ...state, currentPage: action.data }
+    // case SET_CURRENT_PAGE:
+    //   return { ...state, currentPage: action.data }
 
     case SET_TOTAL_COUNT_USERS:
       return { ...state, totalUsersCount: action.data }
@@ -73,16 +73,16 @@ export const setUsersAC = (users: Array<UserType>): SetUsersACType => {
   return { type: SET_USERS, data: users }
 }
 
-export const setCurrentPageAC = (numberPage: number): SetCurrentPageACType => {
-  return { type: SET_CURRENT_PAGE, data: numberPage }
-}
+// export const setCurrentPageAC = (numberPage: number): SetCurrentPageACType => {
+//   return { type: SET_CURRENT_PAGE, data: numberPage }
+// }
 
 export const setTotalUsersCountAC = (count: number): SetTotalUsersCountACType => {
   return { type: SET_TOTAL_COUNT_USERS, data: count }
 }
 
 //Action Creators
-type ActionsType = FollowACType | UnfollowACType | SetUsersACType | SetCurrentPageACType | SetTotalUsersCountACType
+type ActionsType = FollowACType | UnfollowACType | SetUsersACType | SetTotalUsersCountACType
 
 type FollowACType = {
   type: typeof FOLLOW
@@ -96,10 +96,10 @@ type SetUsersACType = {
   type: typeof SET_USERS
   data: Array<UserType>
 }
-type SetCurrentPageACType = {
-  type: typeof SET_CURRENT_PAGE
-  data: number
-}
+// type SetCurrentPageACType = {
+//   type: typeof SET_CURRENT_PAGE
+//   data: number
+// }
 type SetTotalUsersCountACType = {
   type: typeof SET_TOTAL_COUNT_USERS
   data: number
@@ -110,7 +110,6 @@ type SetTotalUsersCountACType = {
 export const getUsersTC = (currentPage: number): any => {
   return async (dispatch: any) => {
     dispatch(toggleIsLoadPageAC(true))
-    dispatch(setCurrentPageAC(currentPage))
 
     const data: UsersDataType = await api.getUsers(currentPage)
 

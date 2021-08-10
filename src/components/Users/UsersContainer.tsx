@@ -5,11 +5,10 @@ import { Users } from './Users'
 import { Loader } from '../common/Loader/Loader'
 import { UserType } from '../../types/types'
 import { AppDispatch, AppStateType } from '../../redux/reduxStore'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 type PropsType = {
   users: Array<UserType>
-  currentPage: number
   pageSize: number
   totalUsersCount: number
   isLoadPage: boolean
@@ -20,11 +19,13 @@ type PropsType = {
 }
 
 const UsersC = (props: PropsType) => {
+  const [currentPage, setCurrentPage] = useState(1)
   useEffect(() => {
-    props.setUsers(props.currentPage)
+    props.setUsers(currentPage)
   }, [])
 
   const onClickPage = (numberPage: number) => {
+    setCurrentPage(numberPage)
     props.setUsers(numberPage)
   }
 
@@ -32,7 +33,7 @@ const UsersC = (props: PropsType) => {
     <div>
       {props.isLoadPage ? <Loader /> : null}
       <Users
-        currentPage={props.currentPage}
+        currentPage={currentPage}
         onClickPage={onClickPage}
         users={props.users}
         follow={props.follow}
@@ -49,7 +50,6 @@ const mapStateToProps = (state: AppStateType) => {
     users: state.usersPage.users,
     pageSize: state.usersPage.pageSize,
     totalUsersCount: state.usersPage.totalUsersCount,
-    currentPage: state.usersPage.currentPage,
     isLoadPage: state.loader.isLoadPage,
   }
 }

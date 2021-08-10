@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { addPostActionCreator, editNewPostTextActionCreator, getProfileInfoTC } from '../../redux/profileReducer'
+import { addPostActionCreator, getProfileInfoTC } from '../../redux/profileReducer'
 import Profile from './Profile'
 import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 import { PostDataType, ProfileInfoType } from '../../types/types'
@@ -12,11 +12,8 @@ type ParamsRouter = {
 }
 
 type PropsType = RouteComponentProps<ParamsRouter> & {
-  newPostText: string
   postsData: Array<PostDataType>
   profile: ProfileInfoType
-
-  editNewPostText: (text: string) => void
   getProfileData: (userId: number) => void
   addPost: () => void
 }
