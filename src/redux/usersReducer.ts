@@ -1,5 +1,5 @@
 import { UserType } from '../types/types'
-import { api } from '../api/api'
+import { UsersApi } from '../api/api'
 import { toggleIsLoadPageAC } from './loaderReducer'
 import { UsersDataType } from '../types/apiTypes'
 import { AppDispatch } from './reduxStore'
@@ -12,9 +12,9 @@ const SET_TOTAL_COUNT_USERS = 'USERS/SET_TOTAL_COUNT_USERS'
 
 const initialState = {
   users: [] as Array<UserType>,
-  pageSize: 20,
+  pageSize: 5,
   totalUsersCount: 0,
-  // currentPage: 1,
+  currentPage: 1,
 }
 
 type InitialStateType = typeof initialState
@@ -108,15 +108,17 @@ type SetTotalUsersCountACType = {
 
 //Thunk Creators
 
-export const getUsersTC = (currentPage: number): any => {
-  return async (dispatch: AppDispatch) => {
+export const getUsersTC = (pageSize: number, currentPage: number): any => {
+  return (dispatch: AppDispatch) => {
     dispatch(toggleIsLoadPageAC(true))
 
-    const data: UsersDataType = await api.getUsers(currentPage)
-
-    dispatch(setUsersAC(data.results))
-    dispatch(setTotalUsersCountAC(data.info.count))
-    dispatch(toggleIsLoadPageAC(false))
+    UsersApi.getUsers(pageSize, currentPage)
+      .then((response) => response.json())
+      .then((resp: any) => {
+        dispatch(setUsersAC(resp.items))
+        dispatch(setTotalUsersCountAC(resp.totalCount))
+        dispatch(toggleIsLoadPageAC(false))
+      })
   }
 }
 

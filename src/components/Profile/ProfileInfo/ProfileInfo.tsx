@@ -4,7 +4,7 @@ import * as React from 'react'
 import { ProfileInfoType } from '../../../types/types'
 
 const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
-  if (!props.name) {
+  if (!props.fullName) {
     return <Loader />
   }
 
@@ -15,14 +15,12 @@ const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
       </div>
       <div className={styles.descriptions}>
         <div>
-          <h3>{props.name}</h3>
+          <h3>{props.fullName}</h3>
         </div>
         <div>
-          <img src={props.image} alt="avatar" />
+          <img src={props.photos.large} alt="avatar" />
         </div>
-        <div>{props.species}</div>
-        <div>{props.gender}</div>
-        <div>{props.location.name}</div>
+        <div>{props.lookingForAJobDescription}</div>
       </div>
     </div>
   )

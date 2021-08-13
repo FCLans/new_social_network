@@ -23,7 +23,7 @@ const ProfileC = (props: PropsType) => {
   useEffect(() => {
     let userId: number = +props.match.params.userId
     if (!userId) {
-      userId = 1
+      userId = 10
     }
     props.getProfileData(userId)
   }, [])

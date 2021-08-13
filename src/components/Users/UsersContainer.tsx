@@ -15,18 +15,18 @@ type PropsType = {
 
   follow: (userId: number) => void
   unfollow: (userId: number) => void
-  setUsers: (currentPage: number) => void
+  setUsers: (pageSize: number, currentPage: number) => void
 }
 
 const UsersC = (props: PropsType) => {
   const [currentPage, setCurrentPage] = useState(1)
   useEffect(() => {
-    props.setUsers(currentPage)
+    props.setUsers(props.pageSize, currentPage)
   }, [])
 
   const onClickPage = (numberPage: number) => {
     setCurrentPage(numberPage)
-    props.setUsers(numberPage)
+    props.setUsers(props.pageSize, numberPage)
   }
 
   return (
@@ -62,8 +62,8 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
     unfollow: (userId: number) => {
       dispatch(unfollowTC(userId))
     },
-    setUsers: (currentPage: number) => {
-      dispatch(getUsersTC(currentPage))
+    setUsers: (pageSize: number, currentPage: number) => {
+      dispatch(getUsersTC(pageSize, currentPage))
     },
   }
 }

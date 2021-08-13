@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styles from '../Users.module.css'
-const userPhoto = require('../../../assets/img/user.jpg')
+const userPhoto = require('../../../assets/img/user.jpg').default
 import { NavLink } from 'react-router-dom'
 import { UserType } from '../../../types/types'
 
@@ -17,7 +17,7 @@ export const User: React.FC<PropsType> = ({ user, follow, unfollow }) => {
       <div className={styles.leftBlock}>
         <div className={styles.avatar}>
           <NavLink to={`/profile/${user.id}`}>
-            <img src={user.image ? user.image : userPhoto} alt="avatar" />
+            <img src={user.photos.small ? user.photos.small : userPhoto} alt="avatar" />
           </NavLink>
         </div>
         <div className={styles.following}>
@@ -43,11 +43,10 @@ export const User: React.FC<PropsType> = ({ user, follow, unfollow }) => {
       <div className={styles.rightBlock}>
         <div className={styles.userInfo}>
           <div className={styles.userName}>{user.name}</div>
-          <div className={styles.userSpecies}>{user.species}</div>
-          <div className={styles.userGender}>{user.gender}</div>
+          <div className={styles.userSpecies}>{user.status}</div>
         </div>
         <div className={styles.locationBlock}>
-          <div>{user.location.name}</div>
+          {/*<div>{user.location.name}</div>*/}
           {/*<div>{"user.location.country"}</div>*/}
         </div>
       </div>

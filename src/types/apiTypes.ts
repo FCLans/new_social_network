@@ -6,6 +6,7 @@ type InfoType = {
 }
 
 export type UsersDataType = {
-  info: InfoType
-  results: Array<UserType>
+  items: Array<UserType>
+  totalCount: number
+  error?: string
 }
