@@ -11,7 +11,7 @@ type State = {
 
 const initialState: State = {
   isAuth: false,
-  data: null as MeDataType,
+  data: {} as MeDataType,
 }
 
 export const authReducer = (state = initialState, action: ActionCreatorsType) => {
@@ -46,7 +46,7 @@ type setAuthDataACType = {
 type ActionCreatorsType = setAuthDataACType
 
 //Thunk Creators
-export const setAuthData = (): any => {
+export const setAuthDataTC = (): any => {
   return (dispatch: AppDispatch) => {
     authApi.me().then((data: AuthMeType) => {
       if (data.resultCode === 0) {

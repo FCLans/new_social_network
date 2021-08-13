@@ -41,6 +41,7 @@ class ApiSocialNetwork2 {
 }
 const headers = {
   'API-KEY': '9d3fc0c8-6701-4cc5-b24c-b92d3aeff07b',
+  'Content-type': 'application/json',
 }
 const instance = new ApiSocialNetwork2('https://social-network.samuraijs.com/api/1.0/', headers, 'include')
 
