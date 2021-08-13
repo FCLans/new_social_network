@@ -3,7 +3,7 @@ import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 import { Header } from './Header'
 import { connect } from 'react-redux'
 import { useEffect } from 'react'
-import { setAuthData } from '../../redux/authReducer'
+import { setAuthDataTC } from '../../redux/authReducer'
 import { MeDataType } from '../../types/apiTypes'
 
 type Props = {
@@ -28,7 +28,7 @@ const mapStateToProps = (state: AppStateType) => {
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
-    setAuthData: () => dispatch(setAuthData()),
+    setAuthData: () => dispatch(setAuthDataTC()),
   }
 }
 

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { addPostActionCreator, getProfileInfoTC, getProfileStatusTC } from '../../redux/profileReducer'
+import { addPostActionCreator, getProfileInfoTC, getProfileStatusTC, updateProfileStatusTC } from '../../redux/profileReducer'
 import { Profile } from './Profile'
 import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 import { PostDataType, ProfileInfoType } from '../../types/types'
@@ -17,9 +17,11 @@ type PropsType = RouteComponentProps<ParamsRouter> & {
   postsData: Array<PostDataType>
   profile: ProfileInfoType
   status: string
+  myId: number
   getProfileStatus: (userId: number) => void
   getProfileData: (userId: number) => void
   addPost: () => void
+  updateProfileStatus: (status: string) => void
 }
 
 const ProfileC = (props: PropsType) => {
@@ -27,11 +29,11 @@ const ProfileC = (props: PropsType) => {
   useEffect(() => {
     let userId: number = +props.match.params.userId
     if (!userId) {
-      userId = 10
+      userId = props.myId
     }
     props.getProfileData(userId)
     props.getProfileStatus(userId)
-  }, [])
+  }, [props.myId])
 
   return <Profile {...props} newPostText={newPostText} editNewPostText={editNewPostText} />
 }
@@ -41,6 +43,7 @@ const mapStateToProps = (state: AppStateType) => {
     postsData: state.profilePage.postsData,
     profile: state.profilePage.profileInfo,
     status: state.profilePage.status,
+    myId: state.auth.data.id,
   }
 }
 
@@ -51,6 +54,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
     },
     getProfileData: (userId: number) => dispatch(getProfileInfoTC(userId)),
     getProfileStatus: (userId: number) => dispatch(getProfileStatusTC(userId)),
+    updateProfileStatus: (status: string) => dispatch(updateProfileStatusTC(status)),
   }
 }
 
