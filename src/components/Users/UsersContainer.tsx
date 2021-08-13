@@ -12,35 +12,28 @@ type PropsType = {
   pageSize: number
   totalUsersCount: number
   isLoadPage: boolean
+  isFollowingProgress: Array<number>
 
   follow: (userId: number) => void
   unfollow: (userId: number) => void
-  setUsers: (currentPage: number) => void
+  setUsers: (pageSize: number, currentPage: number) => void
 }
 
 const UsersC = (props: PropsType) => {
   const [currentPage, setCurrentPage] = useState(1)
   useEffect(() => {
-    props.setUsers(currentPage)
+    props.setUsers(props.pageSize, currentPage)
   }, [])
 
   const onClickPage = (numberPage: number) => {
     setCurrentPage(numberPage)
-    props.setUsers(numberPage)
+    props.setUsers(props.pageSize, numberPage)
   }
 
   return (
     <div>
       {props.isLoadPage ? <Loader /> : null}
-      <Users
-        currentPage={currentPage}
-        onClickPage={onClickPage}
-        users={props.users}
-        follow={props.follow}
-        unfollow={props.unfollow}
-        pageSize={props.pageSize}
-        totalUsersCount={props.totalUsersCount}
-      />
+      <Users {...props} currentPage={currentPage} onClickPage={onClickPage} />
     </div>
   )
 }
@@ -51,6 +44,7 @@ const mapStateToProps = (state: AppStateType) => {
     pageSize: state.usersPage.pageSize,
     totalUsersCount: state.usersPage.totalUsersCount,
     isLoadPage: state.loader.isLoadPage,
+    isFollowingProgress: state.usersPage.isFollowingProgress,
   }
 }
 
@@ -62,8 +56,8 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
     unfollow: (userId: number) => {
       dispatch(unfollowTC(userId))
     },
-    setUsers: (currentPage: number) => {
-      dispatch(getUsersTC(currentPage))
+    setUsers: (pageSize: number, currentPage: number) => {
+      dispatch(getUsersTC(pageSize, currentPage))
     },
   }
 }

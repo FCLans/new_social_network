@@ -8,6 +8,7 @@ type PropsType = {
   users: Array<UserType>
   pageSize: number
   totalUsersCount: number
+  isFollowingProgress: Array<number>
 
   onClickPage: (numberPage: number) => void
   follow: (userId: number) => void
@@ -40,7 +41,7 @@ export const Users = (props: PropsType) => {
         })}
       </div>
       {props.users.map((u) => (
-        <User unfollow={props.unfollow} follow={props.follow} key={u.id} user={u} />
+        <User unfollow={props.unfollow} follow={props.follow} key={u.id} user={u} isFollowingProgress={props.isFollowingProgress} />
       ))}
     </div>
   )

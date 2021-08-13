@@ -1,14 +1,20 @@
+.login {
+    font-size: 20px;
+    margin-left: auto;
+}
+
 .header {
     grid-area: header;
     background-color: #ffffff;
 
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .logo {
     display: flex;
-    align-items: center;
+    margin-left: auto;
 }
 
 .logo img {

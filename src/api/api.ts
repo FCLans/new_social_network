@@ -1,36 +1,94 @@
-import { UsersDataType } from '../types/apiTypes'
-import { UserType } from '../types/types'
-
-class ApiSocialNetwork {
+class ApiSocialNetwork2 {
   baseUrl: string
   headers: HeadersInit
+  credential: RequestCredentials
 
-  constructor() {
-    this.baseUrl = 'https://rickandmortyapi.com/api'
-    this.headers = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
-    }
+  constructor(baseUrl: string, headers = {}, withCredential: RequestCredentials) {
+    this.baseUrl = baseUrl
+    this.headers = headers
+    this.credential = withCredential || 'omit'
   }
-
-  _baseApiUsers = async <T>(apiPath: string): Promise<T> => {
-    const response = await fetch(`${this.baseUrl}/character/${apiPath}`, {
+  get(path = '') {
+    return fetch(this.baseUrl + path, {
+      method: 'GET',
       headers: this.headers,
+      credentials: this.credential,
     })
-    return await response.json()
   }
-
-  getUsers = (currentPage: number) => {
-    return this._baseApiUsers<UsersDataType>(`?page=${currentPage}`)
+  delete(path = '') {
+    return fetch(this.baseUrl + path, {
+      method: 'DELETE',
+      headers: this.headers,
+      credentials: this.credential,
+    })
   }
-
-  getUserInfo = async (userId: number) => {
-    return await this._baseApiUsers<UserType>(`${userId}`)
+  post(path = '', body = {}) {
+    return fetch(this.baseUrl + path, {
+      method: 'POST',
+      headers: this.headers,
+      credentials: this.credential,
+      body: JSON.stringify(body),
+    })
   }
+  put(path = '', body = {}) {
+    return fetch(this.baseUrl + path, {
+      method: 'PUT',
+      headers: this.headers,
+      credentials: this.credential,
+      body: JSON.stringify(body),
+    })
+  }
+}
+const headers = {
+  'API-KEY': '9d3fc0c8-6701-4cc5-b24c-b92d3aeff07b',
+}
+const instance = new ApiSocialNetwork2('https://social-network.samuraijs.com/api/1.0/', headers, 'include')
 
-  // Тут дальше могли бы быть методы под POST запросы, но сторонняя API, не может мне предложить этого.
-  // Но я бы сделал все по аналогии с GET запросами.
+export const ProfileApi = {
+  getProfile(userId: number) {
+    return instance.get(`profile/${userId}`).then((resp) => {
+      return resp.json()
+    })
+  },
+  getProfileStatus(userId: number) {
+    return instance.get(`profile/status/${userId}`).then((resp) => {
+      return resp.json()
+    })
+  },
+  updateProfileStatus(status: string) {
+    return instance.put('profile/status', { status: status }).then((resp) => {
+      return resp.json()
+    })
+  },
 }
 
-export const api = new ApiSocialNetwork()
+export const UsersApi = {
+  getUsers(pageSize: number, numberPage: number) {
+    return instance.get(`users?count=${pageSize}&page=${numberPage}`)
+  },
+  follow(userId: number) {
+    return instance.post(`follow/${userId}`)
+  },
+  unfollow(userId: number) {
+    return instance.delete(`follow/${userId}`)
+  },
+}
+
+export const authApi = {
+  me() {
+    return instance
+      .get('auth/me')
+      .then((response) => response.json())
+      .then((data) => data)
+  },
+  login(email: string, password: string, rememberMe = false) {
+    return instance.post('auth/login', {
+      email: email,
+      password: password,
+      rememberMe: rememberMe,
+    })
+  },
+  logout() {
+    return instance.delete('auth/login')
+  },
+}

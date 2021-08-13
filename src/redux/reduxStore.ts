@@ -5,6 +5,7 @@ import dialogsReducer from './dialogsReducer'
 import sidebarReducer from './sidebarReducer'
 import usersReducer from './usersReducer'
 import loaderReducer from './loaderReducer'
+import { authReducer } from './authReducer'
 
 const RootReducers = combineReducers({
   profilePage: profileReducer,
@@ -12,6 +13,7 @@ const RootReducers = combineReducers({
   sidebar: sidebarReducer,
   usersPage: usersReducer,
   loader: loaderReducer,
+  auth: authReducer,
 })
 
 const store = createStore(RootReducers, applyMiddleware(ThunkMiddleware))

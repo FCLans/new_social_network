@@ -6,6 +6,19 @@ type InfoType = {
 }
 
 export type UsersDataType = {
-  info: InfoType
-  results: Array<UserType>
+  items: Array<UserType>
+  totalCount: number
+  error?: string
+}
+
+export type MeDataType = {
+  id: number
+  email: string
+  login: string
+}
+
+export type AuthMeType = {
+  data: MeDataType
+  resultCode: number
+  messages: Array<string>
 }

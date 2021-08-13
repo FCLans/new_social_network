@@ -1,5 +1,5 @@
 import { UserType } from '../types/types'
-import { api } from '../api/api'
+import { UsersApi } from '../api/api'
 import { toggleIsLoadPageAC } from './loaderReducer'
 import { UsersDataType } from '../types/apiTypes'
 import { AppDispatch } from './reduxStore'
@@ -9,12 +9,14 @@ const UNFOLLOW = 'USERS/UNFOLLOW'
 const SET_USERS = 'USERS/SET_USERS'
 // const SET_CURRENT_PAGE = 'USERS/SET_CURRENT_PAGE'
 const SET_TOTAL_COUNT_USERS = 'USERS/SET_TOTAL_COUNT_USERS'
+const TOGGLE_IS_FOLLOWING_PROGRESS = 'USERS/TOGGLE_IS_FOLLOWING_PROGRESS'
 
 const initialState = {
   users: [] as Array<UserType>,
-  pageSize: 20,
+  pageSize: 5,
   totalUsersCount: 0,
-  // currentPage: 1,
+  currentPage: 1,
+  isFollowingProgress: [] as Array<number>,
 }
 
 type InitialStateType = typeof initialState
@@ -57,6 +59,14 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
     case SET_TOTAL_COUNT_USERS:
       return { ...state, totalUsersCount: action.data }
 
+    case TOGGLE_IS_FOLLOWING_PROGRESS:
+      return {
+        ...state,
+        isFollowingProgress: action.isFetching
+          ? [...state.isFollowingProgress, action.userId]
+          : state.isFollowingProgress.filter((id) => id !== action.userId),
+      }
+
     default:
       return state
   }
@@ -83,7 +93,15 @@ export const setTotalUsersCountAC = (count: number): SetTotalUsersCountACType =>
   return { type: SET_TOTAL_COUNT_USERS, data: count }
 }
 
-type ActionsType = FollowACType | UnfollowACType | SetUsersACType | SetTotalUsersCountACType
+const toggleFollowingInProgressAC = (isFetching: boolean, userId: number): toggleFollowingInProgressACType => {
+  return {
+    type: TOGGLE_IS_FOLLOWING_PROGRESS,
+    isFetching: isFetching,
+    userId: userId,
+  }
+}
+
+type ActionsType = FollowACType | UnfollowACType | SetUsersACType | SetTotalUsersCountACType | toggleFollowingInProgressACType
 
 type FollowACType = {
   type: typeof FOLLOW
@@ -105,32 +123,55 @@ type SetTotalUsersCountACType = {
   type: typeof SET_TOTAL_COUNT_USERS
   data: number
 }
-
+type toggleFollowingInProgressACType = {
+  type: typeof TOGGLE_IS_FOLLOWING_PROGRESS
+  isFetching: boolean
+  userId: number
+}
 //Thunk Creators
 
-export const getUsersTC = (currentPage: number): any => {
-  return async (dispatch: AppDispatch) => {
+export const getUsersTC = (pageSize: number, currentPage: number): any => {
+  return (dispatch: AppDispatch) => {
     dispatch(toggleIsLoadPageAC(true))
 
-    const data: UsersDataType = await api.getUsers(currentPage)
-
-    dispatch(setUsersAC(data.results))
-    dispatch(setTotalUsersCountAC(data.info.count))
-    dispatch(toggleIsLoadPageAC(false))
+    UsersApi.getUsers(pageSize, currentPage)
+      .then((response) => response.json())
+      .then((resp: UsersDataType) => {
+        dispatch(setUsersAC(resp.items))
+        dispatch(setTotalUsersCountAC(resp.totalCount))
+        dispatch(toggleIsLoadPageAC(false))
+      })
   }
 }
 
 export const followTC = (userId: number): any => {
   return (dispatch: AppDispatch) => {
     //тут должны быть запросы на сервак и диспатч данных
-    dispatch(followAC(userId))
+    dispatch(toggleFollowingInProgressAC(true, userId))
+    UsersApi.follow(userId)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.resultCode === 0) {
+          dispatch(followAC(userId))
+          dispatch(toggleFollowingInProgressAC(false, userId))
+        }
+      })
   }
 }
 
 export const unfollowTC = (userId: number): any => {
   return (dispatch: AppDispatch) => {
-    //тут должны быть запросы на сервак и диспатч данных
-    dispatch(unfollowAC(userId))
+    dispatch(toggleFollowingInProgressAC(true, userId))
+    UsersApi.unfollow(userId)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.resultCode === 0) {
+          dispatch(unfollowAC(userId))
+          dispatch(toggleFollowingInProgressAC(false, userId))
+        } else if (!data.resultCode) {
+          toggleFollowingInProgressAC(false, userId)
+        }
+      })
   }
 }
 

@@ -15,25 +15,29 @@ export type PostDataType = {
 }
 
 export type ProfileInfoType = {
-  id: number
-  name: string
-  species: string
-  gender: string
-  image: string
+  userId: number
+  fullName: string
+  lookingForAJob?: boolean
+  lookingForAJobDescription: string
+  photos: {
+    large: string
+    small?: string
+  }
   location: LocationType
 }
 
 export type LocationType = {
-  name: string
-  url: string
+  city?: string
+  country?: string
 }
 
 export type UserType = {
   name: string
-  species: string
-  gender: string
-  location: LocationType
   id: number
-  image: string
-  followed?: boolean
+  photos: {
+    small: string
+    large: string
+  }
+  status: string
+  followed: boolean
 }
