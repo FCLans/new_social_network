@@ -12,6 +12,7 @@ type PropsType = {
   pageSize: number
   totalUsersCount: number
   isLoadPage: boolean
+  isFollowingProgress: Array<number>
 
   follow: (userId: number) => void
   unfollow: (userId: number) => void
@@ -32,15 +33,7 @@ const UsersC = (props: PropsType) => {
   return (
     <div>
       {props.isLoadPage ? <Loader /> : null}
-      <Users
-        currentPage={currentPage}
-        onClickPage={onClickPage}
-        users={props.users}
-        follow={props.follow}
-        unfollow={props.unfollow}
-        pageSize={props.pageSize}
-        totalUsersCount={props.totalUsersCount}
-      />
+      <Users {...props} currentPage={currentPage} onClickPage={onClickPage} />
     </div>
   )
 }
@@ -51,6 +44,7 @@ const mapStateToProps = (state: AppStateType) => {
     pageSize: state.usersPage.pageSize,
     totalUsersCount: state.usersPage.totalUsersCount,
     isLoadPage: state.loader.isLoadPage,
+    isFollowingProgress: state.usersPage.isFollowingProgress,
   }
 }
 

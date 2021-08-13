@@ -6,12 +6,13 @@ import { UserType } from '../../../types/types'
 
 type PropsType = {
   user: UserType
+  isFollowingProgress: Array<number>
 
   follow: (userId: number) => void
   unfollow: (userId: number) => void
 }
 
-export const User: React.FC<PropsType> = ({ user, follow, unfollow }) => {
+export const User: React.FC<PropsType> = ({ user, follow, unfollow, isFollowingProgress }) => {
   return (
     <div className={styles.userBlock}>
       <div className={styles.leftBlock}>
@@ -23,6 +24,7 @@ export const User: React.FC<PropsType> = ({ user, follow, unfollow }) => {
         <div className={styles.following}>
           {user.followed ? (
             <button
+              disabled={isFollowingProgress.some((id) => id === user.id)}
               onClick={() => {
                 unfollow(user.id)
               }}
@@ -31,6 +33,7 @@ export const User: React.FC<PropsType> = ({ user, follow, unfollow }) => {
             </button>
           ) : (
             <button
+              disabled={isFollowingProgress.some((id) => id === user.id)}
               onClick={() => {
                 follow(user.id)
               }}
