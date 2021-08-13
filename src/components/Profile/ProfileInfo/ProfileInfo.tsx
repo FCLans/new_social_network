@@ -2,6 +2,7 @@ import styles from './ProfileInfo.module.css'
 import { Loader } from '../../common/Loader/Loader'
 import * as React from 'react'
 import { ProfileInfoType } from '../../../types/types'
+import { ProfileStatus } from './ProfileStatus/ProfileStatus'
 
 const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
   if (!props.fullName) {
@@ -21,6 +22,7 @@ const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
           <img src={props.photos.large} alt="avatar" />
         </div>
         <div>{props.lookingForAJobDescription}</div>
+        <ProfileStatus status={props.status} />
       </div>
     </div>
   )

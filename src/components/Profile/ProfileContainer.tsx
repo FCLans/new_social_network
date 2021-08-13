@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { addPostActionCreator, getProfileInfoTC } from '../../redux/profileReducer'
+import { addPostActionCreator, getProfileInfoTC, getProfileStatusTC } from '../../redux/profileReducer'
 import { Profile } from './Profile'
 import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 import { PostDataType, ProfileInfoType } from '../../types/types'
@@ -16,6 +16,8 @@ type ParamsRouter = {
 type PropsType = RouteComponentProps<ParamsRouter> & {
   postsData: Array<PostDataType>
   profile: ProfileInfoType
+  status: string
+  getProfileStatus: (userId: number) => void
   getProfileData: (userId: number) => void
   addPost: () => void
 }
@@ -28,6 +30,7 @@ const ProfileC = (props: PropsType) => {
       userId = 10
     }
     props.getProfileData(userId)
+    props.getProfileStatus(userId)
   }, [])
 
   return <Profile {...props} newPostText={newPostText} editNewPostText={editNewPostText} />
@@ -37,6 +40,7 @@ const mapStateToProps = (state: AppStateType) => {
   return {
     postsData: state.profilePage.postsData,
     profile: state.profilePage.profileInfo,
+    status: state.profilePage.status,
   }
 }
 
@@ -46,6 +50,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
       dispatch(addPostActionCreator(text))
     },
     getProfileData: (userId: number) => dispatch(getProfileInfoTC(userId)),
+    getProfileStatus: (userId: number) => dispatch(getProfileStatusTC(userId)),
   }
 }
 

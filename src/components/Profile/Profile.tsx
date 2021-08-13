@@ -7,6 +7,7 @@ type PropsType = {
   newPostText: string
   postsData: Array<PostDataType>
   profile: ProfileInfoType
+  status: string
 
   editNewPostText: (text: string) => void
   addPost: () => void
@@ -15,7 +16,7 @@ type PropsType = {
 export const Profile: React.FC<PropsType> = (props) => {
   return (
     <div>
-      <ProfileInfo {...props.profile} />
+      <ProfileInfo {...props.profile} status={props.status} />
       <MyPosts {...props} />
     </div>
   )

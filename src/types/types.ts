@@ -24,6 +24,7 @@ export type ProfileInfoType = {
     small?: string
   }
   location: LocationType
+  status?: string
 }
 
 export type LocationType = {
