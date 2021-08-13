@@ -149,7 +149,7 @@ export const followTC = (userId: number): any => {
     //тут должны быть запросы на сервак и диспатч данных
     dispatch(toggleFollowingInProgressAC(true, userId))
     UsersApi.follow(userId)
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then((data) => {
         if (data.resultCode === 0) {
           dispatch(followAC(userId))
@@ -163,12 +163,12 @@ export const unfollowTC = (userId: number): any => {
   return (dispatch: AppDispatch) => {
     dispatch(toggleFollowingInProgressAC(true, userId))
     UsersApi.unfollow(userId)
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then((data) => {
         if (data.resultCode === 0) {
           dispatch(unfollowAC(userId))
           dispatch(toggleFollowingInProgressAC(false, userId))
-        } else {
+        } else if (!data.resultCode) {
           toggleFollowingInProgressAC(false, userId)
         }
       })

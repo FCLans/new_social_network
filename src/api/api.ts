@@ -42,21 +42,21 @@ class ApiSocialNetwork2 {
 const headers = {
   'API-KEY': '9d3fc0c8-6701-4cc5-b24c-b92d3aeff07b',
 }
-const include = new ApiSocialNetwork2('https://social-network.samuraijs.com/api/1.0/', headers, 'include')
+const instance = new ApiSocialNetwork2('https://social-network.samuraijs.com/api/1.0/', headers, 'include')
 
 export const ProfileApi = {
   getProfile(userId: number) {
-    return include.get(`profile/${userId}`).then((resp) => {
+    return instance.get(`profile/${userId}`).then((resp) => {
       return resp.json()
     })
   },
   getProfileStatus(userId: number) {
-    return include.get(`profile/status/${userId}`).then((resp) => {
+    return instance.get(`profile/status/${userId}`).then((resp) => {
       return resp.json()
     })
   },
   updateProfileStatus(status: string) {
-    return include.put('profile/status', { status: status }).then((resp) => {
+    return instance.put('profile/status', { status: status }).then((resp) => {
       return resp.json()
     })
   },
@@ -64,21 +64,31 @@ export const ProfileApi = {
 
 export const UsersApi = {
   getUsers(pageSize: number, numberPage: number) {
-    return include.get(`users?count=${pageSize}&page=${numberPage}`)
+    return instance.get(`users?count=${pageSize}&page=${numberPage}`)
   },
   follow(userId: number) {
-    return include.post(`follow/${userId}`)
+    return instance.post(`follow/${userId}`)
   },
   unfollow(userId: number) {
-    return include.delete(`follow/${userId}`)
+    return instance.delete(`follow/${userId}`)
   },
 }
 
 export const authApi = {
   me() {
-    return include
+    return instance
       .get('auth/me')
       .then((response) => response.json())
       .then((data) => data)
+  },
+  login(email: string, password: string, rememberMe = false) {
+    return instance.post('auth/login', {
+      email: email,
+      password: password,
+      rememberMe: rememberMe,
+    })
+  },
+  logout() {
+    return instance.delete('auth/login')
   },
 }
