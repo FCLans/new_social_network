@@ -114,7 +114,7 @@ export const getUsersTC = (pageSize: number, currentPage: number): any => {
 
     UsersApi.getUsers(pageSize, currentPage)
       .then((response) => response.json())
-      .then((resp: any) => {
+      .then((resp: UsersDataType) => {
         dispatch(setUsersAC(resp.items))
         dispatch(setTotalUsersCountAC(resp.totalCount))
         dispatch(toggleIsLoadPageAC(false))
@@ -125,14 +125,25 @@ export const getUsersTC = (pageSize: number, currentPage: number): any => {
 export const followTC = (userId: number): any => {
   return (dispatch: AppDispatch) => {
     //тут должны быть запросы на сервак и диспатч данных
-    dispatch(followAC(userId))
+    UsersApi.follow(userId)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.resultCode === 0) {
+          dispatch(followAC(userId))
+        }
+      })
   }
 }
 
 export const unfollowTC = (userId: number): any => {
   return (dispatch: AppDispatch) => {
-    //тут должны быть запросы на сервак и диспатч данных
-    dispatch(unfollowAC(userId))
+    UsersApi.unfollow(userId)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.resultCode === 0) {
+          dispatch(unfollowAC(userId))
+        }
+      })
   }
 }
 

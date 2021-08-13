@@ -66,4 +66,10 @@ export const UsersApi = {
   getUsers(pageSize: number, numberPage: number) {
     return include.get(`users?count=${pageSize}&page=${numberPage}`)
   },
+  follow(userId: number) {
+    return include.post(`follow/${userId}`)
+  },
+  unfollow(userId: number) {
+    return include.delete(`follow/${userId}`)
+  },
 }
