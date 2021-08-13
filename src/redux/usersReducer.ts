@@ -168,6 +168,8 @@ export const unfollowTC = (userId: number): any => {
         if (data.resultCode === 0) {
           dispatch(unfollowAC(userId))
           dispatch(toggleFollowingInProgressAC(false, userId))
+        } else {
+          toggleFollowingInProgressAC(false, userId)
         }
       })
   }

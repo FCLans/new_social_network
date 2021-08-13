@@ -1,5 +1,4 @@
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
-import { Header } from './components/Header/Header'
 import { Music } from './components/Music/Music'
 import { Navbar } from './components/Navbar/Navbar'
 import { Settings } from './components/Settings/Settings'
@@ -10,13 +9,15 @@ import { UsersContainer } from './components/Users/UsersContainer'
 import './App.css'
 import { ProfileContainer } from './components/Profile/ProfileContainer'
 import * as React from 'react'
+import { Login } from './components/Login/Login'
+import { HeaderContainer } from './components/Header/HeaderContainer'
 
 const App = () => {
   return (
     <BrowserRouter>
       <div className="body">
         <div className="app_wrapper">
-          <Header />
+          <HeaderContainer />
           <Navbar />
           <div className="app_wrapper_content">
             <Switch>
@@ -26,6 +27,7 @@ const App = () => {
               <Route path="/news" component={News} />
               <Route path="/users" component={UsersContainer} />
               <Route path="/profile/:userId?" component={ProfileContainer} />
+              <Route path="/login" component={Login} />
               <Redirect to="/profile" />
             </Switch>
           </div>

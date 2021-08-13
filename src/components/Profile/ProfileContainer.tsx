@@ -6,6 +6,8 @@ import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 import { PostDataType, ProfileInfoType } from '../../types/types'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { compose } from 'redux'
+import { withRedirect } from '../hoc/withRedirect'
 
 type ParamsRouter = {
   userId?: string
@@ -47,6 +49,4 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   }
 }
 
-const ProfileContainerWithRouter = withRouter(ProfileC)
-
-export const ProfileContainer = connect(mapStateToProps, mapDispatchToProps)(ProfileContainerWithRouter)
+export const ProfileContainer = compose(connect(mapStateToProps, mapDispatchToProps), withRedirect, withRouter)(ProfileC)

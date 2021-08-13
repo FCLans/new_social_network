@@ -73,3 +73,12 @@ export const UsersApi = {
     return include.delete(`follow/${userId}`)
   },
 }
+
+export const authApi = {
+  me() {
+    return include
+      .get('auth/me')
+      .then((response) => response.json())
+      .then((data) => data)
+  },
+}
