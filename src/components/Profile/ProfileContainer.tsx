@@ -8,6 +8,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { compose } from 'redux'
 import { withRedirect } from '../hoc/withRedirect'
+import { ProfileApi } from '../../api/api'
 
 type ParamsRouter = {
   userId?: string
@@ -24,24 +25,38 @@ type PropsType = RouteComponentProps<ParamsRouter> & {
   updateProfileStatus: (status: string) => void
 }
 
+const initStateProfile = {
+  fullName: '',
+  photos: {},
+  lookingForAJobDescription: '',
+  error: null as boolean,
+}
+
 const ProfileC = (props: PropsType) => {
   const [newPostText, editNewPostText] = useState('')
+  const [localState, setLocalState] = useState(initStateProfile)
+
   useEffect(() => {
     let userId: number = +props.match.params.userId
     if (!userId) {
       userId = props.myId
     }
-    props.getProfileData(userId)
+    const getProfileData = async (userId: number) => {
+      const data = await ProfileApi.getProfile(userId)
+      setLocalState(data)
+    }
+    // props.getProfileData(userId)
+    getProfileData(userId)
     props.getProfileStatus(userId)
-  }, [props.myId])
+  }, [])
 
-  return <Profile {...props} newPostText={newPostText} editNewPostText={editNewPostText} />
+  return <Profile {...props} profile={localState} newPostText={newPostText} editNewPostText={editNewPostText} />
 }
 
 const mapStateToProps = (state: AppStateType) => {
   return {
     postsData: state.profilePage.postsData,
-    profile: state.profilePage.profileInfo,
+    // profile: state.profilePage.profileInfo,
     status: state.profilePage.status,
     myId: state.auth.data.id,
   }
@@ -52,7 +67,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
     addPost: (text: string) => {
       dispatch(addPostActionCreator(text))
     },
-    getProfileData: (userId: number) => dispatch(getProfileInfoTC(userId)),
+    // getProfileData: (userId: number) => dispatch(getProfileInfoTC(userId)),
     getProfileStatus: (userId: number) => dispatch(getProfileStatusTC(userId)),
     updateProfileStatus: (status: string) => dispatch(updateProfileStatusTC(status)),
   }

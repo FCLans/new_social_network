@@ -6,7 +6,7 @@ import { PostDataType, ProfileInfoType } from '../../types/types'
 type PropsType = {
   newPostText: string
   postsData: Array<PostDataType>
-  profile: ProfileInfoType
+  profile: any
   status: string
 
   editNewPostText: (text: string) => void
