@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { compose } from 'redux'
 import { withRedirect } from '../hoc/withRedirect'
 import { ProfileApi } from '../../api/api'
+import { ErrorPage } from '../Error/Error'
 
 type ParamsRouter = {
   userId?: string
@@ -42,15 +43,27 @@ const ProfileC = (props: PropsType) => {
       userId = props.myId
     }
     const getProfileData = async (userId: number) => {
-      const data = await ProfileApi.getProfile(userId)
-      setLocalState(data)
+      try {
+        const data = await ProfileApi.getProfile(userId)
+        setLocalState(data)
+      } catch (e) {
+        setLocalState({
+          ...localState,
+          error: true,
+        })
+      }
     }
     // props.getProfileData(userId)
     getProfileData(userId)
     props.getProfileStatus(userId)
   }, [])
 
-  return <Profile {...props} profile={localState} newPostText={newPostText} editNewPostText={editNewPostText} />
+  return (
+    <div>
+      {!localState.error && <Profile {...props} profile={localState} newPostText={newPostText} editNewPostText={editNewPostText} />}
+      {localState.error && <ErrorPage />}
+    </div>
+  )
 }
 
 const mapStateToProps = (state: AppStateType) => {

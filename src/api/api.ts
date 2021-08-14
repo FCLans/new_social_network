@@ -47,7 +47,7 @@ const instance = new ApiSocialNetwork2('https://social-network.samuraijs.com/api
 
 export const ProfileApi = {
   getProfile(userId: number) {
-    return instance.get(`profile/${userId}`).then((resp) => {
+    return instance.get(`profile1/${userId}`).then((resp) => {
       return resp.json()
     })
   },
