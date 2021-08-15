@@ -4,6 +4,10 @@ import { AppDispatch, AppStateType } from '../../../redux/reduxStore'
 import { loginTC } from '../../../redux/authReducer'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import { isRequired, maxLength } from '../../../utils/validators/validators'
+import { Input } from '../../common/FormsControls/FormsControls'
+
+const maxLength20 = maxLength(20)
 
 const LoginForm = (props: any) => {
   const { handleSubmit } = props
@@ -11,13 +15,13 @@ const LoginForm = (props: any) => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <Field type="text" placeholder="Введи логин" component="input" name="email" />
+        <Field type="text" placeholder="Введи логин" component={Input} name="email" validate={[isRequired, maxLength20]} />
       </div>
       <div>
-        <Field type="password" placeholder="Введи пароль" component="input" name="password" />
+        <Field type="password" placeholder="Введи пароль" component={Input} name="password" validate={[isRequired, maxLength20]} />
       </div>
       <div>
-        <Field type="checkbox" component="input" name="rememberMe" />
+        <Field type="checkbox" component={Input} name="rememberMe" />
         Запомнить меня
       </div>
       <div>

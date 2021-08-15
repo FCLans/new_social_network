@@ -5,7 +5,7 @@ import { Profile } from './Profile'
 import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 import { PostDataType, ProfileInfoType } from '../../types/types'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { compose } from 'redux'
 import { withRedirect } from '../hoc/withRedirect'
 
@@ -25,7 +25,6 @@ type PropsType = RouteComponentProps<ParamsRouter> & {
 }
 
 const ProfileC = (props: PropsType) => {
-  const [newPostText, editNewPostText] = useState('')
   useEffect(() => {
     let userId: number = +props.match.params.userId
     if (!userId) {
@@ -35,7 +34,7 @@ const ProfileC = (props: PropsType) => {
     props.getProfileStatus(userId)
   }, [props.myId])
 
-  return <Profile {...props} newPostText={newPostText} editNewPostText={editNewPostText} />
+  return <Profile {...props} />
 }
 
 const mapStateToProps = (state: AppStateType) => {
