@@ -55,3 +55,16 @@ export const setAuthDataTC = (): any => {
     })
   }
 }
+
+export const loginTC = (email: string, password: string, rememberMe: boolean): any => {
+  return (dispatch: AppDispatch) => {
+    authApi
+      .login(email, password, (rememberMe = false))
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.resultCode === 0) {
+          dispatch(setAuthDataTC())
+        }
+      })
+  }
+}
