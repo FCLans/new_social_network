@@ -1,6 +1,7 @@
 import { authApi } from '../api/api'
 import { AppDispatch } from './reduxStore'
 import { AuthMeType, MeDataType } from '../types/apiTypes'
+import { stopSubmit } from 'redux-form'
 
 const SET_AUTH_DATA = 'AUTH/SET_AUTH_DATA'
 
@@ -19,7 +20,6 @@ export const authReducer = (state = initialState, action: ActionCreatorsType) =>
     case SET_AUTH_DATA:
       return {
         ...state,
-        isAuth: true,
         data: action.data,
       }
 
@@ -29,10 +29,11 @@ export const authReducer = (state = initialState, action: ActionCreatorsType) =>
 }
 
 //Actions
-const setAuthDataAC = (data: MeDataType) => {
+
+const setAuthDataAC = ({ id, email, login }: MeDataType) => {
   return {
     type: SET_AUTH_DATA,
-    data: data,
+    data: { id, email, login },
   }
 }
 
@@ -64,6 +65,8 @@ export const loginTC = (email: string, password: string, rememberMe: boolean): a
       .then((data) => {
         if (data.resultCode === 0) {
           dispatch(setAuthDataTC())
+        } else {
+          dispatch(stopSubmit('login', { _error: data.messages[0] }))
         }
       })
   }

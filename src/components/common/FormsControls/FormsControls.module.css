@@ -6,3 +6,11 @@
 .formsControls span {
     color: red;
 }
+
+.formsCommonError {
+    border: solid 2px red;
+    color: red;
+    padding: 4px;
+    margin-top: 7px;
+    display: inline-block;
+}

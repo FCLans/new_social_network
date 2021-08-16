@@ -6,19 +6,20 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { isRequired, maxLength } from '../../../utils/validators/validators'
 import { Input } from '../../common/FormsControls/FormsControls'
+import styles from '../../common/FormsControls/FormsControls.module.css'
 
-const maxLength20 = maxLength(20)
+const maxLength40 = maxLength(40)
 
 const LoginForm: React.FC<InjectedFormProps> = (props) => {
-  const { handleSubmit } = props
+  const { handleSubmit, error } = props
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <Field type="text" placeholder="Введи логин" component={Input} name="email" validate={[isRequired, maxLength20]} />
+        <Field type="text" placeholder="Введи логин" component={Input} name="email" validate={[isRequired, maxLength40]} />
       </div>
       <div>
-        <Field type="password" placeholder="Введи пароль" component={Input} name="password" validate={[isRequired, maxLength20]} />
+        <Field type="password" placeholder="Введи пароль" component={Input} name="password" validate={[isRequired, maxLength40]} />
       </div>
       <div>
         <Field type="checkbox" component={Input} name="rememberMe" />
@@ -27,6 +28,7 @@ const LoginForm: React.FC<InjectedFormProps> = (props) => {
       <div>
         <button>Войти</button>
       </div>
+      {error ? <div className={styles.formsCommonError}>{error}</div> : null}
     </form>
   )
 }
@@ -44,7 +46,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
 }
 
 export const LoginFormRedux = compose(
-  connect(mapDispatchToProps),
+  connect(null, mapDispatchToProps),
   reduxForm({
     form: 'login',
   })
