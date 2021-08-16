@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { reduxForm, Field } from 'redux-form'
+import { reduxForm, Field, InjectedFormProps } from 'redux-form'
 import { AppDispatch, AppStateType } from '../../../redux/reduxStore'
 import { loginTC } from '../../../redux/authReducer'
 import { connect } from 'react-redux'
@@ -9,7 +9,7 @@ import { Input } from '../../common/FormsControls/FormsControls'
 
 const maxLength20 = maxLength(20)
 
-const LoginForm = (props: any) => {
+const LoginForm: React.FC<InjectedFormProps> = (props) => {
   const { handleSubmit } = props
 
   return (
@@ -31,10 +31,6 @@ const LoginForm = (props: any) => {
   )
 }
 
-const mapStateToProps = (state: AppStateType) => {
-  return {}
-}
-
 type FormData = {
   email: string
   password: string
@@ -48,7 +44,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
 }
 
 export const LoginFormRedux = compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapDispatchToProps),
   reduxForm({
     form: 'login',
   })
