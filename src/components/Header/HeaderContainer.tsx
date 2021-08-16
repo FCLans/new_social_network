@@ -3,13 +3,15 @@ import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 import { Header } from './Header'
 import { connect } from 'react-redux'
 import { useEffect } from 'react'
-import { setAuthDataTC } from '../../redux/authReducer'
+import { logoutTC, setAuthDataTC } from '../../redux/authReducer'
 import { MeDataType } from '../../types/apiTypes'
 
 type Props = {
   isAuth: boolean
   data: MeDataType
+
   setAuthData: () => void
+  logout: () => void
 }
 
 const HeaderC = (props: Props) => {
@@ -29,6 +31,7 @@ const mapStateToProps = (state: AppStateType) => {
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     setAuthData: () => dispatch(setAuthDataTC()),
+    logout: () => dispatch(logoutTC()),
   }
 }
 

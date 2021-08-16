@@ -6,6 +6,8 @@ import { NavLink } from 'react-router-dom'
 type Props = {
   isAuth: boolean
   data: MeDataType
+
+  logout: () => void
 }
 
 export const Header: React.FC<Props> = (props) => {
@@ -20,7 +22,15 @@ export const Header: React.FC<Props> = (props) => {
           <span>СОЦИАЛЬНАЯ СЕТЬ</span>
         </div>
       </div>
-      <div className={styles.login}>{props.isAuth ? <span>{props.data.login}</span> : <NavLink to={'/login'}>LOGIN</NavLink>}</div>
+      <div className={styles.login}>
+        {props.isAuth ? (
+          <span>
+            {props.data.login} - <button onClick={props.logout}>Выйти</button>
+          </span>
+        ) : (
+          <NavLink to={'/login'}>Войти</NavLink>
+        )}
+      </div>
     </div>
   )
 }

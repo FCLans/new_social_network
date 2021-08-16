@@ -13,7 +13,7 @@ export const ProfileStatus = (props: any) => {
       ...localState,
       status: props.status,
     })
-  }, [props.status])
+  }, [])
 
   const toggleEditMode = () => {
     setLocalState({
@@ -40,7 +40,7 @@ export const ProfileStatus = (props: any) => {
       {localState.editMode && (
         <input onChange={changeStatusText} type="text" value={localState.status} autoFocus={true} onBlur={sendStatus} />
       )}
-      {!localState.editMode && <span>{props.status}</span>}
+      {!localState.editMode && <span>{props.status ? props.status : 'Статус отсутствует'}</span>}
     </div>
   )
 }

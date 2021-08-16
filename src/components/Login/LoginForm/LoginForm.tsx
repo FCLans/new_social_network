@@ -7,11 +7,22 @@ import { compose } from 'redux'
 import { isRequired, maxLength } from '../../../utils/validators/validators'
 import { Input } from '../../common/FormsControls/FormsControls'
 import styles from '../../common/FormsControls/FormsControls.module.css'
+import { Redirect } from 'react-router-dom'
 
 const maxLength40 = maxLength(40)
 
-const LoginForm: React.FC<InjectedFormProps> = (props) => {
+type PropsType = {
+  isAuth: boolean
+
+  onSubmit: ({ email, password, rememberMe }: FormData) => void
+}
+
+const LoginForm: React.FC<InjectedFormProps & PropsType> = (props) => {
   const { handleSubmit, error } = props
+
+  if (props.isAuth) {
+    return <Redirect to="/profile" />
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -39,6 +50,8 @@ type FormData = {
   rememberMe: boolean
 }
 
+const mapStateToProps = (state: AppStateType) => ({ isAuth: state.auth.isAuth })
+
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     onSubmit: ({ email, password, rememberMe }: FormData) => dispatch(loginTC(email, password, rememberMe)),
@@ -46,7 +59,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
 }
 
 export const LoginFormRedux = compose(
-  connect(null, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'login',
   })

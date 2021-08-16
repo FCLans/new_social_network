@@ -7,7 +7,6 @@ import { PostDataType, ProfileInfoType } from '../../types/types'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { useEffect } from 'react'
 import { compose } from 'redux'
-import { withRedirect } from '../hoc/withRedirect'
 
 type ParamsRouter = {
   userId?: string
@@ -29,10 +28,14 @@ const ProfileC = (props: PropsType) => {
     let userId: number = +props.match.params.userId
     if (!userId) {
       userId = props.myId
+      if (!userId) {
+        props.history.push('/login')
+      }
     }
+
     props.getProfileData(userId)
     props.getProfileStatus(userId)
-  }, [props.myId])
+  }, [])
 
   return <Profile {...props} />
 }
@@ -57,4 +60,4 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   }
 }
 
-export const ProfileContainer = compose(connect(mapStateToProps, mapDispatchToProps), withRedirect, withRouter)(ProfileC)
+export const ProfileContainer = compose(connect(mapStateToProps, mapDispatchToProps), withRouter)(ProfileC)

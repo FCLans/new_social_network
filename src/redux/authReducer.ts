@@ -21,6 +21,7 @@ export const authReducer = (state = initialState, action: ActionCreatorsType) =>
       return {
         ...state,
         data: action.data,
+        isAuth: action.isAuth,
       }
 
     default:
@@ -30,10 +31,11 @@ export const authReducer = (state = initialState, action: ActionCreatorsType) =>
 
 //Actions
 
-const setAuthDataAC = ({ id, email, login }: MeDataType) => {
+const setAuthDataAC = (id: number, email: string, login: string, isAuth: boolean) => {
   return {
     type: SET_AUTH_DATA,
     data: { id, email, login },
+    isAuth: isAuth,
   }
 }
 
@@ -41,6 +43,7 @@ const setAuthDataAC = ({ id, email, login }: MeDataType) => {
 type setAuthDataACType = {
   type: typeof SET_AUTH_DATA
   data: MeDataType
+  isAuth: boolean
 }
 
 //ActionCreatorsType
@@ -49,9 +52,10 @@ type ActionCreatorsType = setAuthDataACType
 //Thunk Creators
 export const setAuthDataTC = (): any => {
   return (dispatch: AppDispatch) => {
-    authApi.me().then((data: AuthMeType) => {
+    return authApi.me().then((data: AuthMeType) => {
       if (data.resultCode === 0) {
-        dispatch(setAuthDataAC(data.data))
+        const { id, email, login } = data.data
+        dispatch(setAuthDataAC(id, email, login, true))
       }
     })
   }
@@ -67,6 +71,19 @@ export const loginTC = (email: string, password: string, rememberMe: boolean): a
           dispatch(setAuthDataTC())
         } else {
           dispatch(stopSubmit('login', { _error: data.messages[0] }))
+        }
+      })
+  }
+}
+
+export const logoutTC = (): any => {
+  return (dispatch: AppDispatch) => {
+    authApi
+      .logout()
+      .then((resp) => resp.json())
+      .then((data) => {
+        if (data.resultCode === 0) {
+          dispatch(setAuthDataAC(0, '', '', false))
         }
       })
   }

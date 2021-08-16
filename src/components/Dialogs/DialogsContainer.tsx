@@ -2,6 +2,8 @@ import { sendMessageActionCreator } from '../../redux/dialogsReducer'
 import { Dialogs } from './Dialogs'
 import { connect } from 'react-redux'
 import { AppDispatch, AppStateType } from '../../redux/reduxStore'
+import { compose } from 'redux'
+import { withRedirect } from '../hoc/withRedirect'
 
 const mapStateToProps = (state: AppStateType) => {
   return {
@@ -18,4 +20,4 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   }
 }
 
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+export const DialogsContainer = compose(connect(mapStateToProps, mapDispatchToProps), withRedirect)(Dialogs)
