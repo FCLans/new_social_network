@@ -25,7 +25,7 @@ const UsersC = (props: PropsType) => {
   const [currentPage, setCurrentPage] = useState(1)
   useEffect(() => {
     props.setUsers(props.pageSize, currentPage)
-  }, [])
+  }, [currentPage])
 
   const onClickPage = (numberPage: number) => {
     setCurrentPage(numberPage)

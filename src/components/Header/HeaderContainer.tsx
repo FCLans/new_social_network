@@ -17,7 +17,7 @@ type Props = {
 const HeaderC = (props: Props) => {
   useEffect(() => {
     props.setAuthData()
-  }, [])
+  }, [props.isAuth])
   return <Header {...props} />
 }
 

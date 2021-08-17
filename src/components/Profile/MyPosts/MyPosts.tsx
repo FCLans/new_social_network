@@ -2,7 +2,6 @@ import styles from './MyPosts.module.css'
 import Post from './Post/Post'
 import * as React from 'react'
 import { PostDataType } from '../../../types/types'
-import { ChangeEvent } from 'react'
 import { NewPostFormRedux } from './NewPostForm/NewPostForm'
 
 type PropsType = {
@@ -11,7 +10,8 @@ type PropsType = {
   addPost: (FormData: any) => void
 }
 
-const MyPosts: React.FC<PropsType> = ({ postsData, addPost }) => {
+// eslint-disable-next-line react/display-name
+const MyPosts = React.memo(({ postsData, addPost }: PropsType) => {
   const postsElements = postsData.map((p) => {
     return <Post key={p.id} message={p.message} likesCount={p.likesCount} />
   })
@@ -20,12 +20,13 @@ const MyPosts: React.FC<PropsType> = ({ postsData, addPost }) => {
     addPost(FormData.text)
   }
 
+  console.log('RENDER MYPOST')
   return (
     <div>
       <NewPostFormRedux onSubmit={addNewPost} />
       <div className={styles.posts}>{postsElements}</div>
     </div>
   )
-}
+})
 
 export default MyPosts

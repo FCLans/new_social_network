@@ -21,6 +21,7 @@ export const ProfileStatus = (props: any) => {
       editMode: true,
     })
   }
+
   const sendStatus = () => {
     setLocalState({
       ...localState,
@@ -28,6 +29,7 @@ export const ProfileStatus = (props: any) => {
     })
     props.updateProfileStatus(localState.status)
   }
+
   const changeStatusText = (e: ChangeEvent<HTMLInputElement>) => {
     setLocalState({
       ...localState,

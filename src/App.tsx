@@ -21,7 +21,7 @@ import { compose } from 'redux'
 const App = (props: any) => {
   useEffect(() => {
     props.initializedSuccess()
-  }, [])
+  }, [props.initialized])
 
   if (!props.initialized) {
     return <Loader />
