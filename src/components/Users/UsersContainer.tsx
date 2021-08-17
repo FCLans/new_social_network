@@ -6,6 +6,8 @@ import { Loader } from '../common/Loader/Loader'
 import { UserType } from '../../types/types'
 import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 import { useEffect, useState } from 'react'
+import { getIsFollowingProgress, getPageSize, getTotalUsersCount, getUsers } from '../../redux/selectors/userSelector'
+import { getIsLoadPage } from '../../redux/selectors/loaderSelector'
 
 type PropsType = {
   users: Array<UserType>
@@ -40,11 +42,11 @@ const UsersC = (props: PropsType) => {
 
 const mapStateToProps = (state: AppStateType) => {
   return {
-    users: state.usersPage.users,
-    pageSize: state.usersPage.pageSize,
-    totalUsersCount: state.usersPage.totalUsersCount,
-    isLoadPage: state.loader.isLoadPage,
-    isFollowingProgress: state.usersPage.isFollowingProgress,
+    users: getUsers(state),
+    pageSize: getPageSize(state),
+    totalUsersCount: getTotalUsersCount(state),
+    isLoadPage: getIsLoadPage(state),
+    isFollowingProgress: getIsFollowingProgress(state),
   }
 }
 

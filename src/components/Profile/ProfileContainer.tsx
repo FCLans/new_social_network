@@ -35,7 +35,7 @@ const ProfileC = (props: PropsType) => {
 
     props.getProfileData(userId)
     props.getProfileStatus(userId)
-  }, [])
+  }, [props.myId])
 
   return <Profile {...props} />
 }

@@ -1,4 +1,4 @@
-import { authApi } from '../api/api'
+import { AuthApi } from '../api/api'
 import { AppDispatch } from './reduxStore'
 import { AuthMeType, MeDataType } from '../types/apiTypes'
 import { stopSubmit } from 'redux-form'
@@ -52,7 +52,7 @@ type ActionCreatorsType = setAuthDataACType
 //Thunk Creators
 export const setAuthDataTC = (): any => {
   return (dispatch: AppDispatch) => {
-    return authApi.me().then((data: AuthMeType) => {
+    return AuthApi.me().then((data: AuthMeType) => {
       if (data.resultCode === 0) {
         const { id, email, login } = data.data
         dispatch(setAuthDataAC(id, email, login, true))
@@ -63,8 +63,7 @@ export const setAuthDataTC = (): any => {
 
 export const loginTC = (email: string, password: string, rememberMe: boolean): any => {
   return (dispatch: AppDispatch) => {
-    authApi
-      .login(email, password, (rememberMe = false))
+    AuthApi.login(email, password, (rememberMe = false))
       .then((res) => res.json())
       .then((data) => {
         if (data.resultCode === 0) {
@@ -78,12 +77,11 @@ export const loginTC = (email: string, password: string, rememberMe: boolean): a
 
 export const logoutTC = (): any => {
   return (dispatch: AppDispatch) => {
-    authApi
-      .logout()
+    AuthApi.logout()
       .then((resp) => resp.json())
       .then((data) => {
         if (data.resultCode === 0) {
-          dispatch(setAuthDataAC(0, '', '', false))
+          dispatch(setAuthDataAC(null, '', '', false))
         }
       })
   }

@@ -13,7 +13,7 @@ export const ProfileStatus = (props: any) => {
       ...localState,
       status: props.status,
     })
-  }, [])
+  }, [props.status])
 
   const toggleEditMode = () => {
     setLocalState({

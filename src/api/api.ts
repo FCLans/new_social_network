@@ -8,6 +8,7 @@ class ApiSocialNetwork2 {
     this.headers = headers
     this.credential = withCredential || 'omit'
   }
+
   get(path = '') {
     return fetch(this.baseUrl + path, {
       method: 'GET',
@@ -15,6 +16,7 @@ class ApiSocialNetwork2 {
       credentials: this.credential,
     })
   }
+
   delete(path = '') {
     return fetch(this.baseUrl + path, {
       method: 'DELETE',
@@ -22,6 +24,7 @@ class ApiSocialNetwork2 {
       credentials: this.credential,
     })
   }
+
   post(path = '', body = {}) {
     return fetch(this.baseUrl + path, {
       method: 'POST',
@@ -30,6 +33,7 @@ class ApiSocialNetwork2 {
       body: JSON.stringify(body),
     })
   }
+
   put(path = '', body = {}) {
     return fetch(this.baseUrl + path, {
       method: 'PUT',
@@ -40,9 +44,10 @@ class ApiSocialNetwork2 {
   }
 }
 const headers = {
-  'API-KEY': '1f4ea4f4-0216-4d33-9542-5146b24606f1',
+  'API-KEY': '9d3fc0c8-6701-4cc5-b24c-b92d3aeff07b',
   'Content-type': 'application/json',
 }
+
 const instance = new ApiSocialNetwork2('https://social-network.samuraijs.com/api/1.0/', headers, 'include')
 
 export const ProfileApi = {
@@ -51,11 +56,13 @@ export const ProfileApi = {
       return resp.json()
     })
   },
+
   getProfileStatus(userId: number) {
     return instance.get(`profile/status/${userId}`).then((resp) => {
       return resp.json()
     })
   },
+
   updateProfileStatus(status: string) {
     return instance.put('profile/status', { status: status }).then((resp) => {
       return resp.json()
@@ -67,21 +74,24 @@ export const UsersApi = {
   getUsers(pageSize: number, numberPage: number) {
     return instance.get(`users?count=${pageSize}&page=${numberPage}`)
   },
+
   follow(userId: number) {
     return instance.post(`follow/${userId}`)
   },
+
   unfollow(userId: number) {
     return instance.delete(`follow/${userId}`)
   },
 }
 
-export const authApi = {
+export const AuthApi = {
   me() {
     return instance
       .get('auth/me')
       .then((response) => response.json())
       .then((data) => data)
   },
+
   login(email: string, password: string, rememberMe = false) {
     return instance.post('auth/login', {
       email: email,
@@ -89,6 +99,7 @@ export const authApi = {
       rememberMe: rememberMe,
     })
   },
+
   logout() {
     return instance.delete('auth/login')
   },
