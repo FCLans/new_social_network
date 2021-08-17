@@ -6,6 +6,7 @@ import { AppDispatch } from './reduxStore'
 const ADD_POST = 'PROFILE/ADD_POST'
 const SET_PROFILE_INFO = 'PROFILE/SET_PROFILE_INFO'
 const SET_PROFILE_STATUS = 'PROFILE/SET_PROFILE_STATUS'
+const DELETE_POST = 'PROFILE/DELETE_POST'
 
 const initialState = {
   profileInfo: null as ProfileInfoType,
@@ -45,13 +46,16 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
         status: action.status,
       }
 
+    case DELETE_POST:
+      return state //fix this logic!!
+
     default:
       return state
   }
 }
 
 //Action Types
-type ActionsType = AddPostActionCreatorType | SetProfileInfoACType | SetProfileStatusACType
+type ActionsType = AddPostActionCreatorType | SetProfileInfoACType | SetProfileStatusACType | DeletePostACType
 
 type AddPostActionCreatorType = {
   type: typeof ADD_POST
@@ -65,9 +69,14 @@ type SetProfileStatusACType = {
   type: typeof SET_PROFILE_STATUS
   status: string
 }
+type DeletePostACType = {
+  type: typeof DELETE_POST
+  userId: number
+}
 
 //Action Creators
 export const addPostActionCreator = (text: string): AddPostActionCreatorType => ({ type: ADD_POST, text: text })
+export const deletePostAC = (userId: number): DeletePostACType => ({ type: DELETE_POST, userId })
 const setProfileInfoAC = (profile: ProfileInfoType): SetProfileInfoACType => ({ type: SET_PROFILE_INFO, data: profile })
 const setProfileStatusAC = (status: string): SetProfileStatusACType => ({ type: SET_PROFILE_STATUS, status: status })
 
