@@ -2,6 +2,7 @@ import { PostDataType, ProfileInfoType } from '../types/types'
 import { ProfileApi } from '../api/api'
 import { toggleIsLoadPageAC } from './loaderReducer'
 import { AppDispatch } from './reduxStore'
+import { filterArrayHelper } from '../utils/objectHelper'
 
 const ADD_POST = 'PROFILE/ADD_POST'
 const SET_PROFILE_INFO = 'PROFILE/SET_PROFILE_INFO'
@@ -23,7 +24,7 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
   switch (action.type) {
     case ADD_POST: {
       const newPost = {
-        id: state.postsData[state.postsData.length - 1].id + 1,
+        id: state.postsData.length + 1,
         message: action.text,
         likesCount: 0,
       }
@@ -49,7 +50,7 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
     case DELETE_POST:
       return {
         ...state,
-        postsData: state.postsData.filter((post) => post.id != action.postId),
+        postsData: filterArrayHelper(state.postsData, 'id', action.postId),
       }
 
     default:
@@ -85,30 +86,31 @@ const setProfileStatusAC = (status: string): SetProfileStatusACType => ({ type: 
 
 //Thunk Types
 export const getProfileInfoTC = (userId: number): any => {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(toggleIsLoadPageAC(true))
-    ProfileApi.getProfile(userId).then((resp) => {
-      dispatch(setProfileInfoAC(resp))
-      dispatch(toggleIsLoadPageAC(false))
-    })
+
+    const data = await ProfileApi.getProfile(userId)
+
+    dispatch(setProfileInfoAC(data))
+    dispatch(toggleIsLoadPageAC(false))
   }
 }
 
 export const getProfileStatusTC = (userId: number): any => {
-  return (dispatch: AppDispatch) => {
-    ProfileApi.getProfileStatus(userId).then((data) => {
-      dispatch(setProfileStatusAC(data))
-    })
+  return async (dispatch: AppDispatch) => {
+    const data = await ProfileApi.getProfileStatus(userId)
+
+    dispatch(setProfileStatusAC(data))
   }
 }
 
 export const updateProfileStatusTC = (status: string): any => {
-  return (dispatch: AppDispatch) => {
-    ProfileApi.updateProfileStatus(status).then((data) => {
-      if (data.resultCode === 0) {
-        dispatch(setProfileStatusAC(status))
-      }
-    })
+  return async (dispatch: AppDispatch) => {
+    const data = await ProfileApi.updateProfileStatus(status)
+
+    if (data.resultCode === 0) {
+      dispatch(setProfileStatusAC(status))
+    }
   }
 }
 

@@ -17,26 +17,22 @@ const initialState = {
     { id: 4, name: 'Юлия' },
     { id: 5, name: 'Капуста' },
   ] as Array<DialogsDataType>,
-  newMessageText: '',
 }
 
 export type InitialStateType = typeof initialState
 
+//reducer
 const dialogsReducer = (state = initialState, action: ActionsType): InitialStateType => {
   switch (action.type) {
     case SEND_MESSAGE: {
-      const indexLastElement = state.messagesData.length - 1
-      const newIdElement = state.messagesData[indexLastElement].id + 1
-
       const newMessage = {
-        id: newIdElement,
+        id: state.messagesData.length + 1,
         text: action.messageText,
       }
 
       return {
         ...state,
         messagesData: [...state.messagesData, newMessage],
-        newMessageText: '',
       }
     }
 
@@ -45,6 +41,7 @@ const dialogsReducer = (state = initialState, action: ActionsType): InitialState
   }
 }
 
+//Action Types
 type ActionsType = SendMessageActionCreatorType
 
 type SendMessageActionCreatorType = {
@@ -52,6 +49,7 @@ type SendMessageActionCreatorType = {
   messageText: string
 }
 
+//Action Creators
 export const sendMessageActionCreator = (text: string): SendMessageActionCreatorType => ({ type: SEND_MESSAGE, messageText: text })
 
 export default dialogsReducer

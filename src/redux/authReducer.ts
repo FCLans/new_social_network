@@ -30,7 +30,6 @@ export const authReducer = (state = initialState, action: ActionCreatorsType) =>
 }
 
 //Actions
-
 const setAuthDataAC = (id: number, email: string, login: string, isAuth: boolean) => {
   return {
     type: SET_AUTH_DATA,
@@ -51,38 +50,36 @@ type ActionCreatorsType = setAuthDataACType
 
 //Thunk Creators
 export const setAuthDataTC = (): any => {
-  return (dispatch: AppDispatch) => {
-    return AuthApi.me().then((data: AuthMeType) => {
-      if (data.resultCode === 0) {
-        const { id, email, login } = data.data
-        dispatch(setAuthDataAC(id, email, login, true))
-      }
-    })
+  return async (dispatch: AppDispatch) => {
+    const data = await AuthApi.me()
+
+    if (data.resultCode === 0) {
+      const { id, email, login } = data.data
+      dispatch(setAuthDataAC(id, email, login, true))
+    }
+
+    return data
   }
 }
 
 export const loginTC = (email: string, password: string, rememberMe: boolean): any => {
-  return (dispatch: AppDispatch) => {
-    AuthApi.login(email, password, (rememberMe = false))
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.resultCode === 0) {
-          dispatch(setAuthDataTC())
-        } else {
-          dispatch(stopSubmit('login', { _error: data.messages[0] }))
-        }
-      })
+  return async (dispatch: AppDispatch) => {
+    const data = await AuthApi.login(email, password, (rememberMe = false))
+
+    if (data.resultCode === 0) {
+      dispatch(setAuthDataTC())
+    } else {
+      dispatch(stopSubmit('login', { _error: data.messages[0] }))
+    }
   }
 }
 
 export const logoutTC = (): any => {
-  return (dispatch: AppDispatch) => {
-    AuthApi.logout()
-      .then((resp) => resp.json())
-      .then((data) => {
-        if (data.resultCode === 0) {
-          dispatch(setAuthDataAC(null, '', '', false))
-        }
-      })
+  return async (dispatch: AppDispatch) => {
+    const data = await AuthApi.logout()
+
+    if (data.resultCode === 0) {
+      dispatch(setAuthDataAC(null, '', '', false))
+    }
   }
 }

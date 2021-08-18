@@ -72,15 +72,15 @@ export const ProfileApi = {
 
 export const UsersApi = {
   getUsers(pageSize: number, numberPage: number) {
-    return instance.get(`users?count=${pageSize}&page=${numberPage}`)
+    return instance.get(`users?count=${pageSize}&page=${numberPage}`).then((response) => response.json())
   },
 
   follow(userId: number) {
-    return instance.post(`follow/${userId}`)
+    return instance.post(`follow/${userId}`).then((res) => res.json())
   },
 
   unfollow(userId: number) {
-    return instance.delete(`follow/${userId}`)
+    return instance.delete(`follow/${userId}`).then((res) => res.json())
   },
 }
 
@@ -93,14 +93,16 @@ export const AuthApi = {
   },
 
   login(email: string, password: string, rememberMe = false) {
-    return instance.post('auth/login', {
-      email: email,
-      password: password,
-      rememberMe: rememberMe,
-    })
+    return instance
+      .post('auth/login', {
+        email: email,
+        password: password,
+        rememberMe: rememberMe,
+      })
+      .then((res) => res.json())
   },
 
   logout() {
-    return instance.delete('auth/login')
+    return instance.delete('auth/login').then((resp) => resp.json())
   },
 }
