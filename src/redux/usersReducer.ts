@@ -131,47 +131,41 @@ type toggleFollowingInProgressACType = {
 //Thunk Creators
 
 export const getUsersTC = (pageSize: number, currentPage: number): any => {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(toggleIsLoadPageAC(true))
 
-    UsersApi.getUsers(pageSize, currentPage)
-      .then((response) => response.json())
-      .then((resp: UsersDataType) => {
-        dispatch(setUsersAC(resp.items))
-        dispatch(setTotalUsersCountAC(resp.totalCount))
-        dispatch(toggleIsLoadPageAC(false))
-      })
+    const data: UsersDataType = await UsersApi.getUsers(pageSize, currentPage)
+
+    dispatch(setUsersAC(data.items))
+    dispatch(setTotalUsersCountAC(data.totalCount))
+    dispatch(toggleIsLoadPageAC(false))
   }
 }
 
 export const followTC = (userId: number): any => {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     //тут должны быть запросы на сервак и диспатч данных
     dispatch(toggleFollowingInProgressAC(true, userId))
-    UsersApi.follow(userId)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.resultCode === 0) {
-          dispatch(followAC(userId))
-          dispatch(toggleFollowingInProgressAC(false, userId))
-        }
-      })
+    const data = await UsersApi.follow(userId)
+
+    if (data.resultCode === 0) {
+      dispatch(followAC(userId))
+      dispatch(toggleFollowingInProgressAC(false, userId))
+    }
   }
 }
 
 export const unfollowTC = (userId: number): any => {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(toggleFollowingInProgressAC(true, userId))
-    UsersApi.unfollow(userId)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.resultCode === 0) {
-          dispatch(unfollowAC(userId))
-          dispatch(toggleFollowingInProgressAC(false, userId))
-        } else if (!data.resultCode) {
-          toggleFollowingInProgressAC(false, userId)
-        }
-      })
+    const data = await UsersApi.unfollow(userId)
+
+    if (data.resultCode === 0) {
+      dispatch(unfollowAC(userId))
+      dispatch(toggleFollowingInProgressAC(false, userId))
+    } else if (!data.resultCode) {
+      toggleFollowingInProgressAC(false, userId)
+    }
   }
 }
 

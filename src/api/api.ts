@@ -8,20 +8,27 @@ class ApiSocialNetwork2 {
     this.headers = headers
     this.credential = withCredential || 'omit'
   }
+
   get(path = '') {
     return fetch(this.baseUrl + path, {
       method: 'GET',
       headers: this.headers,
       credentials: this.credential,
     })
+      .then((response) => response.json())
+      .then((data) => data)
   }
+
   delete(path = '') {
     return fetch(this.baseUrl + path, {
       method: 'DELETE',
       headers: this.headers,
       credentials: this.credential,
     })
+      .then((response) => response.json())
+      .then((data) => data)
   }
+
   post(path = '', body = {}) {
     return fetch(this.baseUrl + path, {
       method: 'POST',
@@ -29,7 +36,10 @@ class ApiSocialNetwork2 {
       credentials: this.credential,
       body: JSON.stringify(body),
     })
+      .then((response) => response.json())
+      .then((data) => data)
   }
+
   put(path = '', body = {}) {
     return fetch(this.baseUrl + path, {
       method: 'PUT',
@@ -37,6 +47,8 @@ class ApiSocialNetwork2 {
       credentials: this.credential,
       body: JSON.stringify(body),
     })
+      .then((response) => response.json())
+      .then((data) => data)
   }
 }
 const headers = {
@@ -47,19 +59,15 @@ const instance = new ApiSocialNetwork2('https://social-network.samuraijs.com/api
 
 export const ProfileApi = {
   getProfile(userId: number) {
-    return instance.get(`profile1/${userId}`).then((resp) => {
-      return resp.json()
-    })
+    return instance.get(`profile1/${userId}`)
   },
+
   getProfileStatus(userId: number) {
-    return instance.get(`profile/status/${userId}`).then((resp) => {
-      return resp.json()
-    })
+    return instance.get(`profile/status/${userId}`)
   },
+
   updateProfileStatus(status: string) {
-    return instance.put('profile/status', { status: status }).then((resp) => {
-      return resp.json()
-    })
+    return instance.put('profile/status', { status: status })
   },
 }
 
@@ -67,9 +75,11 @@ export const UsersApi = {
   getUsers(pageSize: number, numberPage: number) {
     return instance.get(`users?count=${pageSize}&page=${numberPage}`)
   },
+
   follow(userId: number) {
     return instance.post(`follow/${userId}`)
   },
+
   unfollow(userId: number) {
     return instance.delete(`follow/${userId}`)
   },
@@ -77,11 +87,9 @@ export const UsersApi = {
 
 export const authApi = {
   me() {
-    return instance
-      .get('auth/me')
-      .then((response) => response.json())
-      .then((data) => data)
+    return instance.get('auth/me')
   },
+
   login(email: string, password: string, rememberMe = false) {
     return instance.post('auth/login', {
       email: email,
@@ -89,6 +97,7 @@ export const authApi = {
       rememberMe: rememberMe,
     })
   },
+
   logout() {
     return instance.delete('auth/login')
   },

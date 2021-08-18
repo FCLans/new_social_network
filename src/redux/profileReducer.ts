@@ -73,30 +73,30 @@ const setProfileStatusAC = (status: string): SetProfileStatusACType => ({ type: 
 
 //Thunk Types
 export const getProfileInfoTC = (userId: number): any => {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(toggleIsLoadPageAC(true))
-    ProfileApi.getProfile(userId).then((resp) => {
-      dispatch(setProfileInfoAC(resp))
-      dispatch(toggleIsLoadPageAC(false))
-    })
+    const data = await ProfileApi.getProfile(userId)
+
+    dispatch(setProfileInfoAC(data))
+    dispatch(toggleIsLoadPageAC(false))
   }
 }
 
 export const getProfileStatusTC = (userId: number): any => {
-  return (dispatch: AppDispatch) => {
-    ProfileApi.getProfileStatus(userId).then((data) => {
-      dispatch(setProfileStatusAC(data))
-    })
+  return async (dispatch: AppDispatch) => {
+    const data = await ProfileApi.getProfileStatus(userId)
+
+    dispatch(setProfileStatusAC(data))
   }
 }
 
 export const updateProfileStatusTC = (status: string): any => {
-  return (dispatch: AppDispatch) => {
-    ProfileApi.updateProfileStatus(status).then((data) => {
-      if (data.resultCode === 0) {
-        dispatch(setProfileStatusAC(status))
-      }
-    })
+  return async (dispatch: AppDispatch) => {
+    const data = await ProfileApi.updateProfileStatus(status)
+
+    if (data.resultCode === 0) {
+      dispatch(setProfileStatusAC(status))
+    }
   }
 }
 

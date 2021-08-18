@@ -47,11 +47,11 @@ type ActionCreatorsType = setAuthDataACType
 
 //Thunk Creators
 export const setAuthDataTC = (): any => {
-  return (dispatch: AppDispatch) => {
-    authApi.me().then((data: AuthMeType) => {
-      if (data.resultCode === 0) {
-        dispatch(setAuthDataAC(data.data))
-      }
-    })
+  return async (dispatch: AppDispatch) => {
+    const data: AuthMeType = await authApi.me()
+
+    if (data.resultCode === 0) {
+      dispatch(setAuthDataAC(data.data))
+    }
   }
 }
