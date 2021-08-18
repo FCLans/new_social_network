@@ -47,7 +47,10 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
       }
 
     case DELETE_POST:
-      return state //fix this logic!!
+      return {
+        ...state,
+        postsData: state.postsData.filter((post) => post.id != action.postId),
+      }
 
     default:
       return state
@@ -71,12 +74,12 @@ type SetProfileStatusACType = {
 }
 type DeletePostACType = {
   type: typeof DELETE_POST
-  userId: number
+  postId: number
 }
 
 //Action Creators
 export const addPostActionCreator = (text: string): AddPostActionCreatorType => ({ type: ADD_POST, text: text })
-export const deletePostAC = (userId: number): DeletePostACType => ({ type: DELETE_POST, userId })
+export const deletePostAC = (postId: number): DeletePostACType => ({ type: DELETE_POST, postId })
 const setProfileInfoAC = (profile: ProfileInfoType): SetProfileInfoACType => ({ type: SET_PROFILE_INFO, data: profile })
 const setProfileStatusAC = (status: string): SetProfileStatusACType => ({ type: SET_PROFILE_STATUS, status: status })
 
