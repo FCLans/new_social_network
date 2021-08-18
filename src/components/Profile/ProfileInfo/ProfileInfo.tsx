@@ -1,26 +1,20 @@
 import styles from './ProfileInfo.module.css'
 import { Loader } from '../../common/Loader/Loader'
 import * as React from 'react'
-import { LocationType } from '../../../types/types'
+import { ProfileInfoType } from '../../../types/types'
 import { ProfileStatus } from './ProfileStatus/ProfileStatus'
 
 type PropsType = {
-  userId: number
-  fullName: string
-  lookingForAJob?: boolean
-  lookingForAJobDescription: string
-  photos: {
-    large: string
-    small?: string
-  }
-  location: LocationType
+  profile: ProfileInfoType
   status: string
 
   updateProfileStatus: (status: string) => void
 }
 
 const ProfileInfo: React.FC<PropsType> = (props) => {
-  if (!props.fullName) {
+  const { profile, status, updateProfileStatus } = props
+
+  if (!profile.fullName) {
     return <Loader />
   }
 
@@ -31,13 +25,13 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
       </div>
       <div className={styles.descriptions}>
         <div>
-          <h3>{props.fullName}</h3>
+          <h3>{profile.fullName}</h3>
         </div>
         <div>
-          <img src={props.photos.large} alt="avatar" />
+          <img src={profile.photos.large} alt="avatar" />
         </div>
-        <div>{props.lookingForAJobDescription}</div>
-        <ProfileStatus status={props.status} updateProfileStatus={props.updateProfileStatus} />
+        <div>{profile.lookingForAJobDescription}</div>
+        <ProfileStatus propsStatus={status} updateProfileStatus={updateProfileStatus} />
       </div>
     </div>
   )

@@ -5,6 +5,6 @@ type PropsType = {
   text: string
 }
 
-export const Message: React.FC<PropsType> = (props) => {
-  return <div className={styles.message}>{props.text}</div>
+export const Message: React.FC<PropsType> = ({ text }) => {
+  return <div className={styles.message}>{text}</div>
 }

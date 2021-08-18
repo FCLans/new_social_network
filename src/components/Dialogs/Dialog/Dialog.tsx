@@ -7,9 +7,8 @@ type PropsType = {
   id: number
 }
 
-export const Dialog: React.FC<PropsType> = (props) => {
-  const name = props.name
-  const path = '/messages/' + props.id
+export const Dialog: React.FC<PropsType> = ({ name, id }) => {
+  const path = '/messages/' + id
 
   return (
     <div className={styles.dialog}>

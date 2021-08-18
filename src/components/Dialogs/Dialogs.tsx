@@ -13,6 +13,7 @@ type PropsType = {
 
 export const Dialogs: React.FC<PropsType> = ({ dialogsData, messagesData, sendNewMessage }) => {
   const [newMessageText, editNewTextMessage] = useState('')
+
   const dialogsElements = dialogsData.map((d) => <Dialog key={d.id} name={d.name} id={d.id} />)
   const messagesElements = messagesData.map((m) => <Message key={m.id} text={m.text} />)
 

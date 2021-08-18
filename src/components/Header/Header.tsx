@@ -11,6 +11,8 @@ type Props = {
 }
 
 export const Header: React.FC<Props> = (props) => {
+  const { isAuth, data, logout } = props
+
   return (
     <div className={styles.header}>
       <div className={styles.logo}>
@@ -23,9 +25,9 @@ export const Header: React.FC<Props> = (props) => {
         </div>
       </div>
       <div className={styles.login}>
-        {props.isAuth ? (
+        {isAuth ? (
           <span>
-            {props.data.login} - <button onClick={props.logout}>Выйти</button>
+            {data.login} - <button onClick={logout}>Выйти</button>
           </span>
         ) : (
           <NavLink to={'/login'}>Войти</NavLink>

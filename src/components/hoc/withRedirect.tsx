@@ -18,6 +18,7 @@ export const withRedirect = (WrappedComponent: any) => {
     if (!props.isAuth) {
       return <Redirect to={'/login'} />
     }
+
     return <WrappedComponent {...props} />
   }
 

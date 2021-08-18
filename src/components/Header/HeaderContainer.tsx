@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { logoutTC, setAuthDataTC } from '../../redux/authReducer'
 import { MeDataType } from '../../types/apiTypes'
 
-type Props = {
+type PropsType = {
   isAuth: boolean
   data: MeDataType
 
@@ -14,11 +14,13 @@ type Props = {
   logout: () => void
 }
 
-const HeaderC = (props: Props) => {
+const HeaderC = (props: PropsType) => {
+  const { isAuth, data, setAuthData, logout } = props
+
   useEffect(() => {
-    props.setAuthData()
-  }, [props.isAuth])
-  return <Header {...props} />
+    setAuthData()
+  }, [isAuth])
+  return <Header data={data} logout={logout} isAuth={isAuth} />
 }
 
 const mapStateToProps = (state: AppStateType) => {

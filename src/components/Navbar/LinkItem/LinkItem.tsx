@@ -7,11 +7,11 @@ type PropsType = {
   path: string
 }
 
-export const LinkItem: React.FC<PropsType> = (props) => {
+export const LinkItem: React.FC<PropsType> = ({ path, name }) => {
   return (
     <div className={styles.item}>
-      <NavLink activeClassName={styles.active} to={props.path}>
-        {props.name}
+      <NavLink activeClassName={styles.active} to={path}>
+        {name}
       </NavLink>
     </div>
   )

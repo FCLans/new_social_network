@@ -5,7 +5,7 @@ import { loginTC } from '../../../redux/authReducer'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { isRequired, maxLength } from '../../../utils/validators/validators'
-import { Input } from '../../common/FormsControls/FormsControls'
+import { createField, Input } from '../../common/FormsControls/FormsControls'
 import styles from '../../common/FormsControls/FormsControls.module.css'
 import { Redirect } from 'react-router-dom'
 
@@ -26,16 +26,9 @@ const LoginForm: React.FC<InjectedFormProps & PropsType> = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <Field type="text" placeholder="Введи логин" component={Input} name="email" validate={[isRequired, maxLength40]} />
-      </div>
-      <div>
-        <Field type="password" placeholder="Введи пароль" component={Input} name="password" validate={[isRequired, maxLength40]} />
-      </div>
-      <div>
-        <Field type="checkbox" component={Input} name="rememberMe" />
-        Запомнить меня
-      </div>
+      {createField('email', [isRequired, maxLength40], Input, { type: 'text' })}
+      {createField('password', [isRequired, maxLength40], Input, { type: 'password' })}
+      {createField('rememberMe', null, Input, { type: 'checkbox' }, 'Запомнить меня')}
       <div>
         <button>Войти</button>
       </div>

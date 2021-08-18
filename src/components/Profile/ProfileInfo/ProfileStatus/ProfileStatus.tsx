@@ -1,48 +1,39 @@
 import * as React from 'react'
 import { ChangeEvent, useEffect, useState } from 'react'
 
-const initialState = {
-  editMode: false,
-  status: null as string,
+type PropsType = {
+  propsStatus: string
+
+  updateProfileStatus: (status: string) => void
 }
 
-export const ProfileStatus = (props: any) => {
-  const [localState, setLocalState] = useState(initialState)
+export const ProfileStatus = (props: PropsType) => {
+  const { propsStatus, updateProfileStatus } = props
+
+  const [localStatus, setLocalStatus] = useState('')
+  const [editMode, setEditMode] = useState(false)
+
   useEffect(() => {
-    setLocalState({
-      ...localState,
-      status: props.status,
-    })
-  }, [props.status])
+    setLocalStatus(propsStatus)
+  }, [propsStatus])
 
   const toggleEditMode = () => {
-    setLocalState({
-      ...localState,
-      editMode: true,
-    })
+    setEditMode(true)
   }
 
   const sendStatus = () => {
-    setLocalState({
-      ...localState,
-      editMode: false,
-    })
-    props.updateProfileStatus(localState.status)
+    setEditMode(false)
+    updateProfileStatus(localStatus)
   }
 
   const changeStatusText = (e: ChangeEvent<HTMLInputElement>) => {
-    setLocalState({
-      ...localState,
-      status: e.target.value,
-    })
+    setLocalStatus(e.target.value)
   }
 
   return (
     <div onDoubleClick={toggleEditMode}>
-      {localState.editMode && (
-        <input onChange={changeStatusText} type="text" value={localState.status} autoFocus={true} onBlur={sendStatus} />
-      )}
-      {!localState.editMode && <span>{props.status ? props.status : 'Статус отсутствует'}</span>}
+      {editMode && <input onChange={changeStatusText} type="text" value={localStatus} autoFocus={true} onBlur={sendStatus} />}
+      {!editMode && <span>{propsStatus ? propsStatus : 'Статус отсутствует'}</span>}
     </div>
   )
 }

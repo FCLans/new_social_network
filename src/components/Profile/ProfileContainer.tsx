@@ -17,6 +17,7 @@ type PropsType = RouteComponentProps<ParamsRouter> & {
   profile: ProfileInfoType
   status: string
   myId: number
+
   getProfileStatus: (userId: number) => void
   getProfileData: (userId: number) => void
   addPost: () => void
@@ -24,18 +25,20 @@ type PropsType = RouteComponentProps<ParamsRouter> & {
 }
 
 const ProfileC = (props: PropsType) => {
+  const { getProfileStatus, getProfileData, myId, match, history } = props
+
   useEffect(() => {
-    let userId: number = +props.match.params.userId
+    let userId: number = +match.params.userId
     if (!userId) {
-      userId = props.myId
+      userId = myId
       if (!userId) {
-        props.history.push('/login')
+        history.push('/login')
       }
     }
 
-    props.getProfileData(userId)
-    props.getProfileStatus(userId)
-  }, [props.myId])
+    getProfileData(userId)
+    getProfileStatus(userId)
+  }, [myId])
 
   return <Profile {...props} />
 }

@@ -4,11 +4,12 @@ import { connect } from 'react-redux'
 import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 import { compose } from 'redux'
 import { withRedirect } from '../hoc/withRedirect'
+import { getDialogsData, getMessagesData } from '../../redux/selectors/dialogsSelector'
 
 const mapStateToProps = (state: AppStateType) => {
   return {
-    dialogsData: state.dialogsPage.dialogsData,
-    messagesData: state.dialogsPage.messagesData,
+    dialogsData: getDialogsData(state),
+    messagesData: getMessagesData(state),
   }
 }
 
