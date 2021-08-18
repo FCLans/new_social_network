@@ -10,7 +10,7 @@ const SET_PROFILE_STATUS = 'PROFILE/SET_PROFILE_STATUS'
 const DELETE_POST = 'PROFILE/DELETE_POST'
 
 const initialState = {
-  profileInfo: null as ProfileInfoType,
+  profileInfo: {} as ProfileInfoType,
   postsData: [
     { id: 1, message: 'Привет, мой первый пост!', likesCount: 120 },
     { id: 2, message: 'Разгоняемся и летим)))', likesCount: 20 },
@@ -90,7 +90,6 @@ export const getProfileInfoTC = (userId: number): any => {
     dispatch(toggleIsLoadPageAC(true))
 
     const data = await ProfileApi.getProfile(userId)
-
     dispatch(setProfileInfoAC(data))
     dispatch(toggleIsLoadPageAC(false))
   }

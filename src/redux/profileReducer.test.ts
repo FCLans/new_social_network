@@ -1,5 +1,5 @@
 import { PostDataType, ProfileInfoType } from '../types/types'
-import profileReducer, {addPostActionCreator, deletePostAC} from './profileReducer'
+import profileReducer, { addPostActionCreator, deletePostAC } from './profileReducer'
 
 const initialState = {
   profileInfo: null as ProfileInfoType,

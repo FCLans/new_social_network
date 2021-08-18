@@ -20,7 +20,6 @@ const MyPosts = React.memo(({ postsData, addPost }: PropsType) => {
     addPost(FormData.text)
   }
 
-  console.log('RENDER MYPOST')
   return (
     <div>
       <NewPostFormRedux onSubmit={addNewPost} />

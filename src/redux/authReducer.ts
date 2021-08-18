@@ -1,16 +1,16 @@
 import { AuthApi } from '../api/api'
 import { AppDispatch } from './reduxStore'
-import { AuthMeType, MeDataType } from '../types/apiTypes'
+import { MeDataType } from '../types/apiTypes'
 import { stopSubmit } from 'redux-form'
 
 const SET_AUTH_DATA = 'AUTH/SET_AUTH_DATA'
 
-type State = {
+type StateType = {
   data: MeDataType
   isAuth: boolean
 }
 
-const initialState: State = {
+const initialState: StateType = {
   isAuth: false,
   data: {} as MeDataType,
 }

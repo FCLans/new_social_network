@@ -33,7 +33,7 @@ export const ProfileStatus = (props: PropsType) => {
   return (
     <div onDoubleClick={toggleEditMode}>
       {editMode && <input onChange={changeStatusText} type="text" value={localStatus} autoFocus={true} onBlur={sendStatus} />}
-      {!editMode && <span>{propsStatus ? propsStatus : 'Статус отсутствует'}</span>}
+      {!editMode && <div> {propsStatus ? propsStatus : 'Статус отсутствует'} </div>}
     </div>
   )
 }

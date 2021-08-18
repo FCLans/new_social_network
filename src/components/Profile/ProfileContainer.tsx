@@ -32,7 +32,7 @@ const ProfileC = (props: PropsType) => {
     if (!userId) {
       userId = myId
       if (!userId) {
-        history.push('/login')
+        return history.push('/login')
       }
     }
 

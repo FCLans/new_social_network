@@ -59,7 +59,9 @@ export const ProfileApi = {
 
   getProfileStatus(userId: number) {
     return instance.get(`profile/status/${userId}`).then((resp) => {
-      return resp.json()
+      if (resp.status >= 200 && resp.status < 300) {
+        return resp.json()
+      }
     })
   },
 
@@ -100,6 +102,7 @@ export const AuthApi = {
         rememberMe: rememberMe,
       })
       .then((res) => res.json())
+      .then((data) => data)
   },
 
   logout() {
