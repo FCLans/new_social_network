@@ -1,3 +1,5 @@
+const apiKey = '1f4ea4f4-0216-4d33-9542-5146b24606f1'
+
 class ApiSocialNetwork2 {
   baseUrl: string
   headers: HeadersInit
@@ -34,22 +36,29 @@ class ApiSocialNetwork2 {
     })
   }
 
-  put(path = '', body: any, headers: any = {}) {
-    if (headers['Content-Type']) {
-      body = JSON.stringify(body)
+  put(path = '', body: any) {
+    let headers = this.headers
+    let bodyData = JSON.stringify(body)
+
+    if (path === 'profile/photo') {
+      headers = {
+        'API-KEY': apiKey,
+      }
+      bodyData = body
     }
 
     return fetch(this.baseUrl + path, {
       method: 'PUT',
-      headers: { 'API-KEY': '9d3fc0c8-6701-4cc5-b24c-b92d3aeff07b', ...headers },
+      headers: headers,
       credentials: this.credential,
-      body: body,
+      body: bodyData,
     })
   }
 }
 
 const headers = {
   'Content-Type': 'application/json',
+  'API-KEY': apiKey,
 }
 
 const instance = new ApiSocialNetwork2('https://social-network.samuraijs.com/api/1.0/', headers, 'include')
@@ -79,7 +88,7 @@ export const ProfileApi = {
     const formData = new FormData()
     formData.append('image', file)
 
-    return instance.put('profile/photo', formData, {}).then((resp) => {
+    return instance.put('profile/photo', formData).then((resp) => {
       return resp.json()
     })
   },

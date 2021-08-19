@@ -131,9 +131,9 @@ export const updateProfileStatusTC = (status: string): any => {
 export const updateAvatarTC = (file: File): any => {
   return async (dispatch: AppDispatch) => {
     const data = await ProfileApi.updateAvatar(file)
-    debugger
+
     if (data.resultCode === 0) {
-      dispatch(updateAvatarAC(data.photos))
+      dispatch(updateAvatarAC(data.data.photos))
     }
   }
 }
