@@ -26,9 +26,9 @@ const LoginForm: React.FC<InjectedFormProps & PropsType> = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {createField('email', [isRequired, maxLength40], Input, { type: 'text' })}
-      {createField('password', [isRequired, maxLength40], Input, { type: 'password' })}
-      {createField('rememberMe', null, Input, { type: 'checkbox' }, 'Запомнить меня')}
+      <Field name={'email'} validate={[isRequired, maxLength40]} component={Input} type={'text'} />
+      <Field name={'password'} validate={[isRequired, maxLength40]} component={Input} type={'password'} />
+      <Field name={'rememberMe'} component={Input} type={'checkbox'} /> <span>Запомнить меня</span>
       <div>
         <button>Войти</button>
       </div>
