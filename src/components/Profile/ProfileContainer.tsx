@@ -63,4 +63,4 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   }
 }
 
-export const ProfileContainer = compose(connect(mapStateToProps, mapDispatchToProps), withRouter)(ProfileC)
+export default compose(connect(mapStateToProps, mapDispatchToProps), withRouter)(ProfileC)

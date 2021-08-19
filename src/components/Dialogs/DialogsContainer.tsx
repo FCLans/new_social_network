@@ -21,4 +21,4 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   }
 }
 
-export const DialogsContainer = compose(connect(mapStateToProps, mapDispatchToProps), withRedirect)(Dialogs)
+export default compose(connect(mapStateToProps, mapDispatchToProps), withRedirect)(Dialogs)

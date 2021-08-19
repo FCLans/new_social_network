@@ -1,13 +1,9 @@
-import { BrowserRouter, Redirect, Route, Switch, withRouter } from 'react-router-dom'
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
 import { Music } from './components/Music/Music'
 import { Navbar } from './components/Navbar/Navbar'
 import { Settings } from './components/Settings/Settings'
 import { News } from './components/News/News'
 import { Footer } from './components/Footer/Footer'
-import { DialogsContainer } from './components/Dialogs/DialogsContainer'
-import { UsersContainer } from './components/Users/UsersContainer'
-import './App.css'
-import { ProfileContainer } from './components/Profile/ProfileContainer'
 import * as React from 'react'
 import { Login } from './components/Login/Login'
 import { HeaderContainer } from './components/Header/HeaderContainer'
@@ -17,6 +13,11 @@ import { initializedSuccess } from './redux/appReducer'
 import { AppDispatch, AppStateType } from './redux/reduxStore'
 import { Loader } from './components/common/Loader/Loader'
 import { compose } from 'redux'
+import './App.css'
+import { withSuspense } from './components/hoc/withSuspense'
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
+const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'))
+const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
 
 const App = (props: any) => {
   useEffect(() => {
@@ -34,12 +35,12 @@ const App = (props: any) => {
         <Navbar />
         <div className="app_wrapper_content">
           <Switch>
-            <Route path="/messages" component={DialogsContainer} />
             <Route path="/music" component={Music} />
             <Route path="/settings" component={Settings} />
             <Route path="/news" component={News} />
-            <Route path="/users" component={UsersContainer} />
-            <Route path="/profile/:userId?" component={ProfileContainer} />
+            <Route path="/messages" component={withSuspense(DialogsContainer)} />
+            <Route path="/users" component={withSuspense(UsersContainer)} />
+            <Route path="/profile/:userId?" component={withSuspense(ProfileContainer)} />
             <Route path="/login" component={Login} />
             <Redirect to="/profile" />
           </Switch>

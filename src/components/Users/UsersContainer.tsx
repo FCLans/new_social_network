@@ -64,4 +64,4 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   }
 }
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersC)
+export default connect(mapStateToProps, mapDispatchToProps)(UsersC)
