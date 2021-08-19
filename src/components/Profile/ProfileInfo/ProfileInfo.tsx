@@ -1,21 +1,29 @@
-import styles from './ProfileInfo.module.css'
 import { Loader } from '../../common/Loader/Loader'
 import * as React from 'react'
 import { ProfileInfoType } from '../../../types/types'
 import { ProfileStatus } from './ProfileStatus/ProfileStatus'
+import styles from './ProfileInfo.module.css'
+import { ChangeEvent } from 'react'
 
 type PropsType = {
   profile: ProfileInfoType
   status: string
 
   updateProfileStatus: (status: string) => void
+  updateAvatar: (file: File) => void
 }
 
 const ProfileInfo: React.FC<PropsType> = (props) => {
-  const { profile, status, updateProfileStatus } = props
+  const { profile, status, updateProfileStatus, updateAvatar } = props
 
   if (!profile.fullName) {
     return <Loader />
+  }
+
+  const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files.length > 0) {
+      updateAvatar(e.target.files[0])
+    }
   }
 
   return (
@@ -29,6 +37,9 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
         </div>
         <div>
           <img src={profile.photos.large} alt="avatar" />
+          <div className={styles.avatar}>
+            <input type="file" onChange={onFileChange} />
+          </div>
         </div>
         <div>{profile.lookingForAJobDescription}</div>
         <ProfileStatus propsStatus={status} updateProfileStatus={updateProfileStatus} />

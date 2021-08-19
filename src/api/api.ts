@@ -34,18 +34,22 @@ class ApiSocialNetwork2 {
     })
   }
 
-  put(path = '', body = {}) {
+  put(path = '', body: any, headers: any = {}) {
+    if (headers['Content-Type']) {
+      body = JSON.stringify(body)
+    }
+
     return fetch(this.baseUrl + path, {
       method: 'PUT',
-      headers: this.headers,
+      headers: { 'API-KEY': '9d3fc0c8-6701-4cc5-b24c-b92d3aeff07b', ...headers },
       credentials: this.credential,
-      body: JSON.stringify(body),
+      body: body,
     })
   }
 }
+
 const headers = {
-  'API-KEY': '9d3fc0c8-6701-4cc5-b24c-b92d3aeff07b',
-  'Content-type': 'application/json',
+  'Content-Type': 'application/json',
 }
 
 const instance = new ApiSocialNetwork2('https://social-network.samuraijs.com/api/1.0/', headers, 'include')
@@ -67,6 +71,15 @@ export const ProfileApi = {
 
   updateProfileStatus(status: string) {
     return instance.put('profile/status', { status: status }).then((resp) => {
+      return resp.json()
+    })
+  },
+
+  updateAvatar(file: File) {
+    const formData = new FormData()
+    formData.append('image', file)
+
+    return instance.put('profile/photo', formData, {}).then((resp) => {
       return resp.json()
     })
   },

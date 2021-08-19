@@ -63,13 +63,12 @@ export const setAuthDataTC = (): any => {
 }
 
 export const loginTC = (email: string, password: string, rememberMe: boolean): any => {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     AuthApi.login(email, password, (rememberMe = false)).then((data) => {
       if (data.resultCode === 0) {
         dispatch(setAuthDataTC())
       } else {
-        const action = stopSubmit('login', { _error: data.messages[0] })
-        dispatch(action)
+        dispatch(stopSubmit('login', { _error: data.messages[0] }))
       }
     })
   }
