@@ -12,7 +12,7 @@ import { getIsLoadPage } from '../../redux/selectors/loaderSelector'
 type PropsType = {
   users: Array<UserType>
   pageSize: number
-  totalUsersCount: number
+  totalItemsCount: number
   isLoadPage: boolean
   isFollowingProgress: Array<number>
 
@@ -44,7 +44,7 @@ const mapStateToProps = (state: AppStateType) => {
   return {
     users: getUsers(state),
     pageSize: getPageSize(state),
-    totalUsersCount: getTotalUsersCount(state),
+    totalItemsCount: getTotalUsersCount(state),
     isLoadPage: getIsLoadPage(state),
     isFollowingProgress: getIsFollowingProgress(state),
   }

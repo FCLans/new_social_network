@@ -1,0 +1,21 @@
+.pageBlock {
+
+}
+
+.page {
+  display: inline-block;
+  border: solid 1px;
+  padding: 2px;
+  margin-left: 2px;
+  cursor: pointer;
+}
+
+.page:hover {
+  background-color: rgba(236, 236, 234, 0.6);
+  transition: 0.13s;
+}
+
+.selectedPage {
+  font-weight: 600;
+  background-color: #e5e5ee;
+}
