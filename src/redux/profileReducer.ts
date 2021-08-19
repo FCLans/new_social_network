@@ -8,6 +8,7 @@ const ADD_POST = 'PROFILE/ADD_POST'
 const SET_PROFILE_INFO = 'PROFILE/SET_PROFILE_INFO'
 const SET_PROFILE_STATUS = 'PROFILE/SET_PROFILE_STATUS'
 const DELETE_POST = 'PROFILE/DELETE_POST'
+const UPDATE_AVATAR = 'PROFILE/UPDATE_AVATAR'
 
 const initialState = {
   profileInfo: {} as ProfileInfoType,
@@ -53,13 +54,19 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
         postsData: filterArrayHelper(state.postsData, 'id', action.postId),
       }
 
+    case UPDATE_AVATAR:
+      return {
+        ...state,
+        profileInfo: { ...state.profileInfo, photos: action.photos },
+      }
+
     default:
       return state
   }
 }
 
 //Action Types
-type ActionsType = AddPostActionCreatorType | SetProfileInfoACType | SetProfileStatusACType | DeletePostACType
+type ActionsType = AddPostActionCreatorType | SetProfileInfoACType | SetProfileStatusACType | DeletePostACType | UpdateAvatarACType
 
 type AddPostActionCreatorType = {
   type: typeof ADD_POST
@@ -77,14 +84,22 @@ type DeletePostACType = {
   type: typeof DELETE_POST
   postId: number
 }
+type UpdateAvatarACType = {
+  type: typeof UPDATE_AVATAR
+  photos: {
+    small: string
+    large: string
+  }
+}
 
 //Action Creators
 export const addPostActionCreator = (text: string): AddPostActionCreatorType => ({ type: ADD_POST, text: text })
 export const deletePostAC = (postId: number): DeletePostACType => ({ type: DELETE_POST, postId })
 const setProfileInfoAC = (profile: ProfileInfoType): SetProfileInfoACType => ({ type: SET_PROFILE_INFO, data: profile })
 const setProfileStatusAC = (status: string): SetProfileStatusACType => ({ type: SET_PROFILE_STATUS, status: status })
+const updateAvatarAC = (photos: any): UpdateAvatarACType => ({ type: UPDATE_AVATAR, photos: photos })
 
-//Thunk Types
+//Thunk Creators
 export const getProfileInfoTC = (userId: number): any => {
   return async (dispatch: AppDispatch) => {
     dispatch(toggleIsLoadPageAC(true))
@@ -109,6 +124,16 @@ export const updateProfileStatusTC = (status: string): any => {
 
     if (data.resultCode === 0) {
       dispatch(setProfileStatusAC(status))
+    }
+  }
+}
+
+export const updateAvatarTC = (file: File): any => {
+  return async (dispatch: AppDispatch) => {
+    const data = await ProfileApi.updateAvatar(file)
+
+    if (data.resultCode === 0) {
+      dispatch(updateAvatarAC(data.data.photos))
     }
   }
 }

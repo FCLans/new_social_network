@@ -10,14 +10,15 @@ type PropsType = {
 
   addPost: () => void
   updateProfileStatus: (status: string) => void
+  updateAvatar: (file: File) => void
 }
 
 export const Profile: React.FC<PropsType> = (props) => {
-  const { profile, status, updateProfileStatus } = props
+  const { profile, status, updateProfileStatus, updateAvatar } = props
 
   return (
     <div>
-      <ProfileInfo profile={profile} status={status} updateProfileStatus={updateProfileStatus} />
+      <ProfileInfo profile={profile} status={status} updateProfileStatus={updateProfileStatus} updateAvatar={updateAvatar} />
       <MyPosts {...props} />
     </div>
   )

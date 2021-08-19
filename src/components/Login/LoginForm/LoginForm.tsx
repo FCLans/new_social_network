@@ -5,7 +5,7 @@ import { loginTC } from '../../../redux/authReducer'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { isRequired, maxLength } from '../../../utils/validators/validators'
-import { createField, Input } from '../../common/FormsControls/FormsControls'
+import { Input } from '../../common/FormsControls/FormsControls'
 import styles from '../../common/FormsControls/FormsControls.module.css'
 import { Redirect } from 'react-router-dom'
 
@@ -47,7 +47,9 @@ const mapStateToProps = (state: AppStateType) => ({ isAuth: state.auth.isAuth })
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
-    onSubmit: ({ email, password, rememberMe }: FormData) => dispatch(loginTC(email, password, rememberMe)),
+    onSubmit: ({ email, password, rememberMe }: FormData) => {
+      return dispatch(loginTC(email, password, rememberMe))
+    },
   }
 }
 

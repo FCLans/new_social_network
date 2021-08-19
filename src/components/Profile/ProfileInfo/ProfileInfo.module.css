@@ -2,3 +2,13 @@
     margin: 20px 0;
     border-bottom: solid 2px;
 }
+
+.avatar {
+    display: block;
+    font: 1rem 'Fira Sans', sans-serif;
+    margin: 20px 0;
+}
+
+.avatar input {
+    color: transparent;
+}
