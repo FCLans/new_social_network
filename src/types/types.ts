@@ -19,6 +19,17 @@ export type ProfileInfoType = {
   fullName: string
   lookingForAJob?: boolean
   lookingForAJobDescription: string
+  aboutMe: string
+  contacts?: {
+    github: string
+    vk: string
+    facebook: string
+    instagram: string
+    twitter: string
+    website: string
+    youtube: string
+    mainLink: string
+  }
   photos: {
     large: string
     small?: string

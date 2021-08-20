@@ -138,4 +138,14 @@ export const updateAvatarTC = (file: File): any => {
   }
 }
 
+export const updateProfileInfoTC =
+  (profileData: ProfileInfoType): any =>
+  async (dispatch: AppDispatch) => {
+    const data = await ProfileApi.updateProfileInfo(profileData)
+
+    if (data.resultCode === 0) {
+      dispatch(setProfileInfoAC(profileData))
+    }
+  }
+
 export default profileReducer

@@ -1,6 +1,13 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import {addPostActionCreator, getProfileInfoTC, getProfileStatusTC, updateAvatarTC, updateProfileStatusTC} from '../../redux/profileReducer'
+import {
+  addPostActionCreator,
+  getProfileInfoTC,
+  getProfileStatusTC,
+  updateAvatarTC,
+  updateProfileInfoTC,
+  updateProfileStatusTC,
+} from '../../redux/profileReducer'
 import { Profile } from './Profile'
 import { AppDispatch, AppStateType } from '../../redux/reduxStore'
 import { PostDataType, ProfileInfoType } from '../../types/types'
@@ -23,6 +30,7 @@ type PropsType = RouteComponentProps<ParamsRouter> & {
   addPost: () => void
   updateProfileStatus: (status: string) => void
   updateAvatar: (file: File) => void
+  updateProfileInfo: (profileData: ProfileInfoType) => void
 }
 
 const ProfileC = (props: PropsType) => {
@@ -62,6 +70,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
     getProfileStatus: (userId: number) => dispatch(getProfileStatusTC(userId)),
     updateProfileStatus: (status: string) => dispatch(updateProfileStatusTC(status)),
     updateAvatar: (file: File) => dispatch(updateAvatarTC(file)),
+    updateProfileInfo: (profileData: ProfileInfoType) => dispatch(updateProfileInfoTC(profileData)),
   }
 }
 

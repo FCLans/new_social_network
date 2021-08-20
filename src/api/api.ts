@@ -1,3 +1,5 @@
+import { ProfileInfoType } from '../types/types'
+
 const apiKey = '1f4ea4f4-0216-4d33-9542-5146b24606f1'
 
 class ApiSocialNetwork2 {
@@ -80,6 +82,12 @@ export const ProfileApi = {
 
   updateProfileStatus(status: string) {
     return instance.put('profile/status', { status: status }).then((resp) => {
+      return resp.json()
+    })
+  },
+
+  updateProfileInfo(profileData: ProfileInfoType) {
+    return instance.put('profile', profileData).then((resp) => {
       return resp.json()
     })
   },
