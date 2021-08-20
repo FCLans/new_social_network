@@ -13,12 +13,13 @@ const maxLength40 = maxLength(40)
 
 type PropsType = {
   isAuth: boolean
+  captcha: string
 
   onSubmit: ({ email, password, rememberMe }: FormData) => void
 }
 
 const LoginForm: React.FC<InjectedFormProps & PropsType> = (props) => {
-  const { handleSubmit, error } = props
+  const { handleSubmit, error, captcha } = props
 
   if (props.isAuth) {
     return <Redirect to="/profile" />
@@ -26,8 +27,16 @@ const LoginForm: React.FC<InjectedFormProps & PropsType> = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Field name={'email'} validate={[isRequired, maxLength40]} component={Input} type={'text'} />
-      <Field name={'password'} validate={[isRequired, maxLength40]} component={Input} type={'password'} />
+      <Field placeholder={'Логин'} name={'email'} validate={[isRequired, maxLength40]} component={Input} />
+      <Field placeholder={'Пароль'} name={'password'} validate={[isRequired, maxLength40]} component={Input} type={'password'} />
+      {captcha ? (
+        <div>
+          <Field placeholder={'Введи капчу'} name={'captcha'} validate={[isRequired]} component={Input} />
+          <div>
+            <img src={captcha} />
+          </div>
+        </div>
+      ) : null}
       <Field name={'rememberMe'} component={Input} type={'checkbox'} /> <span>Запомнить меня</span>
       <div>
         <button>Войти</button>
@@ -41,14 +50,15 @@ type FormData = {
   email: string
   password: string
   rememberMe: boolean
+  captcha: string
 }
 
-const mapStateToProps = (state: AppStateType) => ({ isAuth: state.auth.isAuth })
+const mapStateToProps = (state: AppStateType) => ({ isAuth: state.auth.isAuth, captcha: state.auth.captcha })
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
-    onSubmit: ({ email, password, rememberMe }: FormData) => {
-      return dispatch(loginTC(email, password, rememberMe))
+    onSubmit: ({ email, password, rememberMe, captcha }: FormData) => {
+      return dispatch(loginTC(email, password, rememberMe, captcha))
     },
   }
 }
