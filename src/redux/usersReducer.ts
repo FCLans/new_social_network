@@ -1,9 +1,10 @@
 import { UserType } from '../types/types'
 import { UsersApi } from '../api/api'
-import { toggleIsLoadPageAC } from './loaderReducer'
+import { ToggleIsLoadPageACType, toggleIsLoadPageAC } from './loaderReducer'
 import { UsersDataType } from '../types/apiTypes'
-import { AppDispatch } from './reduxStore'
+import { AppStateType } from './reduxStore'
 import { mapArrayHelper } from '../utils/objectHelper'
+import { ThunkAction } from 'redux-thunk'
 
 const FOLLOW = 'USERS/FOLLOW'
 const UNFOLLOW = 'USERS/UNFOLLOW'
@@ -83,7 +84,13 @@ const toggleFollowingInProgressAC = (isFetching: boolean, userId: number): toggl
 }
 
 //Action Types
-type ActionsType = FollowACType | UnfollowACType | SetUsersACType | SetTotalUsersCountACType | toggleFollowingInProgressACType
+type ActionsType =
+  | FollowACType
+  | UnfollowACType
+  | SetUsersACType
+  | SetTotalUsersCountACType
+  | toggleFollowingInProgressACType
+  | ToggleIsLoadPageACType
 
 type FollowACType = {
   type: typeof FOLLOW
@@ -107,10 +114,13 @@ type toggleFollowingInProgressACType = {
   userId: number
 }
 
+//Thunk Type
+type ThunkCreatorType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
+
 //Thunk Creators
 
-export const getUsersTC = (pageSize: number, currentPage: number): any => {
-  return async (dispatch: AppDispatch) => {
+export const getUsersTC = (pageSize: number, currentPage: number): ThunkCreatorType => {
+  return async (dispatch) => {
     dispatch(toggleIsLoadPageAC(true))
 
     const data: UsersDataType = await UsersApi.getUsers(pageSize, currentPage)
@@ -121,8 +131,8 @@ export const getUsersTC = (pageSize: number, currentPage: number): any => {
   }
 }
 
-export const followTC = (userId: number): any => {
-  return async (dispatch: AppDispatch) => {
+export const followTC = (userId: number): ThunkCreatorType => {
+  return async (dispatch) => {
     dispatch(toggleFollowingInProgressAC(true, userId))
 
     const data = await UsersApi.follow(userId)
@@ -134,8 +144,8 @@ export const followTC = (userId: number): any => {
   }
 }
 
-export const unfollowTC = (userId: number): any => {
-  return async (dispatch: AppDispatch) => {
+export const unfollowTC = (userId: number): ThunkCreatorType => {
+  return async (dispatch) => {
     dispatch(toggleFollowingInProgressAC(true, userId))
 
     const data = await UsersApi.unfollow(userId)
@@ -144,7 +154,7 @@ export const unfollowTC = (userId: number): any => {
       dispatch(unfollowAC(userId))
       dispatch(toggleFollowingInProgressAC(false, userId))
     } else if (!data.resultCode) {
-      toggleFollowingInProgressAC(false, userId)
+      dispatch(toggleFollowingInProgressAC(false, userId))
     }
   }
 }

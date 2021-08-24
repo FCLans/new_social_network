@@ -1,8 +1,9 @@
 import { PostDataType, ProfileInfoType } from '../types/types'
 import { ProfileApi } from '../api/api'
-import { toggleIsLoadPageAC } from './loaderReducer'
-import { AppDispatch } from './reduxStore'
+import { toggleIsLoadPageAC, ToggleIsLoadPageACType } from './loaderReducer'
+import { AppDispatch, AppStateType } from './reduxStore'
 import { filterArrayHelper } from '../utils/objectHelper'
+import { ThunkAction } from 'redux-thunk'
 
 const ADD_POST = 'PROFILE/ADD_POST'
 const SET_PROFILE_INFO = 'PROFILE/SET_PROFILE_INFO'
@@ -66,7 +67,13 @@ const profileReducer = (state = initialState, action: ActionsType): InitialState
 }
 
 //Action Types
-type ActionsType = AddPostActionCreatorType | SetProfileInfoACType | SetProfileStatusACType | DeletePostACType | UpdateAvatarACType
+type ActionsType =
+  | AddPostActionCreatorType
+  | SetProfileInfoACType
+  | SetProfileStatusACType
+  | DeletePostACType
+  | UpdateAvatarACType
+  | ToggleIsLoadPageACType
 
 type AddPostActionCreatorType = {
   type: typeof ADD_POST
@@ -86,10 +93,7 @@ type DeletePostACType = {
 }
 type UpdateAvatarACType = {
   type: typeof UPDATE_AVATAR
-  photos: {
-    small: string
-    large: string
-  }
+  photos: PhotosType
 }
 
 //Action Creators
@@ -97,11 +101,19 @@ export const addPostActionCreator = (text: string): AddPostActionCreatorType => 
 export const deletePostAC = (postId: number): DeletePostACType => ({ type: DELETE_POST, postId })
 const setProfileInfoAC = (profile: ProfileInfoType): SetProfileInfoACType => ({ type: SET_PROFILE_INFO, data: profile })
 const setProfileStatusAC = (status: string): SetProfileStatusACType => ({ type: SET_PROFILE_STATUS, status: status })
-const updateAvatarAC = (photos: any): UpdateAvatarACType => ({ type: UPDATE_AVATAR, photos: photos })
+
+type PhotosType = {
+  small: string
+  large: string
+}
+const updateAvatarAC = (photos: PhotosType): UpdateAvatarACType => ({ type: UPDATE_AVATAR, photos: photos })
+
+//Thunk Type
+type ThunkCreatorsType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsType>
 
 //Thunk Creators
-export const getProfileInfoTC = (userId: number): any => {
-  return async (dispatch: AppDispatch) => {
+export const getProfileInfoTC = (userId: number): ThunkCreatorsType => {
+  return async (dispatch) => {
     dispatch(toggleIsLoadPageAC(true))
 
     const data = await ProfileApi.getProfile(userId)
@@ -110,16 +122,16 @@ export const getProfileInfoTC = (userId: number): any => {
   }
 }
 
-export const getProfileStatusTC = (userId: number): any => {
-  return async (dispatch: AppDispatch) => {
+export const getProfileStatusTC = (userId: number): ThunkCreatorsType => {
+  return async (dispatch) => {
     const data = await ProfileApi.getProfileStatus(userId)
 
     dispatch(setProfileStatusAC(data))
   }
 }
 
-export const updateProfileStatusTC = (status: string): any => {
-  return async (dispatch: AppDispatch) => {
+export const updateProfileStatusTC = (status: string): ThunkCreatorsType => {
+  return async (dispatch) => {
     const data = await ProfileApi.updateProfileStatus(status)
 
     if (data.resultCode === 0) {
@@ -128,8 +140,8 @@ export const updateProfileStatusTC = (status: string): any => {
   }
 }
 
-export const updateAvatarTC = (file: File): any => {
-  return async (dispatch: AppDispatch) => {
+export const updateAvatarTC = (file: File): ThunkCreatorsType => {
+  return async (dispatch) => {
     const data = await ProfileApi.updateAvatar(file)
 
     if (data.resultCode === 0) {
@@ -139,8 +151,8 @@ export const updateAvatarTC = (file: File): any => {
 }
 
 export const updateProfileInfoTC =
-  (profileData: ProfileInfoType): any =>
-  async (dispatch: AppDispatch) => {
+  (profileData: ProfileInfoType): ThunkCreatorsType =>
+  async (dispatch) => {
     const data = await ProfileApi.updateProfileInfo(profileData)
 
     if (data.resultCode === 0) {

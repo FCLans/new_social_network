@@ -9,31 +9,38 @@ import {
   updateProfileStatusTC,
 } from '../../redux/profileReducer'
 import { Profile } from './Profile'
-import { AppDispatch, AppStateType } from '../../redux/reduxStore'
+import { AppStateType } from '../../redux/reduxStore'
 import { PostDataType, ProfileInfoType } from '../../types/types'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import { useEffect } from 'react'
-import { compose } from 'redux'
+import { Action, compose } from 'redux'
+import { ThunkDispatch } from 'redux-thunk'
 
 type ParamsRouter = {
   userId?: string
 }
 
-type PropsType = RouteComponentProps<ParamsRouter> & {
+type MapStateType = {
   postsData: Array<PostDataType>
   profile: ProfileInfoType
   status: string
   myId: number
+}
 
+type OwnPropsType = {}
+
+type MapDispatchType = {
   getProfileStatus: (userId: number) => void
   getProfileData: (userId: number) => void
-  addPost: () => void
+  addPost: (text: string) => void
   updateProfileStatus: (status: string) => void
   updateAvatar: (file: File) => void
   updateProfileInfo: (profileData: ProfileInfoType) => void
 }
 
-const ProfileC = (props: PropsType) => {
+type PropsType = RouteComponentProps<ParamsRouter> & MapStateType & MapDispatchType & OwnPropsType
+
+const ProfileC: React.FC<PropsType> = (props) => {
   const { getProfileStatus, getProfileData, myId, match, history } = props
 
   useEffect(() => {
@@ -61,7 +68,7 @@ const mapStateToProps = (state: AppStateType) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: AppDispatch) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppStateType, unknown, Action>) => {
   return {
     addPost: (text: string) => {
       dispatch(addPostActionCreator(text))
@@ -74,4 +81,6 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   }
 }
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), withRouter)(ProfileC)
+const connector = connect<MapStateType, MapDispatchType, OwnPropsType>(mapStateToProps, mapDispatchToProps)
+
+export default compose(connector, withRouter)(ProfileC)

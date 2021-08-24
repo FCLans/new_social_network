@@ -8,7 +8,7 @@ type PropsType = {
   profile: ProfileInfoType
   status: string
 
-  addPost: () => void
+  addPost: (text: string) => void
   updateProfileStatus: (status: string) => void
   updateAvatar: (file: File) => void
   updateProfileInfo: (profileData: ProfileInfoType) => void

@@ -17,15 +17,15 @@ const loaderReducer = (state = initialState, action: ActionTypes): InitialStateT
 }
 
 //Action Types
-type ActionTypes = ToggleIsLoadPageAC
+type ActionTypes = ToggleIsLoadPageACType
 
-type ToggleIsLoadPageAC = {
+export type ToggleIsLoadPageACType = {
   type: typeof TOGGLE_IS_LOAD_PAGE
   data: boolean
 }
 
 //Action Creators
-export const toggleIsLoadPageAC = (isLoadPage: boolean): ToggleIsLoadPageAC => {
+export const toggleIsLoadPageAC = (isLoadPage: boolean): ToggleIsLoadPageACType => {
   return { type: TOGGLE_IS_LOAD_PAGE, data: isLoadPage }
 }
 

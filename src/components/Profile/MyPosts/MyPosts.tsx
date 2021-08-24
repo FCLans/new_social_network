@@ -7,7 +7,7 @@ import { NewPostFormRedux } from './NewPostForm/NewPostForm'
 type PropsType = {
   postsData: Array<PostDataType>
 
-  addPost: (FormData: any) => void
+  addPost: (text: string) => void
 }
 
 // eslint-disable-next-line react/display-name
