@@ -1,10 +1,21 @@
 import * as React from 'react'
 import styles from './FormsControls.module.css'
-import { Field } from 'redux-form'
+import { WrappedFieldInputProps, WrappedFieldMetaProps } from 'redux-form/lib/Field'
 
-export const Input = ({ input, meta, ...otherProps }: any) => {
+type InputFormType = {
+  input: WrappedFieldInputProps
+  meta: WrappedFieldMetaProps
+}
+
+export type FormData = {
+  email: string
+  password: string
+  rememberMe: boolean
+  captcha: string
+}
+
+export const Input: React.FC<InputFormType> = ({ input, meta, ...otherProps }) => {
   const { touched, error } = meta
-
   const isError = touched && error
 
   return (
@@ -17,7 +28,7 @@ export const Input = ({ input, meta, ...otherProps }: any) => {
   )
 }
 
-export const Textarea = ({ input, meta, ...otherProps }: any) => {
+export const Textarea: React.FC<InputFormType> = ({ input, meta, ...otherProps }) => {
   const { touched, error } = meta
 
   const isError = touched && error
@@ -28,14 +39,6 @@ export const Textarea = ({ input, meta, ...otherProps }: any) => {
         <textarea {...input} {...otherProps} />
       </div>
       {isError ? <span>{error}</span> : null}
-    </div>
-  )
-}
-
-export const createField = (name: string, validators: Array<any> = [], component: any, props = {}, text = '') => {
-  return (
-    <div>
-      <Field name={name} validate={validators} component={component} {...props} /> {text}
     </div>
   )
 }

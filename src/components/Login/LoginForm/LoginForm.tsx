@@ -5,7 +5,7 @@ import { loginTC } from '../../../redux/authReducer'
 import { connect } from 'react-redux'
 import { Action, compose } from 'redux'
 import { isRequired, maxLength } from '../../../utils/validators/validators'
-import { Input } from '../../common/FormsControls/FormsControls'
+import { FormData, Input } from '../../common/FormsControls/FormsControls'
 import styles from '../../common/FormsControls/FormsControls.module.css'
 import { Redirect } from 'react-router-dom'
 import { ThunkDispatch } from 'redux-thunk'
@@ -15,11 +15,9 @@ const maxLength40 = maxLength(40)
 type PropsType = {
   isAuth: boolean
   captcha: string
-
-  onSubmit: ({ email, password, rememberMe }: FormData) => void
 }
 
-const LoginForm: React.FC<InjectedFormProps & PropsType> = (props) => {
+const LoginForm: React.FC<InjectedFormProps<FormData> & PropsType> = (props) => {
   const { handleSubmit, error, captcha } = props
 
   if (props.isAuth) {
@@ -28,30 +26,23 @@ const LoginForm: React.FC<InjectedFormProps & PropsType> = (props) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Field placeholder={'Логин'} name={'email'} validate={[isRequired, maxLength40]} component={Input} />
-      <Field placeholder={'Пароль'} name={'password'} validate={[isRequired, maxLength40]} component={Input} type={'password'} />
+      <Field placeholder="Логин" name="email" validate={[isRequired, maxLength40]} component={Input} />
+      <Field placeholder="Пароль" name="password" validate={[isRequired, maxLength40]} component={Input} type="password" />
       {captcha ? (
         <div>
-          <Field placeholder={'Введи капчу'} name={'captcha'} validate={[isRequired]} component={Input} />
+          <Field placeholder="Введи капчу" name="captcha" validate={[isRequired]} component={Input} />
           <div>
             <img src={captcha} />
           </div>
         </div>
       ) : null}
-      <Field name={'rememberMe'} component={Input} type={'checkbox'} /> <span>Запомнить меня</span>
+      <Field name="rememberMe" component={Input} type="checkbox" /> <span>Запомнить меня</span>
       <div>
         <button>Войти</button>
       </div>
       {error ? <div className={styles.formsCommonError}>{error}</div> : null}
     </form>
   )
-}
-
-type FormData = {
-  email: string
-  password: string
-  rememberMe: boolean
-  captcha: string
 }
 
 const mapStateToProps = (state: AppStateType) => ({ isAuth: state.auth.isAuth, captcha: state.auth.captcha })
@@ -66,7 +57,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<AppStateType, unknown, Actio
 
 export const LoginFormRedux = compose(
   connect(mapStateToProps, mapDispatchToProps),
-  reduxForm({
+  reduxForm<FormData>({
     form: 'login',
   })
 )(LoginForm)
