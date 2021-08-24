@@ -1,6 +1,6 @@
 import { DialogsDataType, MessagesDataType } from '../types/types'
 
-const SEND_MESSAGE = 'SEND_MESSAGE'
+const SEND_MESSAGE = 'DIALOGS/SEND_MESSAGE'
 
 const initialState = {
   messagesData: [

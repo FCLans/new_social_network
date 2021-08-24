@@ -12,9 +12,10 @@ import { connect } from 'react-redux'
 import { initializedSuccess } from './redux/appReducer'
 import { AppDispatch, AppStateType } from './redux/reduxStore'
 import { Loader } from './components/common/Loader/Loader'
-import { compose } from 'redux'
+import { Action, compose } from 'redux'
 import './App.css'
 import { withSuspense } from './components/hoc/withSuspense'
+import { ThunkDispatch } from 'redux-thunk'
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
 const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'))
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
@@ -54,7 +55,7 @@ const App = (props: any) => {
 const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized,
 })
-const mapDispatchToProps = (dispatch: AppDispatch) => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppStateType, unknown, Action>) => ({
   initializedSuccess: () => dispatch(initializedSuccess()),
 })
 

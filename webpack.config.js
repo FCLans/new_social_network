@@ -5,7 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 module.exports = {
   entry: ['@babel/polyfill', './src/index.tsx'],
   output: {
-    path: path.join(__dirname, './public'),
+    path: path.join(__dirname, './dist'),
     filename: 'bundle.js',
     publicPath: '/',
   },
@@ -13,7 +13,7 @@ module.exports = {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   devServer: {
-    contentBase: path.join(__dirname, 'public'),
+    contentBase: path.join(__dirname, 'dist'),
     open: true,
     hot: true,
     compress: true,

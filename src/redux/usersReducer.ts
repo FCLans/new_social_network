@@ -1,5 +1,5 @@
 import { UserType } from '../types/types'
-import { UsersApi } from '../api/api'
+import { ResultCodeEnum, UsersApi } from '../api/api'
 import { ToggleIsLoadPageACType, toggleIsLoadPageAC } from './loaderReducer'
 import { UsersDataType } from '../types/apiTypes'
 import { AppStateType } from './reduxStore'
@@ -123,7 +123,7 @@ export const getUsersTC = (pageSize: number, currentPage: number): ThunkCreatorT
   return async (dispatch) => {
     dispatch(toggleIsLoadPageAC(true))
 
-    const data: UsersDataType = await UsersApi.getUsers(pageSize, currentPage)
+    const data = await UsersApi.getUsers(pageSize, currentPage)
 
     dispatch(setUsersAC(data.items))
     dispatch(setTotalUsersCountAC(data.totalCount))
@@ -137,7 +137,7 @@ export const followTC = (userId: number): ThunkCreatorType => {
 
     const data = await UsersApi.follow(userId)
 
-    if (data.resultCode === 0) {
+    if (data.resultCode === ResultCodeEnum.Success) {
       dispatch(followAC(userId))
       dispatch(toggleFollowingInProgressAC(false, userId))
     }
@@ -150,7 +150,7 @@ export const unfollowTC = (userId: number): ThunkCreatorType => {
 
     const data = await UsersApi.unfollow(userId)
 
-    if (data.resultCode === 0) {
+    if (data.resultCode === ResultCodeEnum.Success) {
       dispatch(unfollowAC(userId))
       dispatch(toggleFollowingInProgressAC(false, userId))
     } else if (!data.resultCode) {

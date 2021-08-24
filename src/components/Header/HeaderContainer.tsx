@@ -1,10 +1,12 @@
 import * as React from 'react'
-import { AppDispatch, AppStateType } from '../../redux/reduxStore'
+import { AppStateType } from '../../redux/reduxStore'
 import { Header } from './Header'
 import { connect } from 'react-redux'
 import { useEffect } from 'react'
 import { logoutTC, setAuthDataTC } from '../../redux/authReducer'
 import { MeDataType } from '../../types/apiTypes'
+import { ThunkDispatch } from 'redux-thunk'
+import { Action } from 'redux'
 
 type PropsType = {
   isAuth: boolean
@@ -30,7 +32,7 @@ const mapStateToProps = (state: AppStateType) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: AppDispatch) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppStateType, unknown, Action>) => {
   return {
     setAuthData: () => dispatch(setAuthDataTC()),
     logout: () => dispatch(logoutTC()),

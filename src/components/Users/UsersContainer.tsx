@@ -8,8 +8,10 @@ import { AppStateType } from '../../redux/reduxStore'
 import { useEffect, useState } from 'react'
 import { getIsFollowingProgress, getPageSize, getTotalUsersCount, getUsers } from '../../redux/selectors/userSelector'
 import { getIsLoadPage } from '../../redux/selectors/loaderSelector'
+import { ThunkDispatch } from 'redux-thunk'
+import { Action } from 'redux'
 
-type MapStateType = {
+type MapStatePropsType = {
   users: Array<UserType>
   pageSize: number
   totalItemsCount: number
@@ -17,15 +19,15 @@ type MapStateType = {
   isFollowingProgress: Array<number>
 }
 
-type MapDispatchType = {
+type MapDispatchPropsType = {
   follow: (userId: number) => void
   unfollow: (userId: number) => void
   setUsers: (pageSize: number, currentPage: number) => void
 }
 
-type OwnPropsType = {}
+// type OwnPropsType = {}
 
-type PropsType = MapStateType & MapDispatchType & OwnPropsType
+type PropsType = MapStatePropsType & MapDispatchPropsType
 
 const UsersC: React.FC<PropsType> = (props) => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -56,18 +58,12 @@ const mapStateToProps = (state: AppStateType) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppStateType, unknown, Action>) => {
   return {
-    follow: (userId: number) => {
-      dispatch(followTC(userId))
-    },
-    unfollow: (userId: number) => {
-      dispatch(unfollowTC(userId))
-    },
-    setUsers: (pageSize: number, currentPage: number) => {
-      dispatch(getUsersTC(pageSize, currentPage))
-    },
+    follow: (userId: number) => dispatch(followTC(userId)),
+    unfollow: (userId: number) => dispatch(unfollowTC(userId)),
+    setUsers: (pageSize: number, currentPage: number) => dispatch(getUsersTC(pageSize, currentPage)),
   }
 }
 //TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultState
-export default connect<MapStateType, MapDispatchType, OwnPropsType, AppStateType>(mapStateToProps, mapDispatchToProps)(UsersC)
+export default connect<MapStatePropsType, MapDispatchPropsType, undefined, AppStateType>(mapStateToProps, mapDispatchToProps)(UsersC)

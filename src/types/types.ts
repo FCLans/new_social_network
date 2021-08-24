@@ -14,22 +14,24 @@ export type PostDataType = {
   likesCount: number
 }
 
+type ContactsType = {
+  github: string
+  vk: string
+  facebook: string
+  instagram: string
+  twitter: string
+  website: string
+  youtube: string
+  mainLink: string
+}
+
 export type ProfileInfoType = {
   userId: number
   fullName: string
   lookingForAJob?: boolean
   lookingForAJobDescription: string
   aboutMe: string
-  contacts?: {
-    github: string
-    vk: string
-    facebook: string
-    instagram: string
-    twitter: string
-    website: string
-    youtube: string
-    mainLink: string
-  }
+  contacts?: ContactsType
   photos: {
     large: string
     small?: string

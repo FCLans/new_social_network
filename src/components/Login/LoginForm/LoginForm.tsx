@@ -1,13 +1,14 @@
 import * as React from 'react'
 import { reduxForm, Field, InjectedFormProps } from 'redux-form'
-import { AppDispatch, AppStateType } from '../../../redux/reduxStore'
+import { AppStateType } from '../../../redux/reduxStore'
 import { loginTC } from '../../../redux/authReducer'
 import { connect } from 'react-redux'
-import { compose } from 'redux'
+import { Action, compose } from 'redux'
 import { isRequired, maxLength } from '../../../utils/validators/validators'
 import { Input } from '../../common/FormsControls/FormsControls'
 import styles from '../../common/FormsControls/FormsControls.module.css'
 import { Redirect } from 'react-router-dom'
+import { ThunkDispatch } from 'redux-thunk'
 
 const maxLength40 = maxLength(40)
 
@@ -55,7 +56,7 @@ type FormData = {
 
 const mapStateToProps = (state: AppStateType) => ({ isAuth: state.auth.isAuth, captcha: state.auth.captcha })
 
-const mapDispatchToProps = (dispatch: AppDispatch) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<AppStateType, unknown, Action>) => {
   return {
     onSubmit: ({ email, password, rememberMe, captcha }: FormData) => {
       return dispatch(loginTC(email, password, rememberMe, captcha))

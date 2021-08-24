@@ -1,24 +1,21 @@
-import { AuthApi, SecurityApi } from '../api/api'
-import { AppDispatch } from './reduxStore'
+import { AuthApi, ResultCodeEnum, ResultCodeForCaptcha, SecurityApi } from '../api/api'
+import { AppStateType } from './reduxStore'
 import { MeDataType } from '../types/apiTypes'
-import { stopSubmit } from 'redux-form'
+import { FormAction, stopSubmit } from 'redux-form'
+import { ThunkAction } from 'redux-thunk'
 
 const SET_AUTH_DATA = 'AUTH/SET_AUTH_DATA'
 const GET_CAPTCHA_URL_SUCCESS = 'AUTH/GET_CAPTCHA_URL_SUCCESS'
 
-type StateType = {
-  data: MeDataType
-  isAuth: boolean
-  captcha: string
-}
-
-const initialState: StateType = {
+const initialState = {
   isAuth: false,
   data: {} as MeDataType,
-  captcha: null,
+  captcha: null as string,
 }
 
-export const authReducer = (state = initialState, action: ActionCreatorsType) => {
+type InitialStateType = typeof initialState
+
+export const authReducer = (state = initialState, action: ActionCreatorsType): InitialStateType => {
   switch (action.type) {
     case SET_AUTH_DATA:
       return {
@@ -37,7 +34,7 @@ export const authReducer = (state = initialState, action: ActionCreatorsType) =>
   }
 }
 
-//Actions
+//Action Creators
 const setAuthDataAC = (id: number, email: string, login: string, isAuth: boolean): setAuthDataACType => {
   return {
     type: SET_AUTH_DATA,
@@ -66,49 +63,52 @@ type getCaptchaUrlSuccessACType = {
 //ActionCreatorsType
 type ActionCreatorsType = setAuthDataACType | getCaptchaUrlSuccessACType
 
+//Thunk Creators Type
+type ActionThunkType = ActionCreatorsType | FormAction
+type ThunkCreatorsType = ThunkAction<Promise<void>, AppStateType, unknown, ActionThunkType>
+
 //Thunk Creators
-export const setAuthDataTC = (): any => {
-  return async (dispatch: AppDispatch) => {
+export const setAuthDataTC = (): ThunkCreatorsType => {
+  return async (dispatch) => {
     const data = await AuthApi.me()
 
-    if (data.resultCode === 0) {
+    if (data.resultCode === ResultCodeEnum.Success) {
       const { id, email, login } = data.data
       dispatch(setAuthDataAC(id, email, login, true))
     }
-
-    return data
   }
 }
 
-export const loginTC = (email: string, password: string, rememberMe: boolean, captcha: string): any => {
-  return async (dispatch: AppDispatch) => {
+export const loginTC = (email: string, password: string, rememberMe: boolean, captcha: string): ThunkCreatorsType => {
+  return async (dispatch) => {
     AuthApi.login(email, password, (rememberMe = false), captcha).then((data) => {
-      if (data.resultCode === 0) {
+      if (data.resultCode === ResultCodeEnum.Success) {
         dispatch(setAuthDataTC())
         dispatch(getCaptchaUrlSuccessAC(null))
       } else {
-        if (data.resultCode === 10) {
+        if (data.resultCode === ResultCodeForCaptcha.CaptchaIsRequired) {
           dispatch(getCaptchaUrlTC())
         }
-        dispatch(stopSubmit('login', { _error: data.messages[0] }))
+        dispatch(stopSubmit('login', { _error: data.messages[0] })) //FormAction from redux-form
       }
     })
   }
 }
 
-export const logoutTC = (): any => {
-  return async (dispatch: AppDispatch) => {
+export const logoutTC = (): ThunkCreatorsType => {
+  return async (dispatch) => {
     const data = await AuthApi.logout()
 
-    if (data.resultCode === 0) {
+    if (data.resultCode === ResultCodeEnum.Success) {
       dispatch(setAuthDataAC(null, '', '', false))
     }
   }
 }
 
-export const getCaptchaUrlTC = (): any => {
-  return async (dispatch: AppDispatch) => {
+export const getCaptchaUrlTC = (): ThunkCreatorsType => {
+  return async (dispatch) => {
     const data = await SecurityApi.getCaptchaUrl()
+
     dispatch(getCaptchaUrlSuccessAC(data.url))
   }
 }
