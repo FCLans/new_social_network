@@ -68,3 +68,15 @@
 .userGender {
 
 }
+
+.tableHead {
+
+}
+
+.tableStatusName {
+    color: #808080;
+}
+
+.active {
+    color: #228007;
+}

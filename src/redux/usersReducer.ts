@@ -18,28 +18,28 @@ type InitialStateType = typeof initialState
 
 const usersReducer = (state = initialState, action: NewActionTypes): InitialStateType => {
   switch (action.type) {
-    case 'FOLLOW':
+    case 'users/FOLLOW':
       return {
         ...state,
         users: mapArrayHelper(state.users, 'id', action.data, { followed: true }),
       }
 
-    case 'UNFOLLOW':
+    case 'users/UNFOLLOW':
       return {
         ...state,
         users: mapArrayHelper(state.users, 'id', action.data, { followed: false }),
       }
 
-    case 'SET_USERS':
+    case 'users/SET_USERS':
       return {
         ...state,
         users: [...action.data],
       }
 
-    case 'SET_TOTAL_COUNT_USERS':
+    case 'users/SET_TOTAL_COUNT_USERS':
       return { ...state, totalUsersCount: action.data }
 
-    case 'TOGGLE_IS_FOLLOWING_PROGRESS':
+    case 'users/TOGGLE_IS_FOLLOWING_PROGRESS':
       return {
         ...state,
         isFollowingProgress: action.isFetching
@@ -60,24 +60,24 @@ type NewActionTypes = ReturnType<InferValueTypes<typeof actions>>
 
 const actions = {
   followAC: (userId: number) => {
-    return { type: 'FOLLOW', data: userId } as const
+    return { type: 'users/FOLLOW', data: userId } as const
   },
 
   unfollowAC: (userId: number) => {
-    return { type: 'UNFOLLOW', data: userId } as const
+    return { type: 'users/UNFOLLOW', data: userId } as const
   },
 
   setUsersAC: (users: Array<UserType>) => {
-    return { type: 'SET_USERS', data: users } as const
+    return { type: 'users/SET_USERS', data: users } as const
   },
 
   setTotalUsersCountAC: (count: number) => {
-    return { type: 'SET_TOTAL_COUNT_USERS', data: count } as const
+    return { type: 'users/SET_TOTAL_COUNT_USERS', data: count } as const
   },
 
   toggleFollowingInProgressAC: (isFetching: boolean, userId: number) => {
     return {
-      type: 'TOGGLE_IS_FOLLOWING_PROGRESS',
+      type: 'users/TOGGLE_IS_FOLLOWING_PROGRESS',
       isFetching: isFetching,
       userId: userId,
     } as const
