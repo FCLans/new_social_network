@@ -7,15 +7,16 @@ type PropsType = {
   postsData: Array<PostDataType>
   profile: ProfileInfoType
   status: string
+  userId: number
 
   addPost: (text: string) => void
-  updateProfileStatus: (status: string) => void
+  updateProfileStatus: (status: string, userId: number) => void
   updateAvatar: (file: File) => void
   updateProfileInfo: (profileData: ProfileInfoType) => void
 }
 
 export const Profile: React.FC<PropsType> = (props) => {
-  const { profile, status, updateProfileStatus, updateAvatar, updateProfileInfo } = props
+  const { profile, status, updateProfileStatus, updateAvatar, updateProfileInfo, userId } = props
 
   return (
     <div>
@@ -25,6 +26,7 @@ export const Profile: React.FC<PropsType> = (props) => {
         status={status}
         updateProfileStatus={updateProfileStatus}
         updateAvatar={updateAvatar}
+        userId={userId}
       />
       <MyPosts {...props} />
     </div>

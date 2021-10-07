@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {
   addPostActionCreator,
   getProfileInfoTC,
-  getProfileStatusTC, StatusType,
+  getProfileStatusTC,
   updateAvatarTC,
   updateProfileInfoTC,
   updateProfileStatusTC,
@@ -33,7 +33,7 @@ type MapDispatchType = {
   getProfileStatus: (userId: number) => void
   getProfileData: (userId: number) => void
   addPost: (text: string) => void
-  updateProfileStatus: (status: string) => void
+  updateProfileStatus: (status: string, userId: number) => void
   updateAvatar: (file: File) => void
   updateProfileInfo: (profileData: ProfileInfoType) => void
 }
@@ -42,9 +42,9 @@ type PropsType = RouteComponentProps<ParamsRouter> & MapStateType & MapDispatchT
 
 const ProfileC: React.FC<PropsType> = (props) => {
   const { getProfileStatus, getProfileData, myId, match, history } = props
+  let userId: number = +match.params.userId
 
   useEffect(() => {
-    let userId: number = +match.params.userId
     if (!userId) {
       userId = myId
       if (!userId) {
@@ -56,7 +56,7 @@ const ProfileC: React.FC<PropsType> = (props) => {
     getProfileStatus(userId)
   }, [match.params.userId])
 
-  return <Profile {...props} />
+  return <Profile {...props} userId={userId} />
 }
 
 const mapStateToProps = (state: AppStateType) => {
@@ -75,7 +75,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<AppStateType, unknown, Actio
     },
     getProfileData: (userId: number) => dispatch(getProfileInfoTC(userId)),
     getProfileStatus: (userId: number) => dispatch(getProfileStatusTC(userId)),
-    updateProfileStatus: (status: string) => dispatch(updateProfileStatusTC(status)),
+    updateProfileStatus: (status: string, userId: number) => dispatch(updateProfileStatusTC(status, userId)),
     updateAvatar: (file: File) => dispatch(updateAvatarTC(file)),
     updateProfileInfo: (profileData: ProfileInfoType) => dispatch(updateProfileInfoTC(profileData)),
   }

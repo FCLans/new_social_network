@@ -10,14 +10,15 @@ import { ProfileInfoFormRedux } from './ProfileInfoForm'
 type PropsType = {
   profile: ProfileInfoType
   status: string
+  userId: number
 
-  updateProfileStatus: (status: string) => void
+  updateProfileStatus: (status: string, userId: number) => void
   updateAvatar: (file: File) => void
   updateProfileInfo: (profileData: ProfileInfoType) => void
 }
 
 const ProfileInfo: React.FC<PropsType> = (props) => {
-  const { profile, status, updateProfileStatus, updateAvatar, updateProfileInfo } = props
+  const { profile, status, updateProfileStatus, updateAvatar, updateProfileInfo, userId } = props
   const [editMode, setEditMode] = useState(false)
 
   if (!profile.fullName) {
@@ -54,7 +55,7 @@ const ProfileInfo: React.FC<PropsType> = (props) => {
             <input type="file" onChange={onFileChange} />
           </div>
         </div>
-        <ProfileStatus propsStatus={status} updateProfileStatus={updateProfileStatus} />
+        <ProfileStatus propsStatus={status} updateProfileStatus={updateProfileStatus} userId={userId}/>
         {editMode ? profileFormRedux : <ProfileInfoData profile={profile} />}
         {!editMode && <button onClick={() => setEditMode(true)}>Редактировать</button>}
       </div>

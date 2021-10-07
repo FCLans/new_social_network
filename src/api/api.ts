@@ -1,6 +1,5 @@
-import { ProfileInfoType } from '../types/types'
-import { AuthMeType, UsersDataType } from '../types/apiTypes'
-import { StatusType } from '../redux/profileReducer'
+import { ProfileInfoType, UserType } from '../types/types'
+import { AuthMeType, ManyItems } from '../types/apiTypes'
 
 class ApiSocialNetwork2 {
   baseUrl: string
@@ -22,8 +21,14 @@ class ApiSocialNetwork2 {
   }
 
   post(path = '', body = {}) {
+    console.log(body)
+
     return fetch(this.baseUrl + path, {
       method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
   }
 
@@ -78,16 +83,23 @@ export const ProfileApi = {
     })
   },
 
-  getProfileStatus(userId: number): Promise<StatusType> {
-    return instance.get(`users/status/${userId}`).then((resp) => {
+  async getProfileStatus(userId: number): Promise<string> {
+    const status =  await instance.get(`users/status/${userId}`).then((resp) => {
       if (resp.status >= 200 && resp.status < 300) {
         return resp.json()
       }
     })
+
+    return status.status
   },
 
-  updateProfileStatus(status: string): Promise<ResponseData> {
-    return instance.put('profile/status', { status: status }).then((resp) => {
+  updateProfileStatus(status: string, userId: number): Promise<ResponseData> {
+    const body = {
+      status: status,
+      user_id: userId
+    }
+
+    return instance.post('users/status', {...body}).then((resp) => {
       return resp.json()
     })
   },
@@ -109,7 +121,7 @@ export const ProfileApi = {
 }
 
 export const UsersApi = {
-  getUsers(pageSize: number, numberPage: number): Promise<UsersDataType> {
+  getUsers(pageSize: number, numberPage: number): Promise<ManyItems<UserType[]>> {
 
     const skip = numberPage * 10 - pageSize
 

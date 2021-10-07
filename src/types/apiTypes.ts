@@ -1,12 +1,10 @@
-import { UserType } from './types'
-
 type InfoType = {
   count: number
   pages: number
 }
 
-export type UsersDataType = {
-  items: Array<UserType>
+export type ManyItems<T> = {
+  items: T
   count: number
 }
 

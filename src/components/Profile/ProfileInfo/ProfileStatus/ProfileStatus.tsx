@@ -3,12 +3,13 @@ import { ChangeEvent, useEffect, useState } from 'react'
 
 type PropsType = {
   propsStatus: string
+  userId: number
 
-  updateProfileStatus: (status: string) => void
+  updateProfileStatus: (status: string, userId: number) => void
 }
 
 export const ProfileStatus = (props: PropsType) => {
-  const { propsStatus, updateProfileStatus } = props
+  const { propsStatus, updateProfileStatus, userId } = props
 
   const [localStatus, setLocalStatus] = useState('')
   const [editMode, setEditMode] = useState(false)
@@ -23,7 +24,7 @@ export const ProfileStatus = (props: PropsType) => {
 
   const sendStatus = () => {
     setEditMode(false)
-    updateProfileStatus(localStatus)
+    updateProfileStatus(localStatus, userId)
   }
 
   const changeStatusText = (e: ChangeEvent<HTMLInputElement>) => {

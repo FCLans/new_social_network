@@ -45,6 +45,10 @@ export type LocationType = {
   country?: string
 }
 
+export type StatusType = {
+  status: string
+}
+
 export type UserType = {
   fullName: string
   id: number
@@ -52,5 +56,5 @@ export type UserType = {
     small: string
     large: string
   }
-  status: string
+  status: StatusType
 }

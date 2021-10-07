@@ -1,4 +1,4 @@
-import { PostDataType, ProfileInfoType } from '../types/types'
+import { PostDataType, ProfileInfoType, StatusType } from '../types/types'
 import { ProfileApi } from '../api/api'
 import { toggleIsLoadPageAC, ToggleIsLoadPageACType } from './loaderReducer'
 import { AppDispatch, AppStateType } from './reduxStore'
@@ -100,15 +100,11 @@ type UpdateAvatarACType = {
 export const addPostActionCreator = (text: string): AddPostActionCreatorType => ({ type: ADD_POST, text: text })
 export const deletePostAC = (postId: number): DeletePostACType => ({ type: DELETE_POST, postId })
 const setProfileInfoAC = (profile: ProfileInfoType): SetProfileInfoACType => ({ type: SET_PROFILE_INFO, data: profile })
-const setProfileStatusAC = (status: StatusType): SetProfileStatusACType => ({ type: SET_PROFILE_STATUS, status: status.status })
+const setProfileStatusAC = (status: string): SetProfileStatusACType => ({ type: SET_PROFILE_STATUS, status: status })
 
 type PhotosType = {
   small: string
   large: string
-}
-
-export type StatusType = {
-  status: string
 }
 
 const updateAvatarAC = (photos: PhotosType): UpdateAvatarACType => ({ type: UPDATE_AVATAR, photos: photos })
@@ -135,9 +131,9 @@ export const getProfileStatusTC = (userId: number): ThunkCreatorsType => {
   }
 }
 
-export const updateProfileStatusTC = (status: string): ThunkCreatorsType => {
+export const updateProfileStatusTC = (status: string, userId: number): ThunkCreatorsType => {
   return async (dispatch) => {
-    const data = await ProfileApi.updateProfileStatus(status)
+    const data = await ProfileApi.updateProfileStatus(status, userId)
 
     if (data.resultCode === 0) {
       dispatch(setProfileStatusAC(status))
