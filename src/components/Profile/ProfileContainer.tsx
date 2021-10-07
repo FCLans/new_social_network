@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {
   addPostActionCreator,
   getProfileInfoTC,
-  getProfileStatusTC,
+  getProfileStatusTC, StatusType,
   updateAvatarTC,
   updateProfileInfoTC,
   updateProfileStatusTC,

@@ -100,7 +100,7 @@ export const getUsersTC = (pageSize: number, currentPage: number): ThunkCreatorT
     const data = await UsersApi.getUsers(pageSize, currentPage)
 
     dispatch(actions.setUsersAC(data.items))
-    dispatch(actions.setTotalUsersCountAC(data.totalCount))
+    dispatch(actions.setTotalUsersCountAC(data.count))
     dispatch(toggleIsLoadPageAC(false))
   }
 }

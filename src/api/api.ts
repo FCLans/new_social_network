@@ -1,70 +1,47 @@
 import { ProfileInfoType } from '../types/types'
 import { AuthMeType, UsersDataType } from '../types/apiTypes'
-
-const apiKey = '9d3fc0c8-6701-4cc5-b24c-b92d3aeff07b'
+import { StatusType } from '../redux/profileReducer'
 
 class ApiSocialNetwork2 {
   baseUrl: string
-  headers: HeadersInit
-  credential: RequestCredentials
 
-  constructor(baseUrl: string, headers = {}, withCredential: RequestCredentials) {
+  constructor(baseUrl: string) {
     this.baseUrl = baseUrl
-    this.headers = headers
-    this.credential = withCredential || 'omit'
   }
 
   get(path = '') {
     return fetch(this.baseUrl + path, {
       method: 'GET',
-      headers: this.headers,
-      credentials: this.credential,
     })
   }
 
   delete(path = '') {
     return fetch(this.baseUrl + path, {
-      method: 'DELETE',
-      headers: this.headers,
-      credentials: this.credential,
+      method: 'DELETE'
     })
   }
 
   post(path = '', body = {}) {
     return fetch(this.baseUrl + path, {
       method: 'POST',
-      headers: this.headers,
-      credentials: this.credential,
-      body: JSON.stringify(body),
     })
   }
 
   put(path = '', body: any) {
-    let headers = this.headers
     let bodyData = JSON.stringify(body)
 
     if (path === 'profile/photo') {
-      headers = {
-        'API-KEY': apiKey,
-      }
       bodyData = body
     }
 
     return fetch(this.baseUrl + path, {
       method: 'PUT',
-      headers: headers,
-      credentials: this.credential,
       body: bodyData,
     })
   }
 }
 
-const headers = {
-  'Content-Type': 'application/json',
-  'API-KEY': apiKey,
-}
-
-const instance = new ApiSocialNetwork2('https://social-network.samuraijs.com/api/1.0/', headers, 'include')
+const instance = new ApiSocialNetwork2('http://localhost:5000/api/')
 
 interface ResponseData {
   resultCode: number
@@ -96,13 +73,13 @@ export enum ResultCodeForCaptcha {
 
 export const ProfileApi = {
   getProfile(userId: number): Promise<ProfileInfoType> {
-    return instance.get(`profile/${userId}`).then((resp: Response) => {
+    return instance.get(`users/${userId}`).then((resp: Response) => {
       return resp.json()
     })
   },
 
-  getProfileStatus(userId: number): Promise<string> {
-    return instance.get(`profile/status/${userId}`).then((resp) => {
+  getProfileStatus(userId: number): Promise<StatusType> {
+    return instance.get(`users/status/${userId}`).then((resp) => {
       if (resp.status >= 200 && resp.status < 300) {
         return resp.json()
       }
@@ -133,7 +110,10 @@ export const ProfileApi = {
 
 export const UsersApi = {
   getUsers(pageSize: number, numberPage: number): Promise<UsersDataType> {
-    return instance.get(`users?count=${pageSize}&page=${numberPage}`).then((response) => response.json())
+
+    const skip = numberPage * 10 - pageSize
+
+    return instance.get(`users?take=${pageSize}&skip=${skip}`).then((response) => response.json())
   },
 
   follow(userId: number): Promise<ResponseData> {

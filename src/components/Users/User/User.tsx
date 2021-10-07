@@ -13,16 +13,17 @@ type PropsType = {
 }
 
 export const User: React.FC<PropsType> = ({ user, follow, unfollow, isFollowingProgress }) => {
+  
   return (
     <div className={styles.userBlock}>
       <div className={styles.leftBlock}>
         <div className={styles.avatar}>
           <NavLink to={`/profile/${user.id}`}>
-            <img src={user.photos.small ? user.photos.small : userPhoto} alt="avatar" />
+            <img src={`${user.photos?.small ? 'http://localhost:5000/' + user.photos?.small : userPhoto}`} alt="avatar" />
           </NavLink>
         </div>
         <div className={styles.following}>
-          {user.followed ? (
+          {user ? (
             <button
               disabled={isFollowingProgress.some((id) => id === user.id)}
               onClick={() => {
@@ -45,7 +46,7 @@ export const User: React.FC<PropsType> = ({ user, follow, unfollow, isFollowingP
       </div>
       <div className={styles.rightBlock}>
         <div className={styles.userInfo}>
-          <div className={styles.userName}>{user.name}</div>
+          <div className={styles.userName}>{user.fullName}</div>
           <div className={styles.userSpecies}>{user.status}</div>
         </div>
         <div className={styles.locationBlock}>

@@ -21,13 +21,6 @@ const UsersContainer = React.lazy(() => import('./components/Users/UsersContaine
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
 
 const App = (props: any) => {
-  useEffect(() => {
-    props.initializedSuccess()
-  }, [props.initialized])
-
-  if (!props.initialized) {
-    return <Loader />
-  }
 
   return (
     <div className="body">

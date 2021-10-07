@@ -7,8 +7,7 @@ type InfoType = {
 
 export type UsersDataType = {
   items: Array<UserType>
-  totalCount: number
-  error?: string
+  count: number
 }
 
 export type MeDataType = {

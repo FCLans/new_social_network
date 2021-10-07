@@ -100,12 +100,17 @@ type UpdateAvatarACType = {
 export const addPostActionCreator = (text: string): AddPostActionCreatorType => ({ type: ADD_POST, text: text })
 export const deletePostAC = (postId: number): DeletePostACType => ({ type: DELETE_POST, postId })
 const setProfileInfoAC = (profile: ProfileInfoType): SetProfileInfoACType => ({ type: SET_PROFILE_INFO, data: profile })
-const setProfileStatusAC = (status: string): SetProfileStatusACType => ({ type: SET_PROFILE_STATUS, status: status })
+const setProfileStatusAC = (status: StatusType): SetProfileStatusACType => ({ type: SET_PROFILE_STATUS, status: status.status })
 
 type PhotosType = {
   small: string
   large: string
 }
+
+export type StatusType = {
+  status: string
+}
+
 const updateAvatarAC = (photos: PhotosType): UpdateAvatarACType => ({ type: UPDATE_AVATAR, photos: photos })
 
 //Thunk Type
